@@ -1,0 +1,113 @@
+.header_navigation_wrap,
+.desktoplogo,
+.site_header,
+.comment_form_list,
+.footer_wrap,
+#footer,
+.advertisement {
+    display: none !important;
+}
+
+body {
+    max-width: 100% !important;
+}
+
+.scrapp {
+    margin: 60px;
+}
+
+@media screen and (min-width: 200px) and (max-width: 1024px) {
+    .scrapp {
+        margin: 0px !important;
+    }
+    .post_content_block{
+        width: 100% !important;
+    }
+    .post_content_block{
+        width: 90% !important;
+    }
+    .scrapp.content_wrap{
+        width: 100% !important;
+    }
+    .breadcrumb_wrap>span:nth-child(5) {
+        clip-path: polygon(6% 0, 100% 0, 100% 50%, 100% 100%, 0 100%);
+        background-color: #B0ACAD !important;
+        margin-left: -90px;
+        width: auto;
+        padding-right: 50px;
+        margin-left: 0px !important;
+        height: 39px;
+    
+    }
+}
+
+.breadcrumb path {
+    display: none !important;
+}
+
+.breadcrumb {
+    background: none !important;
+    font-size: 20px !important;
+
+}
+
+.breadcrumb_wrap>span:first-child {
+    clip-path: polygon(0% 0%, 100% 0, 89% 50%, 78% 100%, 0% 100%);
+    background-color: #5D5A5C !important;
+    width: 150px;
+    padding-left: 30px;
+}
+
+.breadcrumb_wrap>span:nth-child(3) {
+    clip-path: polygon(21% 0, 100% 0, 89% 50%, 78% 100%, 0 100%);
+    background-color: var(--gray) !important;
+    width: 250px;
+    margin-left: -90px;
+    padding-left: 80px;
+
+}
+
+.breadcrumb_wrap>span:nth-child(5) {
+    clip-path: polygon(6% 0, 100% 0, 100% 50%, 100% 100%, 0 100%);
+    background-color: #B0ACAD !important;
+    margin-left: -90px;
+    width: auto;
+    padding-right: 50px;
+    padding-left: 50px;
+    height: 39px;
+
+}
+.post_content_block{
+    width: 50%;
+}
+.post_title h1{
+    font-size: 4rem !important;
+    font-weight: bold;
+}
+.newssecto p{
+ font-size: 18px !important;
+ line-height: 2;
+}
+.newssecto iframe{
+    width: 100%;
+    height: 450px;
+}
+.content_wrap{
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    gap: 10%;
+}
+.mt-50{
+    margin-top: 10%;
+}
+.wp-block-image img{
+    width: 100% !important;
+    height: auto;
+}
+.wp-block-heading{
+    color: rgba(255,105,0,1) ;
+}
+.theoonlymobloiles.site_content{
+    margin-top: 130px !important;
+}

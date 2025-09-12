@@ -1,0 +1,2396 @@
+.icon {
+    position: absolute;
+    top: 520.58px;
+    left: -275px;
+    width: 1055.58px;
+    height: 862.36px;
+    object-fit: cover;
+  }
+  .subtract,
+  .subtractChild {
+    transform: rotate(-7.43deg);
+    transform-origin: 0 0;
+  }
+  .subtractChild {
+    position: absolute;
+    top: 671.26px;
+    left: 439.05px;
+    background-color: var(--color-gainsboro-100);
+    width: 421.49px;
+    height: 234.84px;
+  }
+  .subtract {
+    position: relative;
+    width: 1055.58px;
+    height: 862.36px;
+    /* background-image: url(/public/subtract@3x.png); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+  }
+  .headerChild {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-gray-400);
+    width: 1440px;
+    height: 100px;
+  }
+  .channels4Profile1Icon {
+    position: absolute;
+    top: 12px;
+    left: 142px;
+    width: 120px;
+    height: 76px;
+    object-fit: cover;
+  }
+  .navBarChild {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-whitesmoke-100);
+    border: 0.6px solid var(--color-gray-400);
+    box-sizing: border-box;
+    width: 128px;
+    height: 32px;
+  }
+  .cars {
+    position: absolute;
+    top: 10px;
+    left: 49px;
+    color: var(--color-gray-400);
+  }
+  .navBarItem {
+    position: absolute;
+    top: 0;
+    left: 128px;
+    background-color: var(--color-whitesmoke-100);
+    border: 0.6px solid var(--color-gray-400);
+    box-sizing: border-box;
+    width: 128px;
+    height: 32px;
+  }
+  .consultUs,
+  .navBarInner {
+    position: absolute;
+    top: 10px;
+    left: 158px;
+  }
+  .navBarInner {
+    top: 0;
+    left: 256px;
+    background-color: var(--color-whitesmoke-100);
+    border: 0.6px solid var(--color-gray-400);
+    box-sizing: border-box;
+    width: 128px;
+    height: 32px;
+  }
+  .rectangleDiv,
+  .youtubeVideos {
+    position: absolute;
+    top: 10px;
+    left: 272px;
+  }
+  .rectangleDiv {
+    top: 0;
+    left: 384px;
+    background-color: var(--color-whitesmoke-100);
+    border: 0.6px solid var(--color-gray-400);
+    box-sizing: border-box;
+    width: 128px;
+    height: 32px;
+  }
+  .navBarChild1,
+  .shareReviews {
+    position: absolute;
+    top: 10px;
+    left: 402px;
+  }
+  .navBarChild1 {
+    top: 0;
+    left: 512px;
+    background-color: var(--color-whitesmoke-100);
+    border: 0.6px solid var(--color-gray-400);
+    box-sizing: border-box;
+    width: 128px;
+    height: 32px;
+  }
+  .myHistory,
+  .navBarChild2 {
+    position: absolute;
+    top: 10px;
+    left: 543px;
+  }
+  .navBarChild2 {
+    top: 0;
+    left: 640px;
+    background-color: var(--color-whitesmoke-100);
+    border: 0.6px solid var(--color-gray-400);
+    box-sizing: border-box;
+    width: 128px;
+    height: 32px;
+  }
+  .calculators {
+    position: absolute;
+    top: 10px;
+    left: 665px;
+  }
+  .navBar,
+  .profileChild {
+    position: absolute;
+    top: 34px;
+    left: 336px;
+    width: 768px;
+    height: 32px;
+  }
+  .profileChild {
+    top: 0;
+    left: 132px;
+    border-radius: 50%;
+    background-color: var(--color-gainsboro-100);
+    width: 70px;
+    height: 70px;
+  }
+  .profileItem {
+    position: absolute;
+    top: 33.88px;
+    left: 35.88px;
+    border-top: 0.3px solid rgba(255, 246, 242, 0.7);
+    box-sizing: border-box;
+    width: 96.25px;
+    height: 0.25px;
+  }
+  .johnSmith,
+  .logout {
+    position: absolute;
+    top: 11px;
+    left: 36px;
+  }
+  .logout {
+    top: 38px;
+  }
+  .carbonlocationIcon {
+    position: absolute;
+    top: 23px;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+  }
+  .profile {
+    position: absolute;
+    top: 15px;
+    left: 1198px;
+    width: 202px;
+    height: 70px;
+    font-size: var(--font-size-base);
+    color: var(--color-white);
+    font-family: var(--font-flamante-sans);
+  }
+  .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1440px;
+    height: 100px;
+    font-size: var(--font-size-3xs);
+  }
+  .span {
+    color: var(--color-black);
+  }
+  .perfectCar {
+    color: var(--color-firebrick);
+  }
+  .findYourPerfectContainer {
+    position: absolute;
+    top: 403px;
+    left: calc(50% - 170px);
+    font-size: var(--font-size-5xl);
+    font-weight: 800;
+    color: var(--color-gray-200);
+  }
+  .groupChild,
+  .groupInner,
+  .groupItem {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-gray-400);
+    border: 1px solid var(--color-gray-300);
+    box-sizing: border-box;
+    width: 128px;
+    height: 27px;
+  }
+  .groupInner,
+  .groupItem {
+    left: 148px;
+    background-color: var(--color-whitesmoke-100);
+  }
+  .groupInner {
+    left: 296px;
+  }
+  .assistMe,
+  .consultUs1,
+  .search {
+    position: absolute;
+    top: 5.91px;
+    display: inline-block;
+    height: 14.34px;
+  }
+  .search {
+    left: 28px;
+    color: var(--color-white);
+    width: 72px;
+  }
+  .assistMe,
+  .consultUs1 {
+    left: 166px;
+    width: 92px;
+  }
+  .consultUs1 {
+    left: 305px;
+    width: 110px;
+  }
+  .rectangleParent {
+    position: absolute;
+    top: 439px;
+    left: 518px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+    width: 424px;
+    height: 27px;
+    font-size: var(--font-size-base);
+    color: var(--color-gray-200);
+  }
+  .groupChild1 {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 446px);
+    border: 1px solid var(--color-gray-400);
+    box-sizing: border-box;
+    width: 892px;
+    height: 36px;
+  }
+  .selectCar {
+    position: absolute;
+    top: 8px;
+    left: 20.23px;
+    display: inline-block;
+    width: 73.83px;
+  }
+  .mdisearchIcon {
+    position: absolute;
+    top: 1px;
+    left: 856.6px;
+    width: 34.39px;
+    height: 34px;
+    overflow: hidden;
+  }
+  .jeepCherokee {
+    color: var(--color-gray-400);
+  }
+  .egJeepCherokeeContainer {
+    position: absolute;
+    top: 44px;
+    left: 20.23px;
+    display: inline-block;
+    width: 143.61px;
+  }
+  .rectangleGroup {
+    position: absolute;
+    top: 478px;
+    left: calc(50% - 436px);
+    width: 892px;
+    height: 65px;
+    font-size: var(--font-size-base);
+    font-family: var(--font-leto-sans);
+  }
+  .fuelPrices {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: var(--font-size-5xl);
+    font-weight: 800;
+    display: inline-block;
+    width: 244px;
+    height: 20px;
+  }
+  .groupChild2,
+  .groupChild3 {
+    position: absolute;
+    top: 34px;
+    left: 0;
+    background-color: var(--color-gray-100);
+    border: 2px solid var(--color-gray-200);
+    box-sizing: border-box;
+    width: 169px;
+    height: 33px;
+  }
+  .groupChild3 {
+    left: 181px;
+    height: 32.77px;
+  }
+  .groupChild4 {
+    position: absolute;
+    top: 34px;
+    left: 358px;
+    background-color: var(--color-gray-200);
+    width: 145px;
+    height: 33px;
+  }
+  .chooseCity,
+  .fuelType,
+  .inr1005 {
+    position: absolute;
+    top: 44px;
+    left: 35px;
+    display: inline-block;
+    width: 98px;
+    height: 13.93px;
+  }
+  .fuelType,
+  .inr1005 {
+    left: 224px;
+    width: 82px;
+  }
+  .inr1005 {
+    left: 388px;
+    color: var(--color-white);
+    width: 85px;
+  }
+  .eparrowDownIcon,
+  .eparrowDownIcon1 {
+    position: absolute;
+    top: 41px;
+    left: 141px;
+    width: 24px;
+    height: 19.66px;
+    overflow: hidden;
+  }
+  .eparrowDownIcon1 {
+    left: 318px;
+  }
+  .fuelPricesParent {
+    position: absolute;
+    top: 992px;
+    left: 259px;
+    width: 503px;
+    height: 67px;
+    font-size: var(--font-size-base);
+    color: var(--color-gray-200);
+  }
+  .groupChild5 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #debdac;
+    width: 488px;
+    height: 69px;
+  }
+  .advertisingBanner {
+    position: absolute;
+    top: 26px;
+    left: 156px;
+    font-weight: 800;
+  }
+  .rectangleContainer {
+    position: absolute;
+    top: 990px;
+    left: 765px;
+    width: 488px;
+    height: 69px;
+    font-size: var(--font-size-base);
+    color: var(--color-gray-100);
+  }
+  .groupChild6 {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 719.5px);
+    background-color: #dfdfdf;
+    width: 1439px;
+    height: 338px;
+  }
+  .featuredCars {
+    position: absolute;
+    top: 18.93px;
+    left: calc(50% - 120.5px);
+    font-weight: 800;
+  }
+  .groupChild7 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-gray-400);
+    border: 0.8px solid var(--color-gray-300);
+    box-sizing: border-box;
+    width: 176px;
+    height: 25.64px;
+  }
+  .popular {
+    position: absolute;
+    top: 6px;
+    left: 36px;
+    color: var(--color-gray-100);
+    display: inline-block;
+    width: 104px;
+    height: 12.82px;
+  }
+  .groupChild8 {
+    position: absolute;
+    top: 0;
+    left: 188px;
+    background-color: var(--color-gray-100);
+    border: 0.8px solid var(--color-gray-300);
+    box-sizing: border-box;
+    width: 176px;
+    height: 25.64px;
+  }
+  .new {
+    position: absolute;
+    top: 6px;
+    left: 250px;
+    display: inline-block;
+    width: 51.2px;
+    height: 12.82px;
+  }
+  .groupChild9 {
+    position: absolute;
+    top: 0;
+    left: 376px;
+    background-color: var(--color-gray-100);
+    border: 0.8px solid var(--color-gray-300);
+    box-sizing: border-box;
+    width: 176px;
+    height: 25.64px;
+  }
+  .upcoming {
+    position: absolute;
+    top: 6px;
+    left: 408px;
+    display: inline-block;
+    width: 112.8px;
+    height: 12.82px;
+  }
+  .groupChild10 {
+    position: absolute;
+    top: 0;
+    left: 576px;
+    background-color: var(--color-gray-100);
+    border: 0.8px solid var(--color-gray-300);
+    box-sizing: border-box;
+    width: 176px;
+    height: 24.93px;
+  }
+  .myShortlist {
+    position: absolute;
+    top: 6px;
+    left: 586px;
+    display: inline-block;
+    width: 155px;
+    height: 12.47px;
+  }
+  .rectangleParent1 {
+    position: absolute;
+    top: 56px;
+    left: 341px;
+    width: 752px;
+    height: 25.64px;
+    font-size: var(--font-size-lg);
+    color: var(--color-gray-200);
+  }
+  .groupDiv {
+    position: absolute;
+    top: 1065px;
+    left: calc(50% - 720px);
+    width: 1439px;
+    height: 338px;
+    font-size: var(--font-size-5xl);
+  }
+  .vwAtlasAa3O1038x3502Icon {
+    position: absolute;
+    top: 0;
+    left: 4px;
+    width: 269px;
+    height: 231px;
+    object-fit: cover;
+  }
+  .groupChild11,
+  .vwAtlasAa3O1038x3501Icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1440px;
+    height: 231px;
+  }
+  .vwAtlasAa3O1038x3501Icon {
+    object-fit: cover;
+  }
+  .groupChild11 {
+    background: linear-gradient(90deg, #231f1e 1.87%, rgba(35, 31, 30, 0) 61.77%);
+  }
+  .banner {
+    margin: 0;
+  }
+  .bannerAdvertisement {
+    position: absolute;
+    top: 64px;
+    left: 86px;
+    display: inline-block;
+    width: 247px;
+    height: 77.62px;
+  }
+  .vwAtlasAa3O1038x3502Parent {
+    position: absolute;
+    top: 1403px;
+    left: 0;
+    width: 1440px;
+    height: 231px;
+    font-size: 28px;
+    color: var(--color-white);
+    font-family: var(--font-montserrat);
+  }
+  .browseByBrandsContainer {
+    position: absolute;
+    top: 1650px;
+    left: calc(50% - 151px);
+    font-size: var(--font-size-5xl);
+    font-weight: 800;
+  }
+  .bestCarBrands2Icon,
+  .bestCarBrands3Icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 826px;
+    height: 158px;
+    object-fit: cover;
+  }
+  .bestCarBrands3Icon {
+    top: 1px;
+    left: 800px;
+    width: 163px;
+    height: 155px;
+  }
+  .bestCarBrands2Parent,
+  .groupChild12,
+  .homePageInner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 963px;
+    height: 158px;
+  }
+  .groupChild12,
+  .homePageInner {
+    top: 1690px;
+    left: 254px;
+  }
+  .groupChild12 {
+    top: 0;
+    left: 0;
+    border-radius: var(--br-31xl);
+    background-color: rgba(118, 118, 120, 0.7);
+    width: 40px;
+    height: 40px;
+  }
+  .iconamoonarrowLeft2Bold {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+  }
+  .rectangleParent2 {
+    position: absolute;
+    top: 3962px;
+    left: -123px;
+    width: 40px;
+    height: 40px;
+  }
+  .youtubeVideos1 {
+    position: absolute;
+    top: 1904px;
+    left: calc(50% - 126px);
+    font-size: var(--font-size-5xl);
+    font-weight: 800;
+  }
+  .homePageChild {
+    position: absolute;
+    top: 1928px;
+    left: -1239px;
+    background-color: #555;
+    width: 214px;
+    height: 3px;
+  }
+  .span6 {
+    font-size: var(--font-size-xl);
+  }
+  .l {
+    font-size: var(--font-size-5xl);
+  }
+  .under8l {
+    position: relative;
+  }
+  .component8 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-firebrick);
+    width: 140px;
+    height: 41px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    padding: var(--padding-3xs) var(--padding-19xl);
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+  }
+  .component7 {
+    left: 159px;
+  }
+  .component3,
+  .component5,
+  .component6,
+  .component7 {
+    position: absolute;
+    top: 0;
+    background-color: var(--color-gray-300);
+    width: 140px;
+    height: 41px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    padding: var(--padding-3xs) var(--padding-19xl);
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+  }
+  .component3 {
+    left: calc(50% - 70px);
+  }
+  .component5,
+  .component6 {
+    left: 477px;
+  }
+  .component5 {
+    left: 636px;
+  }
+  .component8Parent {
+    position: absolute;
+    top: 558px;
+    left: 332px;
+    width: 776px;
+    height: 41px;
+    font-size: var(--font-size-lg);
+    color: var(--color-seashell-100);
+  }
+  .image1Icon,
+  .images71,
+  .images72 {
+    position: absolute;
+    top: 898px;
+    left: 1273px;
+    width: 167px;
+    height: 113.54px;
+    object-fit: cover;
+  }
+  .image1Icon,
+  .images72 {
+    top: 1748px;
+    left: 0;
+    width: 156.25px;
+    height: 115.11px;
+  }
+  .image1Icon {
+    top: 100px;
+    width: 1480px;
+    height: 284px;
+  }
+  .homePageChild1,
+  .homePageChild2,
+  .homePageItem,
+  .lineDiv {
+    position: absolute;
+    top: 552.5px;
+    left: 481.5px;
+    border-right: 1px dashed var(--color-gray-200);
+    box-sizing: border-box;
+    width: 1px;
+    height: 51px;
+  }
+  .homePageChild1,
+  .homePageChild2,
+  .lineDiv {
+    left: 640.5px;
+  }
+  .homePageChild1,
+  .homePageChild2 {
+    left: 799.5px;
+  }
+  .homePageChild2 {
+    left: 958.5px;
+  }
+  .images75 {
+    position: absolute;
+    top: 527px;
+    left: 7px;
+    width: 182.29px;
+    height: 128.54px;
+    object-fit: cover;
+  }
+  .groupChild13,
+  .groupChild14,
+  .groupChild15,
+  .groupChild16,
+  .groupChild17 {
+    position: absolute;
+    top: 0.65px;
+    left: 0;
+    border-radius: var(--br-mini);
+    background-color: var(--color-gray-100);
+    border: 1px solid var(--color-gray-200);
+    box-sizing: border-box;
+    width: 217px;
+    height: 216px;
+  }
+  .groupChild14,
+  .groupChild15,
+  .groupChild16,
+  .groupChild17 {
+    top: 12.65px;
+    left: 204px;
+    border-radius: var(--br-9xs);
+    width: 113px;
+    height: 44px;
+  }
+  .groupChild15,
+  .groupChild16,
+  .groupChild17 {
+    top: 61.65px;
+    height: 43px;
+  }
+  .groupChild16,
+  .groupChild17 {
+    top: 109.65px;
+    height: 44px;
+  }
+  .groupChild17 {
+    top: 157.65px;
+    height: 45px;
+  }
+  .jeepCherokee1 {
+    top: 12.65px;
+    font-size: var(--font-size-base);
+    font-family: var(--font-armstrong);
+  }
+  .jeepCherokee1,
+  .starsIcon,
+  .variants3 {
+    position: absolute;
+    left: 7px;
+  }
+  .starsIcon {
+    top: 142.65px;
+    width: 82px;
+    height: 15px;
+  }
+  .variants3 {
+    top: 161.65px;
+    font-size: var(--font-size-xs);
+    letter-spacing: -0.04em;
+    font-weight: 500;
+    font-family: var(--font-montserrat);
+  }
+  .exShowroomOnRoadContainer {
+    position: absolute;
+    top: 197.65px;
+    left: 7px;
+    color: var(--color-gray-500);
+  }
+  .materialSymbolsairlineSeatIcon {
+    position: absolute;
+    top: 22.65px;
+    left: 212px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+  }
+  .seater7SeaterContainer {
+    position: absolute;
+    top: 20.65px;
+    left: 240px;
+    font-size: var(--font-size-3xs);
+  }
+  .ggbmwIcon {
+    position: absolute;
+    top: 167.65px;
+    left: 212px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+  }
+  .ncap5StarContainer {
+    position: absolute;
+    top: 166.65px;
+    left: 240px;
+    font-size: var(--font-size-3xs);
+  }
+  .div {
+    position: absolute;
+    top: 179.65px;
+    left: 96px;
+    color: var(--color-firebrick);
+  }
+  .bigearWideIcon {
+    position: absolute;
+    top: 119.65px;
+    left: 212px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+  }
+  .auto,
+  .dct,
+  .etc,
+  .manual {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: 500;
+  }
+  .auto,
+  .dct,
+  .etc {
+    top: 13px;
+  }
+  .auto,
+  .etc {
+    left: 26px;
+  }
+  .auto {
+    top: 0;
+    left: 38px;
+  }
+  .groupChild18,
+  .groupChild19 {
+    position: absolute;
+    top: 0.85px;
+    left: 33.85px;
+    border-right: 0.3px solid var(--color-gray-600);
+    box-sizing: border-box;
+    width: 0.3px;
+    height: 10.3px;
+  }
+  .groupChild19 {
+    top: 13.85px;
+    left: 21.85px;
+  }
+  .manualParent {
+    position: absolute;
+    top: 119.65px;
+    left: 240px;
+    width: 57px;
+    height: 24px;
+    font-size: var(--font-size-4xs);
+    font-family: var(--font-roboto);
+  }
+  .zondiconslocationGasStation {
+    position: absolute;
+    top: 70.65px;
+    left: 212px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+  }
+  .diesel,
+  .electric,
+  .hybrid {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    font-weight: 500;
+  }
+  .diesel,
+  .hybrid {
+    left: 38px;
+  }
+  .diesel {
+    top: 0;
+    left: 32px;
+  }
+  .groupChild20,
+  .groupChild21 {
+    position: absolute;
+    top: 0.85px;
+    left: 27.85px;
+    border-right: 0.3px solid var(--color-gray-600);
+    box-sizing: border-box;
+    width: 0.3px;
+    height: 10.3px;
+  }
+  .groupChild21 {
+    top: 12.85px;
+    left: 33.85px;
+  }
+  .petrolParent {
+    position: absolute;
+    top: 71.65px;
+    left: 240px;
+    width: 65px;
+    height: 23px;
+    font-size: var(--font-size-4xs);
+    font-family: var(--font-roboto);
+  }
+  .images161 {
+    position: absolute;
+    top: 35.65px;
+    left: 24px;
+    width: 169px;
+    height: 108px;
+    object-fit: cover;
+  }
+  .icsharpBookmarkIcon {
+    position: absolute;
+    height: 16.38%;
+    top: 0;
+    bottom: 83.62%;
+    left: calc(50% + 9.5px);
+    max-height: 100%;
+    width: 32px;
+    overflow: hidden;
+  }
+  .div1 {
+    position: absolute;
+    top: 179.65px;
+    left: 15px;
+    color: var(--color-firebrick);
+  }
+  .vectorIcon,
+  .vectorIcon1 {
+    position: absolute;
+    height: 4.15%;
+    width: 1.74%;
+    top: 84.31%;
+    right: 95.43%;
+    bottom: 11.54%;
+    left: 2.84%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+  }
+  .vectorIcon1 {
+    right: 69.87%;
+    left: 28.39%;
+  }
+  .rectangleParent3,
+  .rectangleParent4,
+  .rectangleParent5,
+  .rectangleParent6,
+  .rectangleParent7,
+  .rectangleParent8 {
+    position: absolute;
+    top: 1160.35px;
+    left: 247px;
+    width: 317px;
+    height: 216.65px;
+    font-family: var(--font-leto-sans);
+  }
+  .rectangleParent4,
+  .rectangleParent5,
+  .rectangleParent6,
+  .rectangleParent7,
+  .rectangleParent8 {
+    top: 619px;
+  }
+  .rectangleParent5,
+  .rectangleParent6,
+  .rectangleParent7,
+  .rectangleParent8 {
+    top: 1160px;
+    left: 593px;
+  }
+  .rectangleParent6,
+  .rectangleParent7,
+  .rectangleParent8 {
+    top: 619px;
+  }
+  .rectangleParent7,
+  .rectangleParent8 {
+    top: 1160px;
+    left: 939px;
+  }
+  .rectangleParent8 {
+    top: 619px;
+  }
+  .frameChild,
+  .pngwing1Icon {
+    position: absolute;
+    top: 0;
+    left: 183.78px;
+    width: 820.22px;
+    height: 126px;
+  }
+  .pngwing1Icon {
+    top: 2.43px;
+    left: 357.56px;
+    width: 594px;
+    object-fit: cover;
+  }
+  .allTheNewContainer {
+    top: 0;
+    left: 3px;
+    font-weight: 600;
+    width: 166px;
+    height: 15.35px;
+  }
+  .allTheNewContainer,
+  .excitementLikeNever,
+  .swift {
+    position: absolute;
+    display: inline-block;
+  }
+  .excitementLikeNever {
+    top: 85px;
+    left: 0;
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    width: 237px;
+    height: 19px;
+  }
+  .swift {
+    top: 10.55px;
+    left: 1px;
+    font-size: 58px;
+    text-decoration: underline;
+    letter-spacing: 0.08em;
+    line-height: 138.4%;
+    color: #4ba1da;
+    width: 236px;
+    height: 74.82px;
+  }
+  .allTheNewParent {
+    position: absolute;
+    top: 1px;
+    left: 53px;
+    width: 237px;
+    height: 104px;
+  }
+  .frameItem,
+  .groupParent {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    width: 8.27px;
+    height: 105px;
+  }
+  .groupParent {
+    top: 847px;
+    left: 249px;
+    background: linear-gradient(90.06deg, #16201f 51.43%, rgba(255, 255, 255, 0));
+    width: 1004px;
+    height: 126px;
+    overflow: hidden;
+    font-size: var(--font-size-lg);
+    color: var(--color-gray-100);
+    font-family: var(--font-montserrat);
+  }
+  .groupChild67 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-31xl);
+    background-color: var(--color-gray-200);
+    width: 40px;
+    height: 40px;
+    transform: rotate(-180deg);
+    transform-origin: 0 0;
+  }
+  .iconamoonarrowLeft2Bold1 {
+    position: absolute;
+    top: -32px;
+    left: -32px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+  }
+  .rectangleParent9 {
+    position: absolute;
+    top: 747px;
+    width: 40px;
+    height: 40px;
+  }
+  .rectangleParent10,
+  .rectangleParent11,
+  .rectangleParent9 {
+    left: 1296px;
+    transform: rotate(-180deg);
+    transform-origin: 0 0;
+  }
+  .rectangleParent10 {
+    position: absolute;
+    top: 1288px;
+    width: 40px;
+    height: 40px;
+  }
+  .rectangleParent11 {
+    top: 1789px;
+  }
+  .groupChild70,
+  .rectangleParent11,
+  .rectangleParent12 {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+  }
+  .groupChild70 {
+    top: 0;
+    left: 0;
+    border-radius: var(--br-31xl);
+    background-color: var(--color-gray-200);
+  }
+  .rectangleParent12 {
+    top: 707px;
+    left: 207px;
+  }
+  .groupChild73,
+  .rectangleParent13,
+  .rectangleParent14 {
+    position: absolute;
+    top: 1255px;
+    left: 207px;
+    width: 40px;
+    height: 40px;
+  }
+  .groupChild73,
+  .rectangleParent14 {
+    top: 1749px;
+  }
+  .groupChild73 {
+    top: 1709px;
+    left: 38px;
+    background-color: #ebe9ea;
+    width: 1440px;
+    height: 563px;
+  }
+  .groupChild74 {
+    position: absolute;
+    top: 1771px;
+    left: calc(50% - 460.63px);
+    background-color: var(--color-gray-100);
+    width: 911px;
+    height: 160px;
+  }
+  .groupChild75 {
+    position: absolute;
+    top: 91px;
+    left: 38px;
+    background-color: rgba(223, 223, 223, 0.6);
+    width: 1440px;
+    height: 414px;
+  }
+  .icon1 {
+    position: absolute;
+    top: 1782px;
+    left: -38px;
+    width: 935px;
+    height: 1209px;
+    object-fit: cover;
+  }
+  .subtractItem {
+    position: absolute;
+    top: 2121.01px;
+    left: 571.9px;
+    background-color: var(--color-gainsboro-100);
+    width: 373.34px;
+    height: 329.24px;
+  }
+  .subtract1 {
+    position: relative;
+    width: 935px;
+    height: 1209px;
+    /* background-image: url(/public/subtract1@3x.png); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+  }
+  .topPicksForContainer {
+    position: absolute;
+    top: 530px;
+    left: calc(50% - 130.63px);
+    font-size: var(--font-size-5xl);
+    font-weight: 800;
+    font-family: var(--font-armstrong);
+    color: var(--color-gray-300);
+  }
+  .tireTracksVector73645673 {
+    position: absolute;
+    top: 1327px;
+    left: 1135px;
+    width: 1098px;
+    height: 949px;
+    transform: rotate(-180deg);
+    transform-origin: 0 0;
+  }
+  .carComparision,
+  .moStories,
+  .newsUpdate {
+    position: absolute;
+    top: 951px;
+    left: calc(50% - 57.63px);
+    font-size: var(--font-size-5xl);
+    font-weight: 800;
+    font-family: var(--font-armstrong);
+    color: var(--color-gray-300);
+  }
+  .carComparision,
+  .newsUpdate {
+    top: 1741px;
+    left: calc(50% - 117.63px);
+  }
+  .newsUpdate {
+    top: 1949px;
+    left: calc(50% - 89.63px);
+  }
+  .marutiSuzukiBaleno111Icon {
+    position: absolute;
+    top: 1392px;
+    left: calc(50% - 704.63px);
+    width: 1448px;
+    height: 314px;
+    object-fit: cover;
+  }
+  .images76 {
+    position: absolute;
+    top: 2052px;
+    left: 1322px;
+    width: 156px;
+    height: 115.11px;
+    object-fit: cover;
+  }
+  .groupChild76,
+  .maxresdefault1Icon {
+    position: absolute;
+    left: 0;
+    width: 214px;
+  }
+  .groupChild76 {
+    top: 1px;
+    background-color: var(--color-white);
+    height: 120px;
+  }
+  .maxresdefault1Icon {
+    top: 0;
+    border-radius: var(--br-6xs-4);
+    height: 120.89px;
+    object-fit: cover;
+  }
+  .groupChild77 {
+    position: absolute;
+    top: 3.79px;
+    left: 4.16px;
+    background-color: var(--color-white);
+    width: 33.02px;
+    height: 26.01px;
+  }
+  .fayoutubePlayIcon,
+  .rectangleParent17 {
+    position: absolute;
+    width: 48px;
+    height: 33.6px;
+  }
+  .fayoutubePlayIcon {
+    top: 0;
+    left: 0;
+    overflow: hidden;
+  }
+  .rectangleParent17 {
+    top: 43px;
+    left: 83px;
+  }
+  .rectangleParent16,
+  .rectangleParent18 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 214px;
+    height: 121px;
+  }
+  .rectangleParent18 {
+    top: 173px;
+  }
+  .rectangleParent20,
+  .rectangleParent22,
+  .rectangleParent24 {
+    position: absolute;
+    top: 0;
+    left: 468px;
+    width: 214px;
+    height: 121px;
+  }
+  .rectangleParent22,
+  .rectangleParent24 {
+    top: 173px;
+  }
+  .rectangleParent24 {
+    top: 0;
+    left: 234px;
+  }
+  .rectangleParent26,
+  .rectangleParent28,
+  .rectangleParent30 {
+    position: absolute;
+    top: 173px;
+    left: 234px;
+    width: 214px;
+    height: 121px;
+  }
+  .rectangleParent28,
+  .rectangleParent30 {
+    top: 0;
+    left: 702px;
+  }
+  .rectangleParent30 {
+    top: 173px;
+  }
+  .loremIpsumIs,
+  .loremIpsumIs1,
+  .loremIpsumIs2,
+  .loremIpsumIs3,
+  .loremIpsumIs4,
+  .loremIpsumIs5,
+  .loremIpsumIs6,
+  .loremIpsumIs7 {
+    position: absolute;
+    top: 135px;
+    left: 2px;
+    line-height: 0%;
+    display: -webkit-inline-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: Infinity;
+    -webkit-box-orient: vertical;
+    width: 212px;
+  }
+  .loremIpsumIs1,
+  .loremIpsumIs2,
+  .loremIpsumIs3,
+  .loremIpsumIs4,
+  .loremIpsumIs5,
+  .loremIpsumIs6,
+  .loremIpsumIs7 {
+    top: 308px;
+  }
+  .loremIpsumIs2,
+  .loremIpsumIs3,
+  .loremIpsumIs4,
+  .loremIpsumIs5,
+  .loremIpsumIs6,
+  .loremIpsumIs7 {
+    top: 135px;
+    left: 470px;
+  }
+  .loremIpsumIs3,
+  .loremIpsumIs4,
+  .loremIpsumIs5,
+  .loremIpsumIs6,
+  .loremIpsumIs7 {
+    top: 308px;
+  }
+  .loremIpsumIs4,
+  .loremIpsumIs5,
+  .loremIpsumIs6,
+  .loremIpsumIs7 {
+    top: 135px;
+    left: 236px;
+  }
+  .loremIpsumIs5,
+  .loremIpsumIs6,
+  .loremIpsumIs7 {
+    top: 308px;
+  }
+  .loremIpsumIs6,
+  .loremIpsumIs7 {
+    top: 135px;
+    left: 704px;
+  }
+  .loremIpsumIs7 {
+    top: 308px;
+  }
+  .hondaElevateSuv,
+  .hondaElevateSuv1,
+  .hondaElevateSuv2,
+  .hondaElevateSuv3 {
+    position: absolute;
+    top: 124px;
+    left: 2px;
+    font-size: var(--font-size-7xs);
+    font-family: var(--font-montserrat);
+  }
+  .hondaElevateSuv1,
+  .hondaElevateSuv2,
+  .hondaElevateSuv3 {
+    top: 297px;
+  }
+  .hondaElevateSuv2,
+  .hondaElevateSuv3 {
+    top: 124px;
+    left: 470px;
+  }
+  .hondaElevateSuv3 {
+    top: 297px;
+  }
+  .groupContainer,
+  .hondaElevateSuv4,
+  .hondaElevateSuv5,
+  .hondaElevateSuv6,
+  .hondaElevateSuv7 {
+    position: absolute;
+    top: 124px;
+    left: 236px;
+    font-size: var(--font-size-7xs);
+    font-family: var(--font-montserrat);
+  }
+  .groupContainer,
+  .hondaElevateSuv5,
+  .hondaElevateSuv6,
+  .hondaElevateSuv7 {
+    top: 297px;
+  }
+  .groupContainer,
+  .hondaElevateSuv6,
+  .hondaElevateSuv7 {
+    top: 124px;
+    left: 704px;
+  }
+  .groupContainer,
+  .hondaElevateSuv7 {
+    top: 297px;
+  }
+  .groupContainer {
+    top: 163px;
+    left: 300px;
+    width: 916px;
+    height: 326px;
+    text-align: justify;
+    font-size: var(--font-size-9xs);
+    font-family: var(--font-leto-sans);
+  }
+  .rectangleParent32 {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: 214px;
+    height: 121px;
+  }
+  .rectangleParent34,
+  .rectangleParent36,
+  .rectangleParent38 {
+    position: absolute;
+    top: 178px;
+    left: 0;
+    width: 214px;
+    height: 121px;
+  }
+  .rectangleParent36,
+  .rectangleParent38 {
+    top: 5px;
+    left: 468px;
+  }
+  .rectangleParent38 {
+    top: 178px;
+  }
+  .rectangleParent42,
+  .rectangleParent44,
+  .rectangleParent46 {
+    position: absolute;
+    top: 178px;
+    left: 234px;
+    width: 214px;
+    height: 121px;
+  }
+  .rectangleParent44,
+  .rectangleParent46 {
+    top: 5px;
+    left: 702px;
+  }
+  .rectangleParent46 {
+    top: 178px;
+  }
+  .loremIpsumIs10,
+  .loremIpsumIs11,
+  .loremIpsumIs12,
+  .loremIpsumIs13,
+  .loremIpsumIs14,
+  .loremIpsumIs15,
+  .loremIpsumIs8,
+  .loremIpsumIs9 {
+    position: absolute;
+    top: 140px;
+    left: 2px;
+    line-height: 0%;
+    display: -webkit-inline-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: Infinity;
+    -webkit-box-orient: vertical;
+    width: 212px;
+  }
+  .loremIpsumIs10,
+  .loremIpsumIs11,
+  .loremIpsumIs12,
+  .loremIpsumIs13,
+  .loremIpsumIs14,
+  .loremIpsumIs15,
+  .loremIpsumIs9 {
+    top: 313px;
+  }
+  .loremIpsumIs10,
+  .loremIpsumIs11,
+  .loremIpsumIs12,
+  .loremIpsumIs13,
+  .loremIpsumIs14,
+  .loremIpsumIs15 {
+    top: 140px;
+    left: 470px;
+  }
+  .loremIpsumIs11,
+  .loremIpsumIs12,
+  .loremIpsumIs13,
+  .loremIpsumIs14,
+  .loremIpsumIs15 {
+    top: 313px;
+  }
+  .loremIpsumIs12,
+  .loremIpsumIs13,
+  .loremIpsumIs14,
+  .loremIpsumIs15 {
+    top: 140px;
+    left: 236px;
+  }
+  .loremIpsumIs13,
+  .loremIpsumIs14,
+  .loremIpsumIs15 {
+    top: 313px;
+  }
+  .loremIpsumIs14,
+  .loremIpsumIs15 {
+    top: 140px;
+    left: 704px;
+  }
+  .loremIpsumIs15 {
+    top: 313px;
+  }
+  .hondaElevateSuv10,
+  .hondaElevateSuv11,
+  .hondaElevateSuv8,
+  .hondaElevateSuv9 {
+    position: absolute;
+    top: 129px;
+    left: 2px;
+    font-size: var(--font-size-7xs);
+    font-family: var(--font-montserrat);
+  }
+  .hondaElevateSuv10,
+  .hondaElevateSuv11,
+  .hondaElevateSuv9 {
+    top: 302px;
+  }
+  .hondaElevateSuv10,
+  .hondaElevateSuv11 {
+    top: 129px;
+    left: 470px;
+  }
+  .hondaElevateSuv11 {
+    top: 302px;
+  }
+  .groupParent1,
+  .hondaElevateSuv12,
+  .hondaElevateSuv13,
+  .hondaElevateSuv14,
+  .hondaElevateSuv15 {
+    position: absolute;
+    top: 129px;
+    left: 236px;
+    font-size: var(--font-size-7xs);
+    font-family: var(--font-montserrat);
+  }
+  .groupParent1,
+  .hondaElevateSuv13,
+  .hondaElevateSuv14,
+  .hondaElevateSuv15 {
+    top: 302px;
+  }
+  .groupParent1,
+  .hondaElevateSuv14,
+  .hondaElevateSuv15 {
+    top: 129px;
+    left: 704px;
+  }
+  .groupParent1,
+  .hondaElevateSuv15 {
+    top: 302px;
+  }
+  .groupParent1 {
+    top: 575px;
+    left: 300px;
+    width: 916px;
+    height: 331px;
+    text-align: justify;
+    font-size: var(--font-size-9xs);
+    font-family: var(--font-leto-sans);
+  }
+  .groupChild108 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-5xl);
+    background: linear-gradient(180deg, #fff6f2 65.42%, #231f1e 89.05%);
+    width: 180px;
+    height: 371px;
+  }
+  .hyundaiHasGivenContainer {
+    position: absolute;
+    top: 312px;
+    left: 12px;
+    display: inline-block;
+    width: 159px;
+    height: 43px;
+  }
+  .frontLeftSide4711,
+  .hyundaiExter900x5061Icon {
+    position: absolute;
+    left: 0;
+    width: 180px;
+    object-fit: cover;
+  }
+  .hyundaiExter900x5061Icon {
+    top: 0;
+    border-radius: var(--br-5xl) var(--br-5xl) 0 0;
+    height: 144.33px;
+  }
+  .frontLeftSide4711 {
+    top: 144.33px;
+    height: 139.7px;
+  }
+  .rectangleParent48 {
+    position: absolute;
+    top: 1001px;
+    left: 314px;
+    width: 180px;
+    height: 371px;
+    color: var(--color-white);
+  }
+  .groupChild109 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-5xl);
+    background: linear-gradient(180deg, #fff6f2 65.42%, #231f1e 84.67%);
+    width: 180px;
+    height: 371.32px;
+  }
+  .top7FeaturesContainer {
+    position: absolute;
+    top: 312px;
+    left: 12px;
+    display: inline-block;
+    width: 158.77px;
+    height: 42.49px;
+  }
+  .fortuneindia202306A72c725cIcon,
+  .images41 {
+    position: absolute;
+    left: 0;
+    width: 180px;
+    object-fit: cover;
+  }
+  .fortuneindia202306A72c725cIcon {
+    top: 0;
+    border-radius: var(--br-5xl) var(--br-5xl) 0 0;
+    height: 128.39px;
+  }
+  .images41 {
+    top: 128.39px;
+    height: 156.1px;
+  }
+  .rectangleParent49 {
+    position: absolute;
+    top: 1001px;
+    left: 518px;
+    width: 180px;
+    height: 371.32px;
+    color: var(--color-white);
+  }
+  .groupChild110 {
+    position: absolute;
+    top: 0.92px;
+    left: 0;
+    border-radius: var(--br-5xl);
+    background: linear-gradient(180deg, #fff6f2 60.73%, #231f1e 84.67%);
+    width: 180px;
+    height: 370.25px;
+  }
+  .heresAQuickContainer {
+    position: absolute;
+    top: 312px;
+    left: 12px;
+    display: inline-block;
+    width: 159px;
+    height: 37px;
+  }
+  .fortuneindia202306A72c725cIcon1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-5xl) var(--br-5xl) 0 0;
+    width: 180px;
+    height: 95.79px;
+    object-fit: cover;
+  }
+  .a437c735720x5401Icon,
+  .icon2 {
+    position: absolute;
+    top: 95.79px;
+    left: 0;
+    width: 180px;
+    height: 92.1px;
+    object-fit: cover;
+  }
+  .a437c735720x5401Icon {
+    top: 187.89px;
+    height: 95.79px;
+  }
+  .rectangleParent50 {
+    position: absolute;
+    top: 1001px;
+    left: 722px;
+    width: 180px;
+    height: 371.17px;
+    color: var(--color-white);
+  }
+  .groupChild111 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-5xl);
+    background: linear-gradient(180deg, #fff6f2 63.85%, #231f1e 84.67%);
+    width: 180px;
+    height: 370.32px;
+  }
+  .newVolkswagenVirtusContainer {
+    position: absolute;
+    top: 311px;
+    left: 12px;
+    display: inline-block;
+    width: 158.77px;
+    height: 42.38px;
+  }
+  .volkswagenVirtusRightFrontIcon {
+    position: absolute;
+    top: 100.41px;
+    left: 0;
+    width: 180px;
+    height: 90.28px;
+    object-fit: cover;
+  }
+  .groupChild112 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-5xl) var(--br-5xl) 0 0;
+    background-color: var(--color-seashell-100);
+    width: 180px;
+    height: 100.41px;
+  }
+  .front34thCodriverMattgreyGIcon {
+    border-radius: var(--br-5xl) var(--br-5xl) 0 0;
+    object-fit: cover;
+  }
+  .front34thCodriverMattgreyGIcon,
+  .rectangleParent52 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 180px;
+    height: 100.41px;
+  }
+  .front34thCodriverMattgreyGIcon1,
+  .groupChild113 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 180px;
+    height: 93.04px;
+  }
+  .groupChild113 {
+    background-color: var(--color-seashell-100);
+  }
+  .front34thCodriverMattgreyGIcon1 {
+    object-fit: cover;
+  }
+  .rectangleParent51,
+  .rectangleParent53 {
+    position: absolute;
+    top: 190.69px;
+    left: 0;
+    width: 180px;
+    height: 93.04px;
+  }
+  .rectangleParent51 {
+    top: 1002px;
+    left: 926px;
+    height: 370.32px;
+    color: var(--color-white);
+  }
+  .groupChild114 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-5xl);
+    background: linear-gradient(180deg, #fff6f2 62.81%, #231f1e 84.67%);
+    width: 90px;
+    height: 370px;
+  }
+  .topFeaturesHondaContainer {
+    position: absolute;
+    top: 311px;
+    left: 12px;
+    display: inline-block;
+    width: 128px;
+    height: 23px;
+  }
+  .hondaElevate1Icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 0 var(--br-5xl) 0 0;
+    width: 90px;
+    height: 283px;
+    object-fit: cover;
+  }
+  .rectangleParent54 {
+    position: absolute;
+    top: 1002px;
+    left: 1130px;
+    width: 140px;
+    height: 370px;
+    color: var(--color-white);
+  }
+  .groupChild115 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-gray-100);
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--color-gray-200);
+    box-sizing: border-box;
+    width: 282px;
+    height: 158px;
+  }
+  .images181 {
+    position: absolute;
+    top: 5px;
+    left: 145px;
+    width: 133px;
+    height: 93px;
+    object-fit: cover;
+  }
+  .images171,
+  .maruti,
+  .tata {
+    position: absolute;
+    left: 5px;
+  }
+  .images171 {
+    top: 5px;
+    width: 140px;
+    height: 93px;
+    object-fit: cover;
+  }
+  .maruti,
+  .tata {
+    top: 102px;
+    font-family: var(--font-armstrong);
+  }
+  .tata {
+    left: 145px;
+  }
+  .brezza,
+  .nexon {
+    position: absolute;
+    top: 118px;
+    left: 5px;
+    letter-spacing: 0.04em;
+    color: var(--color-firebrick);
+  }
+  .nexon {
+    left: 145px;
+  }
+  .mdirupeeIcon,
+  .mdirupeeIcon1 {
+    position: absolute;
+    top: 137px;
+    left: 5px;
+    width: 12px;
+    height: 12px;
+    overflow: hidden;
+  }
+  .mdirupeeIcon1 {
+    left: 145px;
+  }
+  .lakhs,
+  .lakhs1 {
+    top: 137px;
+    font-size: var(--font-size-3xs);
+    font-weight: 600;
+  }
+  .lakhs {
+    position: absolute;
+    left: 17px;
+  }
+  .lakhs1 {
+    left: 157px;
+  }
+  .ellipseDiv,
+  .lakhs1,
+  .vs {
+    position: absolute;
+  }
+  .ellipseDiv {
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    background-color: var(--color-black);
+    width: 28.8px;
+    height: 28.8px;
+  }
+  .vs {
+    top: 5.4px;
+    left: 6.3px;
+    font-weight: 600;
+  }
+  .ellipseParent {
+    position: absolute;
+    top: 37px;
+    left: 127px;
+    width: 28.8px;
+    height: 28.8px;
+    font-size: var(--font-size-mini-4);
+    color: var(--color-white);
+  }
+  .rectangleParent55 {
+    position: absolute;
+    top: 1772px;
+    left: 315px;
+    width: 282px;
+    height: 158px;
+    font-size: var(--font-size-xs);
+  }
+  .images1711,
+  .images191 {
+    position: absolute;
+    top: 6px;
+    left: 139px;
+    width: 140px;
+    height: 93px;
+    object-fit: cover;
+  }
+  .images191 {
+    left: 5px;
+    width: 134px;
+  }
+  .rectangleParent56,
+  .rectangleParent57 {
+    position: absolute;
+    top: 1771px;
+    left: 601px;
+    width: 282px;
+    height: 158px;
+    font-size: var(--font-size-xs);
+  }
+  .rectangleParent57 {
+    left: 887px;
+  }
+  .images201,
+  .images202,
+  .images221 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 276px;
+    height: 146px;
+    object-fit: cover;
+  }
+  .images202,
+  .images221 {
+    left: 581px;
+  }
+  .images221 {
+    left: 291px;
+    width: 277px;
+  }
+  .doesTheToyotaContainer,
+  .doesTheToyotaContainer1,
+  .doesTheToyotaContainer2 {
+    position: absolute;
+    top: 153px;
+    left: 0;
+    font-size: var(--font-size-smi);
+    font-weight: 600;
+    display: inline-block;
+    width: 276px;
+  }
+  .doesTheToyotaContainer1,
+  .doesTheToyotaContainer2 {
+    left: 291px;
+  }
+  .doesTheToyotaContainer2 {
+    left: 581px;
+  }
+  .loremIpsumDolor,
+  .loremIpsumDolor1,
+  .loremIpsumDolor2 {
+    position: absolute;
+    top: 188px;
+    left: 0;
+    color: var(--color-black);
+    display: inline-block;
+    width: 268px;
+  }
+  .loremIpsumDolor1,
+  .loremIpsumDolor2 {
+    left: 291px;
+  }
+  .loremIpsumDolor2 {
+    left: 581px;
+  }
+  .readMore,
+  .readMore1,
+  .readMore2 {
+    position: absolute;
+    top: 240px;
+    left: 208px;
+    font-weight: 600;
+    color: var(--color-firebrick);
+  }
+  .readMore1,
+  .readMore2 {
+    left: 499px;
+  }
+  .readMore2 {
+    left: 789px;
+  }
+  .images201Parent {
+    position: absolute;
+    top: 1985px;
+    left: 318px;
+    width: 857px;
+    height: 252px;
+    font-size: var(--font-size-3xs);
+    color: var(--color-gray-500);
+  }
+  .footerChild {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-gray-400);
+    width: 1440px;
+    height: 139px;
+  }
+  .channels4Profile1Icon1 {
+    position: absolute;
+    top: 29px;
+    left: 160px;
+    width: 120px;
+    height: 76px;
+    object-fit: cover;
+  }
+  .aboutUs,
+  .advertise,
+  .contactUs,
+  .termsConditions {
+    position: absolute;
+    top: 0;
+    left: 0;
+    letter-spacing: 0.04em;
+    display: inline-block;
+    width: 95.32px;
+  }
+  .advertise,
+  .contactUs,
+  .termsConditions {
+    left: 115.66px;
+    width: 208.44px;
+  }
+  .advertise,
+  .contactUs {
+    left: 486.78px;
+    width: 104.22px;
+  }
+  .contactUs {
+    left: 344.43px;
+    width: 122.01px;
+  }
+  .aboutUsParent {
+    position: absolute;
+    top: 24px;
+    left: 315px;
+    width: 591px;
+    height: 21px;
+    font-size: var(--font-size-lg);
+  }
+  .letsConnectOn {
+    position: absolute;
+    top: 31px;
+    left: 1019px;
+    letter-spacing: -0.04em;
+    font-family: var(--font-leto-sans);
+  }
+  .iconParkOutlinehandleC {
+    position: absolute;
+    top: 1px;
+    left: 116px;
+    width: 14px;
+    height: 14px;
+    overflow: hidden;
+  }
+  .allRightsReserved,
+  .wwwmotoroctanecom {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .wwwmotoroctanecom {
+    left: 134px;
+  }
+  .visitorAgreement {
+    position: absolute;
+    top: 27px;
+    left: 0;
+  }
+  .iconParkOutlinehandleCParent {
+    position: absolute;
+    top: 71px;
+    left: 315px;
+    width: 361px;
+    height: 43px;
+    font-size: var(--font-size-sm);
+  }
+  .poweredBy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: 600;
+  }
+  .groupChild120 {
+    position: absolute;
+    top: 1px;
+    left: 88px;
+    background: linear-gradient(90deg, #383222 57.08%, #1f1f25 73.73%);
+    width: 113px;
+    height: 17px;
+  }
+  .kiln {
+    background: linear-gradient(90deg, #ba8433 58.84%, #e2412e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .brandkiln {
+    position: absolute;
+    top: 0;
+    left: 88px;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+  }
+  .footer,
+  .poweredByParent {
+    position: absolute;
+    top: 96px;
+    left: 619px;
+    width: 202px;
+    height: 19px;
+  }
+  .footer {
+    top: 2272px;
+    left: 38px;
+    width: 1440px;
+    height: 139px;
+    font-size: var(--font-size-base);
+    color: var(--color-seashell-100);
+    font-family: var(--font-roboto);
+  }
+  .groupChild121,
+  .groupIcon {
+    position: absolute;
+    top: 2337px;
+    left: 1069px;
+    width: 240px;
+    height: 37px;
+  }
+  .groupChild121 {
+    top: -3px;
+    left: -3px;
+    border-radius: var(--br-31xl);
+    background-color: var(--color-gray-200);
+    border: 3px solid var(--color-gray-100);
+    box-sizing: border-box;
+    width: 46px;
+    height: 46px;
+    transform: rotate(-180deg);
+    transform-origin: 0 0;
+  }
+  .rectangleParent58 {
+    top: 1207px;
+    left: 1244px;
+    width: 40px;
+    height: 40px;
+  }
+  .groupChild122,
+  .rectangleParent58,
+  .rectangleParent59,
+  .rectangleParent60 {
+    position: absolute;
+    transform: rotate(-180deg);
+    transform-origin: 0 0;
+  }
+  .groupChild122 {
+    top: -3px;
+    left: -3px;
+    border-radius: var(--br-31xl);
+    background-color: var(--color-gray-100);
+    border: 3px solid var(--color-gray-200);
+    box-sizing: border-box;
+    width: 46px;
+    height: 46px;
+  }
+  .rectangleParent59,
+  .rectangleParent60 {
+    top: 1870px;
+    left: 1220px;
+    width: 40px;
+    height: 40px;
+  }
+  .rectangleParent60 {
+    top: 2131px;
+  }
+  .groupChild124 {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    border-radius: var(--br-31xl);
+    background-color: var(--color-gray-100);
+    border: 3px solid var(--color-gray-200);
+    box-sizing: border-box;
+    width: 46px;
+    height: 46px;
+  }
+  .groupChild125,
+  .rectangleParent61 {
+    position: absolute;
+    top: 1830px;
+    left: 261px;
+    width: 40px;
+    height: 40px;
+  }
+  .groupChild125 {
+    top: -3px;
+    left: -3px;
+    border-radius: var(--br-31xl);
+    background-color: var(--color-gray-200);
+    border: 3px solid var(--color-gray-100);
+    box-sizing: border-box;
+    width: 46px;
+    height: 46px;
+  }
+  .rectangleParent62,
+  .rectangleParent63 {
+    position: absolute;
+    top: 1167px;
+    left: 285px;
+    width: 40px;
+    height: 40px;
+  }
+  .rectangleParent63 {
+    top: 2091px;
+    left: 261px;
+  }
+  .rectangleParent15 {
+    position: absolute;
+    top: 1782px;
+    left: -38px;
+    width: 1485.25px;
+    height: 2411px;
+    color: var(--color-gray-200);
+    font-family: var(--font-montserrat);
+  }
+  .homePage {
+    position: relative;
+    background-color: var(--color-white);
+    width: 100%;
+    height: 4193px;
+    overflow: hidden;
+    text-align: left;
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-300);
+    font-family: var(--font-armstrong);
+  }
+  
+
+
+  @import url("https://fonts.googleapis.com/css2?family=Armstrong:wght@400;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Flamante+Sans:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Leto+Sans:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap");
+body {
+  margin: 0;
+  line-height: normal;
+}
+:root {
+  /* fonts */
+  --font-roboto: Roboto;
+  --font-leto-sans: "Leto Sans";
+  --font-montserrat: Montserrat;
+  --font-armstrong: Armstrong;
+  --font-flamante-sans: "Flamante Sans";
+
+  /* font sizes */
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-lg: 18px;
+  --font-size-3xs: 10px;
+  --font-size-smi: 13px;
+  --font-size-mini-4: 14.4px;
+  --font-size-xs: 12px;
+  --font-size-7xs: 6px;
+  --font-size-9xs: 4px;
+  --font-size-5xl: 24px;
+  --font-size-4xs: 9px;
+  --font-size-xl: 20px;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-gray-100: #fcfcfc;
+  --color-gray-200: #818181;
+  --color-gray-300: #767678;
+  --color-gray-400: #231f1e;
+  --color-gray-500: #040404;
+  --color-gray-600: rgba(0, 0, 0, 0.3);
+  --color-seashell-100: #fff6f2;
+  --color-firebrick: #b1081a;
+  --color-black: #000;
+  --color-gainsboro-100: #d9d9d9;
+  --color-whitesmoke-100: #f1f1f1;
+
+  /* Paddings */
+  --padding-3xs: 10px;
+  --padding-19xl: 38px;
+
+  /* border radiuses */
+  --br-31xl: 50px;
+  --br-5xl: 24px;
+  --br-6xs-4: 6.4px;
+  --br-9xs: 4px;
+  --br-mini: 15px;
+}

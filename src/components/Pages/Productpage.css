@@ -1,0 +1,7 @@
+.label .fw-bold {
+    visibility: hidden;
+    height: 10px;
+}
+.back_image::before{
+    height: 100%;
+}

@@ -1,0 +1,10 @@
+// types.js
+export const SET_MOBILE = 'SET_MOBILE';
+export const SET_INPUT_VALUES = 'SET_INPUT_VALUES';
+export const SET_TIMER = 'SET_TIMER';
+export const SET_SHOW_INPUT = 'SET_SHOW_INPUT';
+export const SEND_OTP_SUCCESS = 'SEND_OTP_SUCCESS';
+export const SEND_OTP_FAILURE = 'SEND_OTP_FAILURE';
+export const VERIFY_OTP_SUCCESS = 'VERIFY_OTP_SUCCESS';
+export const VERIFY_OTP_FAILURE = 'VERIFY_OTP_FAILURE';
+export const NO_USER_FOUND = 'NO_USER_FOUND';
