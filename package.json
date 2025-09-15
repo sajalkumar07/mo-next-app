@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "node -e \"console.log('Node',process.version)\" && npm -v && pwd && ls -la",
-    "build": "npm ci && next build && next export",
-    "start": "next start -p ${PORT}",
-    "dev": "next dev"
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
