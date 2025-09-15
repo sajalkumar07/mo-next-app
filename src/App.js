@@ -56,6 +56,36 @@ const App = () => {
     }
   };
 
+  // Disable inspect and console
+  useEffect(() => {
+    // Disable right-click
+    const handleContextMenu = (e) => e.preventDefault();
+
+    // Disable F12, Ctrl+Shift+I/J, Ctrl+U
+    const handleKeyDown = (e) => {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && ["I", "J"].includes(e.key.toUpperCase())) ||
+        (e.ctrlKey && e.key.toUpperCase() === "U")
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    // Disable console
+    for (let method of ["log", "warn", "error", "info", "debug"]) {
+      console[method] = () => {};
+    }
+
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <BrowserRouter>
       <ReloadHandler />
