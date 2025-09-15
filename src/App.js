@@ -58,8 +58,11 @@ const App = () => {
     }
   };
 
-  // Disable inspect and console
+  // Disable inspect and console - Fixed for SSR
   useEffect(() => {
+    // Check if we're in the browser
+    if (typeof window === "undefined") return;
+
     // Disable right-click
     const handleContextMenu = (e) => e.preventDefault();
 

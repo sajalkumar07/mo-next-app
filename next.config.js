@@ -1,5 +1,11 @@
+// next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: { ignoreDuringBuilds: true }, // TEMP: don’t block builds on lint
+  output: "export", // This disables SSR
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
 };
+
 module.exports = nextConfig;
