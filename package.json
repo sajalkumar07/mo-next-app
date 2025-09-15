@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "prebuild": "node -e \"console.log('Node',process.version)\" && npm -v && pwd && ls -la",
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start",
-    "lint": "eslint"
+    "build": "npm ci && next build && next export",
+    "start": "next start -p ${PORT}",
+    "dev": "next dev"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
