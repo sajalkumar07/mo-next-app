@@ -1,4 +1,4 @@
-require("dotenv").config({ path: `.env.${process.env.ENV_FILE || "qa"}` });
+require("dotenv").config({ path: "/root/new-mo-next-app/.env.qa" });
 
 module.exports = {
   apps: [
@@ -9,8 +9,8 @@ module.exports = {
       args: "run start",
       env: {
         NODE_ENV: "production",
-        HOST: "0.0.0.0",
         PORT: "4000",
+        HOST: "0.0.0.0",
         NEXT_PUBLIC_API: process.env.NEXT_PUBLIC_API,
       },
     },
