@@ -1,4 +1,4 @@
-require("dotenv").config({ path: ".env.qa" });
+require("dotenv").config({ path: `.env.${process.env.ENV_FILE || "qa"}` });
 
 module.exports = {
   apps: [
