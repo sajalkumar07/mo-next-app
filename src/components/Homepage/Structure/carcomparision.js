@@ -2,26 +2,24 @@ import React, { useState, useEffect, forwardRef, useRef } from "react";
 import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import Tyre from "../../../Images/tyremask.png"; // Import the tire mask image
+import Tyre from "../../../Images/tyremask.png";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 
 const CarComparisonData = [
   { id1: "66bb403828768e97140aae5c", id2: "67442223167c95b8aab2a3b3" },
   { id1: "66bb327f28768e97140a08d0", id2: "66bb372728768e97140a459f" },
   { id1: "66bb327f28768e97140a0905", id2: "66bb403828768e97140aae4b" },
+  { id1: "66bb327f28768e97140a0905", id2: "66bb403828768e97140aae4b" },
 ];
 
 const CarComparisonSection = () => {
-  const [videos, setVideos] = useState([]);
-  const CarComparisonWidth = 290;
-  const CarComparisonCount = CarComparisonData.length;
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [comparisonData, setComparisonData] = useState([]);
   const [rtoData, setRtoData] = useState([]);
   const [carData, setCarData] = useState({});
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const scrollContainerRef = useRef(null);
-  const cardsContainerRef = useRef(null);
 
   // Check if mobile on mount and resize
   useEffect(() => {
@@ -33,61 +31,6 @@ const CarComparisonSection = () => {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
-
-  const videosPerView = 4; // Adjust based on your design
-  const videoWidth = 265 + 32; // video width + gap
-
-  const handleNext = () => {
-    const maxIndex = Math.max(0, CarComparisonCount - 3); // Show 3 cards at once on desktop
-
-    if (currentIndex < maxIndex) {
-      const newIndex = Math.min(currentIndex + 1, maxIndex);
-      setCurrentIndex(newIndex);
-
-      if (isMobile) {
-        // For mobile, use scroll behavior
-        if (scrollContainerRef.current) {
-          const cardWidth = 306; // Card width + gap for mobile
-          scrollContainerRef.current.scrollTo({
-            left: newIndex * cardWidth,
-            behavior: "smooth",
-          });
-        }
-      }
-      // For desktop, CSS transform will handle the animation
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentIndex > 0) {
-      const newIndex = Math.max(currentIndex - 1, 0);
-      setCurrentIndex(newIndex);
-
-      if (isMobile) {
-        // For mobile, use scroll behavior
-        if (scrollContainerRef.current) {
-          const cardWidth = 306; // Card width + gap for mobile
-          scrollContainerRef.current.scrollTo({
-            left: newIndex * cardWidth,
-            behavior: "smooth",
-          });
-        }
-      }
-      // For desktop, CSS transform will handle the animation
-    }
-  };
-
-  // Calculate transform for desktop
-  const getContainerTransform = () => {
-    if (isMobile) return "translateX(0)"; // No transform on mobile
-    const cardWidth = 322; // Actual card width + gap (290 + 32)
-    return `translateX(-${currentIndex * cardWidth}px)`;
-  };
-
-  const containerStyle = {
-    transform: getContainerTransform(),
-    transition: isMobile ? "none" : "transform 0.3s ease",
-  };
 
   // ===== EXACT SAME PRICING LOGIC FROM PRODUCT SECTION =====
 
@@ -428,21 +371,59 @@ const CarComparisonSection = () => {
     );
   };
 
-  // Check if buttons should be disabled
-  const isPrevDisabled = currentIndex === 0;
-  const isNextDisabled = currentIndex >= Math.max(0, CarComparisonCount - 3);
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < CarComparisonData.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const scrollLeft = scrollContainerRef.current.scrollLeft;
+      const cardWidth = window.innerWidth <= 768 ? 340 : 344;
+      const newIndex = Math.round(scrollLeft / cardWidth);
+      if (newIndex !== currentIndex && newIndex < CarComparisonData.length) {
+        setCurrentIndex(newIndex);
+      }
+    }
+  };
+
+  const scrollToCard = (index) => {
+    if (scrollContainerRef.current) {
+      const cardWidth = window.innerWidth <= 768 ? 340 : 344;
+      const scrollPosition = index * cardWidth;
+      scrollContainerRef.current.scrollTo({
+        left: scrollPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  useEffect(() => {
+    scrollToCard(currentIndex);
+  }, [currentIndex]);
+
+  const getLocationFromLocalStorage = () => {
+    const locationString = localStorage.getItem("location");
+    try {
+      return locationString ? JSON.parse(locationString) : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const location = getLocationFromLocalStorage();
+  const state = location && location.city ? location.city : "";
 
   return (
-    <div className="relative w-full">
-      <div className="label">
-        <p className="block md:flex justify-center items-center text-[25px] font-bold ml-[20px] mb-2 mt-4">
-          <span className="text-wrapper text-uppercase">POPULAR</span>
-          <span className="span">&nbsp;</span>
-          <span className="text-wrapper-2 text-uppercase">COMPARISON</span>
-        </p>
-      </div>
-
-      {/* Tire mask background - same as Brands component */}
+    <div className="">
+      {/* Low opacity background image only */}
       <div
         className="absolute inset-0"
         style={{
@@ -456,66 +437,63 @@ const CarComparisonSection = () => {
         }}
       />
 
-      {/* Main content with relative positioning and solid background for cards */}
-      <section
-        className="flex justify-center items-center"
-        style={{ zIndex: 10 }}
-      >
-        <button
-          className={`bg-[#818181] p-2 md:m-0 rounded-full text-white hidden md:flex justify-center items-center ${
-            isPrevDisabled ? "opacity-50 cursor-not-allowed" : "hover:bg-[#666]"
-          }`}
-          onClick={handlePrevious}
-          disabled={isPrevDisabled}
-          style={{ backgroundColor: "#818181", zIndex: 20 }}
-        >
-          <ion-icon name="chevron-back-outline"></ion-icon>
-        </button>
+      {/* Content container - fully opaque */}
+      <div className="relative z-10 max-w-[1400px] mx-auto px-4 py-4">
+        {/* Section Title */}
+        <div className="text-center mb-4">
+          <h2 className="text-[25px] font-bold font-sans">
+            <span className="text-[#818181]">POPULAR</span>{" "}
+            <span className="text-[#AB373A]">COMPARISON</span>
+          </h2>
+        </div>
 
-        <div
-          ref={scrollContainerRef}
-          className="d-flex align-items-center copm-cards overflow-x-scroll scrollbar-hide overflow-y-hidden p-8 md:min-w-auto w-auto"
-          style={{
-            maxWidth: isMobile ? "none" : "1000px", // Adjusted for better tablet support
-          }}
+        {/* Navigation buttons */}
+        {/* <button
+          className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
+          onClick={handlePrevious}
+          disabled={currentIndex === 0}
         >
+          <ChevronLeft />
+        </button> */}
+
+        <div className="relative flex justify-center items-center">
           <div
-            ref={cardsContainerRef}
-            className="flex justify-between items-center gap-4"
-            style={containerStyle}
+            ref={scrollContainerRef}
+            className="flex overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory gap-4 md:gap-6 px-2 md:px-8 py-4"
+            style={{
+              scrollBehavior: "smooth",
+              WebkitOverflowScrolling: "touch",
+              msOverflowStyle: "none",
+              scrollbarWidth: "none",
+            }}
+            onScroll={handleScroll}
           >
             {loading
-              ? Array(CarComparisonCount)
+              ? Array(CarComparisonData.length)
                   .fill(0)
                   .map((_, index) => (
                     <div
                       key={index}
-                      className="d-flex comparo-card flex-shrink-0"
-                      style={{
-                        backgroundColor: "white",
-                        borderRadius: "0",
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                        zIndex: 15,
-                        width: "290px",
-                      }}
+                      className="flex-shrink-0 w-[340px] md:w-[344px] snap-start"
                     >
-                      <div className="comparison-item">
-                        <Skeleton height={150} width={120} />
-                        <div className="comp-description">
-                          <Skeleton width={100} />
-                          <Skeleton width={120} />
-                          <Skeleton width={150} />
+                      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                        <div className="bg-gray-100 p-4">
+                          <div className="flex justify-between">
+                            <Skeleton width={80} height={24} />
+                            <Skeleton circle={true} width={24} height={24} />
+                          </div>
+                          <div className="flex justify-center items-center h-32">
+                            <Skeleton width={120} height={80} />
+                            <div className="mx-4">
+                              <Skeleton width={40} height={40} />
+                            </div>
+                            <Skeleton width={120} height={80} />
+                          </div>
                         </div>
-                      </div>
-                      <div className="vs-container">
-                        <span className="vs-item">VS</span>
-                      </div>
-                      <div className="comparison-item">
-                        <Skeleton height={150} width={120} />
-                        <div className="comp-description">
-                          <Skeleton width={100} />
-                          <Skeleton width={120} />
-                          <Skeleton width={150} />
+                        <div className="p-4">
+                          <Skeleton width={200} height={20} />
+                          <Skeleton width={180} height={16} className="my-2" />
+                          <Skeleton width={150} height={16} />
                         </div>
                       </div>
                     </div>
@@ -523,103 +501,116 @@ const CarComparisonSection = () => {
               : comparisonData.map((comparison, index) => (
                   <Link
                     key={index}
-                    className="d-flex comparo-card flex-shrink-0"
                     to={`/Car-Compero/${CarComparisonData[index].id1}/${CarComparisonData[index].id2}`}
-                    style={{
-                      backgroundColor: "white",
-                      borderRadius: "0px",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                      zIndex: 15,
-                      textDecoration: "none",
-                      display: "flex",
-                      padding: "16px",
-                      width: "290px",
-                    }}
+                    className="flex-shrink-0 w-[340px] md:w-[320px] snap-start"
                   >
-                    {/* Car 1 */}
-                    <div className="comparison-item">
-                      {comparison.car1 ? (
-                        <>
-                          <img
-                            src={getImageSource(comparison.car1)}
-                            alt={comparison.car1?.product_id?.carname || "Car1"}
-                            className="car-comp-img"
-                            crossOrigin="anonymous"
-                          />
-                          <div className="comp-description">
-                            <div className="comp-description-brand">
+                    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md">
+                      <div className="bg-gray-100">
+                        {/* Car Images */}
+                        <div className="px-6 py-4 flex justify-between items-center">
+                          {/* Car 1 */}
+                          <div className="flex flex-col items-center">
+                            <img
+                              src={getImageSource(comparison.car1)}
+                              alt={
+                                comparison.car1?.product_id?.carname || "Car1"
+                              }
+                              className="h-40 object-contain"
+                              crossOrigin="anonymous"
+                            />
+                          </div>
+
+                          {/* VS Badge */}
+
+                          <p className="text-lg bg-black text-white rounded-full p-2 h-8 w-8 flex justify-center items-center text-center">
+                            VS
+                          </p>
+
+                          {/* Car 2 */}
+                          <div className="flex flex-col items-center">
+                            <img
+                              src={getImageSource(comparison.car2)}
+                              alt={
+                                comparison.car2?.product_id?.carname || "Car2"
+                              }
+                              className="h-40 object-contain"
+                              crossOrigin="anonymous"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-center items-center flex-col h-[150px] px-4 py-3">
+                        {/* Car Names - More compact */}
+                        <div className="flex justify-between items-center w-full mb-3">
+                          <div className="text-center flex-1">
+                            <div className="text-sm font-semibold text-black leading-tight">
                               {comparison.car1?.brand_id?.name || "N/A"}
                             </div>
-                            <div className="comp-description-model">
+                            <div className="text-sm font-medium text-gray-700 leading-tight">
                               {comparison.car1?.product_id?.carname || "N/A"}
                             </div>
-                            <p className="comp-description-price">
-                              {getPriceDisplay(comparison.car1)}
-                            </p>
                           </div>
-                        </>
-                      ) : (
-                        <div className="comp-description">
-                          <p>Car 1 data not available</p>
-                        </div>
-                      )}
-                    </div>
 
-                    <div className="vs-container">
-                      <span className="vs-item">VS</span>
-                    </div>
+                          <div className="px-3">
+                            <div className="text-xs text-gray-400 font-medium">
+                              vs
+                            </div>
+                          </div>
 
-                    {/* Car 2 */}
-                    <div className="comparison-item">
-                      {comparison.car2 ? (
-                        <>
-                          <img
-                            src={getImageSource(comparison.car2)}
-                            alt={comparison.car2?.product_id?.carname || "Car2"}
-                            className="car-comp-img"
-                            crossOrigin="anonymous"
-                          />
-                          <div className="comp-description">
-                            <div className="comp-description-brand">
+                          <div className="text-center flex-1">
+                            <div className="text-sm font-semibold text-black leading-tight">
                               {comparison.car2?.brand_id?.name || "N/A"}
                             </div>
-                            <div className="comp-description-model">
+                            <div className="text-sm font-medium text-gray-700 leading-tight">
                               {comparison.car2?.product_id?.carname || "N/A"}
                             </div>
-                            <p className="comp-description-price">
-                              {getPriceDisplay(comparison.car2)}
-                            </p>
                           </div>
-                        </>
-                      ) : (
-                        <div className="comp-description">
-                          <p>Car 2 data not available</p>
                         </div>
-                      )}
+
+                        {/* Prices - Better spacing */}
+                        <div className="flex justify-between items-center w-full mb-3">
+                          <div className="text-center flex-1">
+                            <div className="text-sm font-bold text-[#AB373A]">
+                              {getPriceDisplay(comparison.car1)}
+                            </div>
+                          </div>
+
+                          <div className="text-center flex-1">
+                            <div className="text-sm font-bold text-[#AB373A]">
+                              {getPriceDisplay(comparison.car2)}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Call to action */}
+                        <div className="mt-auto">
+                          <div className="text-xs  border border-gray-300 text-gray-700 hover:bg-[#AB373A] hover:text-white font-medium  px-3 py-1 rounded-full transition-colors">
+                            Compare Now
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </Link>
                 ))}
           </div>
         </div>
 
-        <button
-          className={`bg-[#818181] p-2 md:m-0 rounded-full text-white hidden md:flex justify-center items-center ${
-            isNextDisabled ? "opacity-50 cursor-not-allowed" : "hover:bg-[#666]"
-          }`}
+        {/* <button
+          className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
           onClick={handleNext}
-          disabled={isNextDisabled}
-          style={{ backgroundColor: "#818181", zIndex: 20 }}
+          disabled={currentIndex === CarComparisonData.length - 1}
         >
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </button>
-      </section>
+          <ChevronRight />
+        </button> */}
+      </div>
     </div>
   );
 };
 
 const CarComparison = forwardRef((props, ref) => {
   return (
-    <section className="mb-5" ref={ref}>
+    <section className="relative w-full mb-[50px] overflow-hidden " ref={ref}>
       <CarComparisonSection />
     </section>
   );

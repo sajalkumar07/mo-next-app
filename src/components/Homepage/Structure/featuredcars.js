@@ -1,5 +1,5 @@
 import React, { useState, forwardRef } from "react";
-import { useLocation } from "react-router-dom"; // Add this import
+import { useLocation } from "react-router-dom";
 import Cards from "./subcomponents/cardspop.js";
 import Upcoming from "./subcomponents/upcomming";
 import Newcars from "./subcomponents/newcars";
@@ -7,10 +7,9 @@ import Shotlist from "./subcomponents/shotlist";
 import Tyre from "../../../Images/tyremask.png";
 
 const Featuredcars = forwardRef((props, ref) => {
-  // Get current location/route
   const location = useLocation();
 
-  // Determine the text based on current route
+  // Detect POPULAR/ALTERNATE tab
   const getTabText = () => {
     if (
       location.pathname.startsWith("/product") ||
@@ -24,11 +23,8 @@ const Featuredcars = forwardRef((props, ref) => {
   };
 
   const currentPopularText = getTabText();
-
-  // State to track the active tab - initialize with the current popular text
   const [activeTab, setActiveTab] = useState(currentPopularText);
 
-  // Update the active tab state when switching between POPULAR/ALTERNATE
   const handleTabClick = (tabName) => {
     if (tabName === "POPULAR") {
       setActiveTab(currentPopularText);
@@ -38,20 +34,10 @@ const Featuredcars = forwardRef((props, ref) => {
   };
 
   return (
-    <>
-      {/* Add CSS for tablet-only padding */}
-      <style jsx>{`
-        @media only screen and (min-width: 768px) and (max-width: 1024px) {
-          .tablet-only-padding {
-            padding-bottom: 10px;
-            height: 400px;
-          }
-        }
-      `}</style>
-
-      <div className="flex justify-center items-center w-full py-8 bg-[#e5e5e5] tablet-only-padding">
-        <div className="relative w-full max-w-[1500px] " ref={ref}>
-          {" "}
+    <div className="relative w-full mb-[50px] overflow-hidden">
+      <div className="flex justify-center items-center w-full px-3 bg-[#f5f5f5]">
+        <div className="relative w-full max-w-[1400px]" ref={ref}>
+          {/* Background for mobile */}
           <div
             className="absolute inset-0 block md:hidden"
             style={{
@@ -64,107 +50,89 @@ const Featuredcars = forwardRef((props, ref) => {
               pointerEvents: "none",
             }}
           />
-          <section
-            className=" mt-2 res_back"
-            style={{ marginTop: "130px", position: "relative", zIndex: 10 }}
-            id="featuredCars"
-            ref={ref}
-          >
-            <div className="label">
-              <p className=" block md:flex justify-center items-center text-[25px] font-bold  ml-[20px] mb-2 ">
-                <span className="text-wrapper">FEATURED</span>
-                <span className="span">&nbsp;</span>
-                <span className="text-wrapper-2">CARS</span>
-              </p>
-            </div>
+
+          <section className="" id="featuredCars" ref={ref}>
+            {/* Heading */}
+            <h2 className="text-[25px] font-bold text-center mb-6 font-sans mt-3">
+              <span className="text-[#818181]">FEATURED</span>{" "}
+              <span className="text-[#B60C19]">CARS</span>
+            </h2>
 
             {/* Desktop Tabs */}
-            <ul className="search_tabs onlydesptop">
-              <div
-                className={`full_tabs ${
-                  activeTab === currentPopularText ? "active" : ""
-                }`}
+            <div className="hidden md:flex justify-center gap-4 mb-6">
+              <button
                 onClick={() => handleTabClick("POPULAR")}
-              >
-                <li>{currentPopularText}</li>
-              </div>
-              <div
-                className={`full_tabs ${activeTab === "NEW" ? "active" : ""}`}
-                onClick={() => setActiveTab("NEW")}
-              >
-                <li>NEW</li>
-              </div>
-              <div
-                className={`full_tabs ${
-                  activeTab === "SAVED CARS" ? "active" : ""
+                className={`px-5 py-2 rounded-md text-sm md:text-base font-medium transition-all duration-300
+                ${
+                  activeTab === currentPopularText
+                    ? "bg-black text-white"
+                    : "border border-black text-black hover:bg-black hover:text-white"
                 }`}
-                onClick={() => setActiveTab("SAVED CARS")}
               >
-                <li>SAVED CARS</li>
-              </div>
-            </ul>
-
-            {/* Mobile Tabs */}
-            <div className="onlyphoneme  lefttext-mob">
-              <div className="d-flex align-items-center w-100">
-                <div
-                  className="model-first-shape w-100"
-                  style={{
-                    clipPath:
-                      "polygon(0% 0%, 100% 0px, 87% 94%, 93% 100%, 0% 100%)",
-                  }}
-                  onClick={() => handleTabClick("POPULAR")}
-                >
-                  <span
-                    className="text-inside-shape3-nerew"
-                    style={{
-                      fontFamily: "Montserrat",
-                      color: activeTab === currentPopularText ? "black" : "",
-                    }}
-                  >
-                    {currentPopularText}
-                  </span>
-                </div>
-                <div
-                  className="model-second-shape w-100"
-                  style={{
-                    clipPath:
-                      "polygon(13% 0px, 100% 0px, 89% 100%, 100% 100%, 0px 102%)",
-                  }}
-                  onClick={() => setActiveTab("NEW")}
-                >
-                  <span
-                    className="text-inside-shape3-nerew ml-5 px-3"
-                    style={{
-                      fontFamily: "Montserrat",
-                      color: activeTab === "NEW" ? "black" : "",
-                    }}
-                  >
-                    NEW
-                  </span>
-                </div>
-                <div
-                  className="model-three-shape w-100"
-                  style={{
-                    clipPath:
-                      "polygon(13% 0, 100% 0, 100% 50%, 100% 100%, 0 100%)",
-                  }}
-                  onClick={() => setActiveTab("SAVED CARS")}
-                >
-                  <span
-                    className="text-inside-shape3-nerew ml-5  px-3"
-                    style={{
-                      fontFamily: "Montserrat",
-                      color: activeTab === "SAVED CARS" ? "black" : "",
-                    }}
-                  >
-                    MY SAVED
-                  </span>
-                </div>
-              </div>
+                {currentPopularText}
+              </button>
+              <button
+                onClick={() => setActiveTab("NEW")}
+                className={`px-5 py-2 rounded-md text-sm md:text-base font-medium transition-all duration-300
+                ${
+                  activeTab === "NEW"
+                    ? "bg-black text-white"
+                    : "border border-black text-black hover:bg-black hover:text-white"
+                }`}
+              >
+                NEW
+              </button>
+              <button
+                onClick={() => setActiveTab("SAVED CARS")}
+                className={`px-5 py-2 rounded-md text-sm md:text-base font-medium transition-all duration-300
+                ${
+                  activeTab === "SAVED CARS"
+                    ? "bg-black text-white"
+                    : "border border-black text-black hover:bg-black hover:text-white"
+                }`}
+              >
+                SAVED CARS
+              </button>
             </div>
 
-            {/* Conditional rendering based on active tab */}
+            {/* Mobile Tabs */}
+            <div className="flex md:hidden justify-center w-full mb-6 gap-2">
+              <button
+                onClick={() => handleTabClick("POPULAR")}
+                className={`flex-1 py-2 rounded-md text-xs font-medium transition-all duration-300
+                ${
+                  activeTab === currentPopularText
+                    ? "bg-black text-white"
+                    : "border border-black text-black hover:bg-black hover:text-white"
+                }`}
+              >
+                {currentPopularText}
+              </button>
+              <button
+                onClick={() => setActiveTab("NEW")}
+                className={`flex-1 py-2 rounded-md text-xs font-medium transition-all duration-300
+                ${
+                  activeTab === "NEW"
+                    ? "bg-black text-white"
+                    : "border border-black text-black hover:bg-black hover:text-white"
+                }`}
+              >
+                NEW
+              </button>
+              <button
+                onClick={() => setActiveTab("SAVED CARS")}
+                className={`flex-1 py-2 rounded-md text-xs font-medium transition-all duration-300
+                ${
+                  activeTab === "SAVED CARS"
+                    ? "bg-black text-white"
+                    : "border border-black text-black hover:bg-black hover:text-white"
+                }`}
+              >
+                SAVED CARS
+              </button>
+            </div>
+
+            {/* Render tabs content */}
             {(activeTab === "POPULAR" || activeTab === "ALTERNATE") && (
               <Cards />
             )}
@@ -173,7 +141,7 @@ const Featuredcars = forwardRef((props, ref) => {
           </section>
         </div>
       </div>
-    </>
+    </div>
   );
 });
 

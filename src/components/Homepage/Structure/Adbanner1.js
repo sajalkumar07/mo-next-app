@@ -7,7 +7,7 @@ const Adbanner1 = () => {
   };
 
   return (
-    <div className="w-full flex align-center justify-center h-[284px] md:mt-36 mt-16 flex-col mb-10">
+    <div className="w-full flex align-center justify-center h-[284px] md:mt-20 mt-4 flex-col">
       <img
         onClick={handleBannerClick}
         src="https://motoroctane.com/wp-content/uploads/2024/09/consultancy-41.png"
@@ -20,7 +20,7 @@ const Adbanner1 = () => {
         }}
       />
 
-      <a
+      {/* <a
         href="https://wa.me/918779952811"
         target="_blank"
         rel="noopener noreferrer"
@@ -30,7 +30,7 @@ const Adbanner1 = () => {
           <FaWhatsapp size={30} />
           <span className="font-semibold ">Chat on WhatsApp</span>
         </span>
-      </a>
+      </a> */}
     </div>
   );
 };

@@ -27,9 +27,7 @@ import SearchResult from "./components/Pages/SearchResult";
 const Layout = ({ children }) => {
   return (
     <div className="lg:flex lg:justify-center lg:items-center w-full min-h-screen">
-      <div className="w-full lg:max-w-[1600px] lg:mx-auto lg:px-4 lg:px-6 lg:px-8">
-        {children}
-      </div>
+      <div className="w-full ">{children}</div>
     </div>
   );
 };

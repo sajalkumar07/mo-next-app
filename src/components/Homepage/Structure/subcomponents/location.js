@@ -275,16 +275,26 @@ function MyLocation() {
     <div className="relative">
       <div
         onClick={handleLocationClick}
-        className="flex items-center cursor-pointer"
+        className="flex items-center cursor-pointer md:mr-auto -mr-10"
       >
-        <MapPin
-          className="text-gray-400"
-          style={{ width: "18.33px", height: "19.52px" }}
-        />
+        <MapPin className="text-white font-bold" />
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
       </div>
 
       {isSearching && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/30 shadow-2xl bg-opacity-80 flex items-center justify-center z-50">
           <div className="location-step">
             <div className="w-[346px] h-[400px] rounded-[10px] bg-white overflow-hidden">
               {/* Fixed Header */}
@@ -302,18 +312,18 @@ function MyLocation() {
                 </button>
               </div>
 
-              <div className="px-[20px] py-4 border-b border-gray-100 font-[Montserrat] font-medium">
+              <div className="p-2 border-b border-gray-100 font-[Montserrat] font-medium">
                 <div className="relative">
                   <input
                     type="text"
                     placeholder="Search city..."
                     value={searchTerm}
                     onChange={handleSearch}
-                    className="w-full h-[40px] border border-slate-300 px-4 text-black"
+                    className="w-full h-[44px] border border-slate-300 px-4 pr-12 text-black rounded-md focus:outline-none focus:border-[#B10819] transition-colors"
                   />
                   <div className="absolute inset-y-0 right-0 flex justify-center items-center">
-                    <button className="bg-black text-white w-[38px] h-[38px] flex justify-center items-center">
-                      <Search className="ml-3" size={20} />
+                    <button className="bg-black text-white w-[42px] h-[42px] flex justify-center items-center rounded-r-md hover:bg-gray-800 transition-colors">
+                      <Search size={20} />
                     </button>
                   </div>
                 </div>

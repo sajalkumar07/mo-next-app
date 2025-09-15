@@ -1,65 +1,124 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import "../../../main.css";
+import Link from "next/link";
 
 export const PartSecond = () => {
   const [showMore, setShowMore] = useState(false);
 
-  const toggleMoreMenu = () => {
-    setShowMore(!showMore);
+  const handleBannerClick = () => {
+    if (typeof window !== "undefined") {
+      window.location.href = "https://carconsultancy.in/";
+    }
   };
 
-  const handleBannerClick = () => {
-    window.location.href = "https://carconsultancy.in/";
-  };
   return (
-    <div className="flex justify-center items-center ml-32">
-      <div className="main_header_link">
-        <Link to="/Car-Compero/">
-          <ul>CAR COMPARO</ul>
+    // hidden until xl; visible as flex from xl+
+    <div className="hidden xl:flex justify-center items-center font-sans">
+      <nav className="flex items-center space-x-8 text-white font-medium">
+        <Link
+          href="/Car-Compero/"
+          className="hover:text-red-500 transition-colors duration-200"
+        >
+          CAR COMPARO
         </Link>
-        <ul onClick={handleBannerClick}>CONSULT US</ul>
-        <Link to="https://www.youtube.com/@motoroctane">
-          {" "}
-          <ul>YOUTUBE</ul>
+
+        <button
+          onClick={handleBannerClick}
+          className="hover:text-red-500 transition-colors duration-200"
+        >
+          CONSULT US
+        </button>
+
+        <Link
+          href="https://www.youtube.com/@motoroctane"
+          className="hover:text-red-500 transition-colors duration-200"
+        >
+          YOUTUBE
         </Link>
-        <Link to="/About-us">
-          <ul>ABOUT US</ul>
+
+        <Link
+          href="/About-us"
+          className="hover:text-red-500 transition-colors duration-200"
+        >
+          ABOUT US
         </Link>
-        <ul
-          className="more-menu"
+
+        <div
+          className="relative"
           onMouseEnter={() => setShowMore(true)}
           onMouseLeave={() => setShowMore(false)}
         >
-          MORE <ion-icon name="chevron-down-outline"></ion-icon>
+          <button
+            className="flex items-center space-x-1 hover:text-red-500 transition-colors duration-200"
+            aria-haspopup="menu"
+            aria-expanded={showMore}
+            aria-controls="more-menu"
+          >
+            <span>MORE</span>
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+
           {showMore && (
-            <div className="absolute top-full left-0 bg-black shadow-lg border border-gray-200 min-w-48 z-50 animate-in fade-in-0 slide-in-from-top-1 duration-200">
-              <Link to="/EMI-Calculator">
-                <span className="block px-4 py-2 hover:bg-[#e5e5e5] hover:text-black cursor-pointer border-b border-gray-100 transition-colors duration-150">
-                  CALCULATORS
-                </span>
+            <div
+              id="more-menu"
+              role="menu"
+              className="absolute top-full left-0 bg-white shadow-lg min-w-[12rem] z-50 text-black rounded-xl"
+            >
+              <Link
+                href="/EMI-Calculator"
+                role="menuitem"
+                className="block px-4 py-3 transition-colors duration-150 rounded-t-xl hover:bg-gray-100"
+              >
+                Calculator
               </Link>
-              <span className="block px-4 py-2 hover:bg-[#e5e5e5]  hover:text-black cursor-pointer border-b border-gray-100 transition-colors duration-150">
-                SVC NETWORK
-              </span>
-              <span className="block px-4 py-2 hover:bg-[#e5e5e5] hover:text-black cursor-pointer border-b border-gray-100 transition-colors duration-150">
-                SHARE REVIEWS
-              </span>
-              <Link to="/Privacy-Policy">
-                <span className="block px-4 py-2 hover:bg-[#e5e5e5] hover:text-black cursor-pointer border-b border-gray-100 transition-colors duration-150">
-                  TERMS OF SERVICE
-                </span>
+
+              <button
+                role="menuitem"
+                className="w-full text-left block px-4 py-3 transition-colors duration-150 hover:bg-gray-100"
+              >
+                Service Network
+              </button>
+
+              <button
+                role="menuitem"
+                className="w-full text-left block px-4 py-3 transition-colors duration-150 hover:bg-gray-100"
+              >
+                Share Reviews
+              </button>
+
+              <Link
+                href="/Privacy-Policy"
+                role="menuitem"
+                className="block px-4 py-3 transition-colors duration-150 hover:bg-gray-100"
+              >
+                Terms of Service
               </Link>
-              <Link to="/Terms-and-Conditions">
-                <span className="block px-4 py-2 hover:bg-[#e5e5e5] hover:text-black cursor-pointer transition-colors duration-150">
-                  PRIVACY POLICY
-                </span>
+
+              <Link
+                href="/Terms-and-Conditions"
+                role="menuitem"
+                className="block px-4 py-3 transition-colors duration-150 hover:bg-gray-100 rounded-b-xl"
+              >
+                Privacy Policy
               </Link>
             </div>
           )}
-        </ul>
-      </div>
+        </div>
+      </nav>
     </div>
   );
 };
+
 export default PartSecond;

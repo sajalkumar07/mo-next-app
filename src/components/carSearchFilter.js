@@ -1,22 +1,55 @@
 import { useState, useEffect } from "react";
-import { useSearchParams, useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { X } from "lucide-react";
 
-export default function AdvancedCarSearchComponent() {
+const AdvancedCarSearchModal = ({ isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [carType, setCarType] = useState("new");
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
   const [formData, setFormData] = useState({
     minPrice: "",
     maxPrice: "",
-    transmission: "",
-    fuelType: "",
-    seatingCapacity: "",
+    transmission: [],
+    fuelType: [],
+    seatingCapacity: [],
     features: [],
-    bootSpace: "",
-    brand: "",
+    bootSpace: [],
+    brand: [],
   });
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Handle animation states
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+      const timer = setTimeout(() => setIsAnimating(true), 10);
+      return () => clearTimeout(timer);
+    } else {
+      setIsAnimating(false);
+      const timer = setTimeout(() => setShouldRender(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  // Reset form when modal opens/closes
+  useEffect(() => {
+    if (isOpen) {
+      setCurrentStep(1);
+      setFormData({
+        minPrice: "",
+        maxPrice: "",
+        transmission: [],
+        fuelType: [],
+        seatingCapacity: [],
+        features: [],
+        bootSpace: [],
+        brand: [],
+      });
+    }
+  }, [isOpen]);
 
   // Fetch brands from API
   useEffect(() => {
@@ -39,54 +72,54 @@ export default function AdvancedCarSearchComponent() {
           throw new Error("Unexpected API response format");
         }
 
-        // Extract brand names if objects are returned
-        const brandNames = brandsData.map((brand) =>
-          typeof brand === "object" ? brand.name : brand
-        );
-
-        setBrands(brandNames);
+        setBrands(brandsData);
       } catch (error) {
         console.error("Error fetching brands:", error);
         setBrands([
-          "Tata",
-          "Maruti Suzuki",
-          "Hyundai",
-          "Mahindra",
-          "Toyota",
-          "Honda",
-          "Ford",
-          "Nissan",
-          "Renault",
-          "Skoda",
-          "Volkswagen",
-          "BMW",
-          "Mercedes-Benz",
-          "Audi",
-          "Kia",
-          "MG",
+          { name: "Tata", image: "tata.png" },
+          { name: "Maruti Suzuki", image: "maruti.png" },
+          { name: "Hyundai", image: "hyundai.png" },
+          { name: "Mahindra", image: "mahindra.png" },
+          { name: "Toyota", image: "toyota.png" },
+          { name: "Honda", image: "honda.png" },
+          { name: "Ford", image: "ford.png" },
+          { name: "Nissan", image: "nissan.png" },
+          { name: "Renault", image: "renault.png" },
+          { name: "Skoda", image: "skoda.png" },
+          { name: "Volkswagen", image: "volkswagen.png" },
+          { name: "BMW", image: "bmw.png" },
+          { name: "Mercedes-Benz", image: "mercedes.png" },
+          { name: "Audi", image: "audi.png" },
+          { name: "Kia", image: "kia.png" },
+          { name: "MG", image: "mg.png" },
         ]);
       } finally {
         setLoading(false);
       }
     };
 
-    if (currentStep === 7) {
+    if (currentStep === 3 && isOpen) {
       fetchBrands();
     }
-  }, [currentStep]);
-  const priceRanges = [
-    { label: "Under ₹2 Lakh", value: "0-200000" },
-    { label: "₹2-5 Lakh", value: "200000-500000" },
-    { label: "₹5-10 Lakh", value: "500000-1000000" },
-    { label: "₹10-15 Lakh", value: "1000000-1500000" },
-    { label: "₹15-25 Lakh", value: "1500000-2500000" },
-    { label: "₹25-50 Lakh", value: "2500000-5000000" },
-    { label: "Above ₹50 Lakh", value: "5000000-99999999" },
+  }, [currentStep, isOpen]);
+
+  const minPriceOptions = [
+    { label: "5 Lakh", value: "500000" },
+    { label: "10 Lakh", value: "1000000" },
+    { label: "15 Lakh", value: "1500000" },
+    { label: "20 Lakh", value: "2000000" },
   ];
 
-  const transmissionTypes = ["Manual", "Automatic", "CVT", "AMT", "DCT"];
+  const maxPriceOptions = [
+    { label: "10 Lakh", value: "1000000" },
+    { label: "15 Lakh", value: "1500000" },
+    { label: "20 Lakh", value: "2000000" },
+    { label: "25 Lakh", value: "2500000" },
+  ];
+
+  const transmissionTypes = ["Manual", "Automatic", "AMT"];
   const fuelTypes = ["Petrol", "Diesel", "CNG", "Electric", "Hybrid"];
-  const seatingOptions = ["2", "4", "5", "6", "7", "8+"];
+  const seatingOptions = ["2", "5", "6", "7", "7+"];
   const bootSpaceOptions = [
     { label: "1 Bag (Small)", value: "1" },
     { label: "2 Bags (Compact)", value: "2" },
@@ -122,6 +155,15 @@ export default function AdvancedCarSearchComponent() {
     }));
   };
 
+  const handleMultiSelectToggle = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: prev[field].includes(value)
+        ? prev[field].filter((item) => item !== value)
+        : [...prev[field], value],
+    }));
+  };
+
   const handleFeatureToggle = (feature) => {
     setFormData((prev) => ({
       ...prev,
@@ -131,8 +173,17 @@ export default function AdvancedCarSearchComponent() {
     }));
   };
 
+  const handleBrandToggle = (brandName) => {
+    setFormData((prev) => ({
+      ...prev,
+      brand: prev.brand.includes(brandName)
+        ? prev.brand.filter((b) => b !== brandName)
+        : [...prev.brand, brandName],
+    }));
+  };
+
   const handleNext = () => {
-    if (currentStep < 7) {
+    if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -143,49 +194,36 @@ export default function AdvancedCarSearchComponent() {
     }
   };
 
-  // const handleSearch = () => {
-  //   const searchParams = {
-  //     carType,
-  //     ...formData,
-  //   };
-  //   console.log("Search Parameters:", searchParams);
-  //   // Here you would typically navigate to results or make an API call
-  //   alert("Search initiated! Check console for parameters.");
-  // };
-
   const handleSearch = () => {
     const searchParams = new URLSearchParams();
 
-    // Add all search parameters
     searchParams.set("carType", carType);
     if (formData.minPrice) searchParams.set("minPrice", formData.minPrice);
     if (formData.maxPrice) searchParams.set("maxPrice", formData.maxPrice);
-    if (formData.transmission)
-      searchParams.set("transmission", formData.transmission);
-    if (formData.fuelType) searchParams.set("fuelType", formData.fuelType);
-    if (formData.seatingCapacity)
-      searchParams.set("seatingCapacity", formData.seatingCapacity);
-    if (formData.bootSpace) searchParams.set("bootSpace", formData.bootSpace);
-    if (formData.brand) searchParams.set("brand", formData.brand);
+    if (formData.transmission.length > 0)
+      searchParams.set("transmission", formData.transmission.join(","));
+    if (formData.fuelType.length > 0)
+      searchParams.set("fuelType", formData.fuelType.join(","));
+    if (formData.seatingCapacity.length > 0)
+      searchParams.set("seatingCapacity", formData.seatingCapacity.join(","));
+    if (formData.bootSpace.length > 0)
+      searchParams.set("bootSpace", formData.bootSpace.join(","));
+    if (formData.brand.length > 0)
+      searchParams.set("brand", formData.brand.join(","));
 
-    // Add features as comma-separated list
     if (formData.features.length > 0) {
       searchParams.set("features", formData.features.join(","));
     }
 
-    // Navigate to results page
     navigate(`/search-results?${searchParams.toString()}`);
+    onClose();
   };
 
   const getStepTitle = () => {
     const titles = {
-      1: "Price Range",
-      2: "Transmission Type",
-      3: "Fuel Type",
-      4: "Seating Capacity",
-      5: "Features",
-      6: "Boot Space",
-      7: "Brand",
+      1: "BASIC PREFERENCES",
+      2: "FEATURES",
+      3: "BRAND",
     };
     return titles[currentStep];
   };
@@ -193,304 +231,357 @@ export default function AdvancedCarSearchComponent() {
   const isStepValid = () => {
     switch (currentStep) {
       case 1:
-        return formData.minPrice && formData.maxPrice;
+        return (
+          formData.minPrice &&
+          formData.maxPrice &&
+          formData.transmission.length > 0 &&
+          formData.fuelType.length > 0 &&
+          formData.seatingCapacity.length > 0 &&
+          formData.bootSpace.length > 0
+        );
       case 2:
-        return formData.transmission;
+        return true;
       case 3:
-        return formData.fuelType;
-      case 4:
-        return formData.seatingCapacity;
-      case 5:
-        return true; // Features are optional
-      case 6:
-        return formData.bootSpace;
-      case 7:
-        return formData.brand;
+        return formData.brand.length > 0;
       default:
         return false;
     }
   };
 
+  if (!shouldRender) return null;
+
+  const baseUrl = process.env.NEXT_PUBLIC_API || "";
+
   return (
-    <div className="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-red-500 to-red-600 text-white p-6">
-        <h2 className="text-2xl font-bold mb-2">Find Your Perfect Car</h2>
-        <div className="flex items-center justify-between">
-          <span className="text-red-100">
-            Step {currentStep} of 7: {getStepTitle()}
-          </span>
-          <div className="flex space-x-1">
-            {[1, 2, 3, 4, 5, 6, 7].map((step) => (
-              <div
-                key={step}
-                className={`w-2 h-2 rounded-full ${
-                  step <= currentStep ? "bg-white" : "bg-red-300"
-                }`}
-              />
-            ))}
+    <div className="fixed inset-0 z-50 overflow-hidden">
+      {/* Backdrop with fade animation */}
+      <div
+        className={`absolute inset-0 bg-black/30 transition-opacity duration-300 ease-in-out ${
+          isAnimating ? "opacity-100" : "opacity-0"
+        }`}
+        onClick={onClose}
+      />
+
+      {/* Sidebar with slide animation */}
+      <div
+        className={`absolute left-0 top-0 h-full w-full max-w-md bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${
+          isAnimating ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Header */}
+        <div className="bg-[#f5f5f5] font-bold text-[24px] text-white p-6 flex justify-between items-center">
+          <div>
+            <span className="text-[#818181]">ASSIT</span>{" "}
+            <span className="text-[#B60C19]">ME</span>
+          </div>
+          <button onClick={onClose} className="text-black">
+            <X size={24} />
+          </button>
+        </div>
+
+        {/* Progress */}
+        <div className="bg-[#f5f5f5] p-4">
+          <div className="flex items-center justify-between">
+            <span className="text-black">
+              Step {currentStep} of 3:{" "}
+              <span className="font-bold">{getStepTitle()}</span>
+            </span>
           </div>
         </div>
-      </div>
 
-      {/* Step Content */}
-      <div className="p-6 min-h-[300px]">
-        {/* Step 1: Price Range */}
-        {currentStep === 1 && (
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-800">
-              Select Price Range
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Minimum Price
-                </label>
-                <input
-                  type="number"
-                  placeholder="Enter minimum price"
-                  value={formData.minPrice}
-                  onChange={(e) =>
-                    handleInputChange("minPrice", e.target.value)
-                  }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                />
+        {/* Main Content Area */}
+        <div className="h-[calc(100vh-200px)] flex flex-col">
+          {/* Scrollable Content */}
+          <div className="flex-1 overflow-y-auto p-4">
+            {/* Step 1: Basic Preferences */}
+            {currentStep === 1 && (
+              <div className="space-y-6">
+                {/* Price Range */}
+                <div className="space-y-3">
+                  <h4 className="font-bold text-black text-sm  ">
+                    Price Range
+                  </h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs text-gray-600 mb-1">
+                        Min Price
+                      </label>
+                      <select
+                        value={formData.minPrice}
+                        onChange={(e) =>
+                          handleInputChange("minPrice", e.target.value)
+                        }
+                        className="w-full px-3 py-2 text-sm  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B60C19] focus:border-transparent"
+                      >
+                        <option value="">Select Min</option>
+                        {minPriceOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-600 mb-1">
+                        Max Price
+                      </label>
+                      <select
+                        value={formData.maxPrice}
+                        onChange={(e) =>
+                          handleInputChange("maxPrice", e.target.value)
+                        }
+                        className="w-full px-3 py-2 text-sm  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B60C19] focus:border-transparent"
+                      >
+                        <option value="">Select Max</option>
+                        {maxPriceOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Transmission */}
+                <div className="space-y-3">
+                  <h4 className="font-bold text-black text-sm  ">
+                    Transmission
+                  </h4>
+                  <div className="grid grid-cols-3 gap-2">
+                    {transmissionTypes.map((transmission) => (
+                      <button
+                        key={transmission}
+                        onClick={() =>
+                          handleMultiSelectToggle("transmission", transmission)
+                        }
+                        className={`p-2 text-xs rounded border-2 transition-colors ${
+                          formData.transmission.includes(transmission)
+                            ? "border-[#B60C19] bg-red-50 text-red-700"
+                            : "border-gray-200 hover:border-red-300"
+                        }`}
+                      >
+                        {transmission}
+                      </button>
+                    ))}
+                  </div>
+                  {formData.transmission.length > 0 && (
+                    <div className="text-xs text-gray-500">
+                      Selected: {formData.transmission.join(", ")}
+                    </div>
+                  )}
+                </div>
+
+                {/* Fuel Type */}
+                <div className="space-y-3">
+                  <h4 className="font-bold text-black text-sm  ">Fuel Type</h4>
+                  <div className="grid grid-cols-3 gap-2">
+                    {fuelTypes.map((fuel) => (
+                      <button
+                        key={fuel}
+                        onClick={() =>
+                          handleMultiSelectToggle("fuelType", fuel)
+                        }
+                        className={`p-2 text-xs rounded border-2 transition-colors ${
+                          formData.fuelType.includes(fuel)
+                            ? "border-[#B60C19] bg-red-50 text-red-700"
+                            : "border-gray-200 hover:border-red-300"
+                        }`}
+                      >
+                        {fuel}
+                      </button>
+                    ))}
+                  </div>
+                  {formData.fuelType.length > 0 && (
+                    <div className="text-xs text-gray-500">
+                      Selected: {formData.fuelType.join(", ")}
+                    </div>
+                  )}
+                </div>
+
+                {/* Seating */}
+                <div className="space-y-3">
+                  <h4 className="font-bold text-black text-sm  ">
+                    Seating Capacity
+                  </h4>
+                  <div className="grid grid-cols-6 gap-2">
+                    {seatingOptions.map((seats) => (
+                      <button
+                        key={seats}
+                        onClick={() =>
+                          handleMultiSelectToggle("seatingCapacity", seats)
+                        }
+                        className={`p-2 text-xs rounded border-2 transition-colors ${
+                          formData.seatingCapacity.includes(seats)
+                            ? "border-[#B60C19] bg-red-50 text-red-700"
+                            : "border-gray-200 hover:border-red-300"
+                        }`}
+                      >
+                        {seats}
+                      </button>
+                    ))}
+                  </div>
+                  {formData.seatingCapacity.length > 0 && (
+                    <div className="text-xs text-gray-500">
+                      Selected: {formData.seatingCapacity.join(", ")}
+                    </div>
+                  )}
+                </div>
+
+                {/* Boot Space */}
+                <div className="space-y-3">
+                  <h4 className="font-bold text-black text-sm  ">Boot Space</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    {bootSpaceOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        onClick={() =>
+                          handleMultiSelectToggle("bootSpace", option.value)
+                        }
+                        className={`p-2 text-xs text-left rounded border-2 transition-colors ${
+                          formData.bootSpace.includes(option.value)
+                            ? "border-[#B60C19] bg-red-50 text-red-700"
+                            : "border-gray-200 hover:border-red-300"
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                  {formData.bootSpace.length > 0 && (
+                    <div className="text-xs text-gray-500">
+                      Selected:{" "}
+                      {formData.bootSpace
+                        .map(
+                          (value) =>
+                            bootSpaceOptions.find((opt) => opt.value === value)
+                              ?.label
+                        )
+                        .join(", ")}
+                    </div>
+                  )}
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Maximum Price
-                </label>
-                <input
-                  type="number"
-                  placeholder="Enter maximum price"
-                  value={formData.maxPrice}
-                  onChange={(e) =>
-                    handleInputChange("maxPrice", e.target.value)
-                  }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-            <div className="text-sm text-gray-600">
-              Or select from popular ranges:
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              {priceRanges.map((range) => (
-                <button
-                  key={range.value}
-                  onClick={() => {
-                    const [min, max] = range.value.split("-");
-                    handleInputChange("minPrice", min);
-                    handleInputChange("maxPrice", max);
-                  }}
-                  className="p-3 text-left border border-gray-200 rounded-lg hover:border-red-500 hover:bg-red-50 transition-colors"
-                >
-                  {range.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+            )}
 
-        {/* Step 2: Transmission */}
-        {currentStep === 2 && (
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-800">
-              Select Transmission Type
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {transmissionTypes.map((transmission) => (
-                <button
-                  key={transmission}
-                  onClick={() =>
-                    handleInputChange("transmission", transmission)
-                  }
-                  className={`p-4 rounded-lg border-2 transition-colors ${
-                    formData.transmission === transmission
-                      ? "border-red-500 bg-red-50 text-red-700"
-                      : "border-gray-200 hover:border-red-300"
-                  }`}
-                >
-                  {transmission}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+            {/* Step 2: Features */}
+            {currentStep === 2 && (
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    Select Features (Optional)
+                  </h3>
+                  <p className="text-sm  text-gray-600 mt-1">
+                    Choose features that are important to you:
+                  </p>
+                </div>
 
-        {/* Step 3: Fuel Type */}
-        {currentStep === 3 && (
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-800">
-              Select Fuel Type
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {fuelTypes.map((fuel) => (
-                <button
-                  key={fuel}
-                  onClick={() => handleInputChange("fuelType", fuel)}
-                  className={`p-4 rounded-lg border-2 transition-colors ${
-                    formData.fuelType === fuel
-                      ? "border-red-500 bg-red-50 text-red-700"
-                      : "border-gray-200 hover:border-red-300"
-                  }`}
-                >
-                  {fuel}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Step 4: Seating Capacity */}
-        {currentStep === 4 && (
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-800">
-              Select Seating Capacity
-            </h3>
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
-              {seatingOptions.map((seats) => (
-                <button
-                  key={seats}
-                  onClick={() => handleInputChange("seatingCapacity", seats)}
-                  className={`p-4 rounded-lg border-2 transition-colors ${
-                    formData.seatingCapacity === seats
-                      ? "border-red-500 bg-red-50 text-red-700"
-                      : "border-gray-200 hover:border-red-300"
-                  }`}
-                >
-                  {seats} {seats === "8+" ? "" : "Seater"}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Step 5: Features */}
-        {currentStep === 5 && (
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-800">
-              Select Features (Optional)
-            </h3>
-            <p className="text-sm text-gray-600">
-              Choose features that are important to you:
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-60 overflow-y-auto">
-              {availableFeatures.map((feature) => (
-                <label
-                  key={feature}
-                  className="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    checked={formData.features.includes(feature)}
-                    onChange={() => handleFeatureToggle(feature)}
-                    className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-500"
-                  />
-                  <span className="ml-3 text-sm">{feature}</span>
-                </label>
-              ))}
-            </div>
-            <div className="text-sm text-gray-500">
-              Selected: {formData.features.length} features
-            </div>
-          </div>
-        )}
-
-        {/* Step 6: Boot Space */}
-        {currentStep === 6 && (
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-800">
-              Select Minimum Boot Space
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {bootSpaceOptions.map((option) => (
-                <button
-                  key={option.value}
-                  onClick={() => handleInputChange("bootSpace", option.value)}
-                  className={`p-4 rounded-lg border-2 transition-colors text-left ${
-                    formData.bootSpace === option.value
-                      ? "border-red-500 bg-red-50 text-red-700"
-                      : "border-gray-200 hover:border-red-300"
-                  }`}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Step 7: Brand */}
-        {currentStep === 7 && (
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-800">
-              Select Brand
-            </h3>
-            {loading ? (
-              <div className="flex justify-center items-center h-32">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500"></div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-60 overflow-y-auto">
-                {Array.isArray(brands) && brands.length > 0 ? (
-                  brands.map((brand) => (
-                    <button
-                      key={brand._id || brand.name || brand} // Use a unique identifier
-                      onClick={() =>
-                        handleInputChange("brand", brand.name || brand)
-                      }
-                      className={`p-4 rounded-lg border-2 transition-colors ${
-                        formData.brand === (brand.name || brand)
-                          ? "border-red-500 bg-red-50 text-red-700"
-                          : "border-gray-200 hover:border-red-300"
-                      }`}
+                <div className="space-y-2">
+                  {availableFeatures.map((feature) => (
+                    <label
+                      key={feature}
+                      className="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
                     >
-                      {brand.name || brand}{" "}
-                      {/* Display the name property if it exists */}
-                    </button>
-                  ))
+                      <input
+                        type="checkbox"
+                        checked={formData.features.includes(feature)}
+                        onChange={() => handleFeatureToggle(feature)}
+                        className="w-4 h-4 border-gray-300 rounded accent-[#B60C19] focus:ring-[#B60C19] flex-shrink-0"
+                      />
+
+                      <span className="ml-3 text-sm ">{feature}</span>
+                    </label>
+                  ))}
+                </div>
+
+                <div className="text-sm  text-gray-500 font-bold bg-gray-50 p-3 rounded">
+                  Selected: {formData.features.length} features
+                </div>
+              </div>
+            )}
+
+            {/* Step 3: Brand */}
+            {currentStep === 3 && (
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Select Brands
+                </h3>
+                {loading ? (
+                  <div className="flex justify-center items-center py-12">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#B60C19]"></div>
+                  </div>
                 ) : (
-                  <div className="col-span-3 text-center py-4 text-gray-500">
-                    No brands available
+                  <div className="grid grid-cols-2 gap-3">
+                    {Array.isArray(brands) && brands.length > 0 ? (
+                      brands.map((brand) => (
+                        <button
+                          key={brand._id || brand.name}
+                          onClick={() => handleBrandToggle(brand.name)}
+                          className={`p-3 rounded-lg border-2 transition-colors text-sm  flex flex-col items-center gap-2 ${
+                            formData.brand.includes(brand.name)
+                              ? "border-[#B60C19] bg-red-50 text-red-700"
+                              : "border-gray-200 hover:border-red-300"
+                          }`}
+                        >
+                          <img
+                            src={`${baseUrl}/brandImages/${brand.image}`}
+                            alt={brand.name}
+                            crossOrigin="anonymous"
+                            className="w-14 h-14 object-contain"
+                          />
+                          <span className="text-xs">{brand.name}</span>
+                        </button>
+                      ))
+                    ) : (
+                      <div className="col-span-2 text-center py-8 text-gray-500">
+                        No brands available
+                      </div>
+                    )}
+                  </div>
+                )}
+                {formData.brand.length > 0 && (
+                  <div className="text-sm  text-gray-500 font-bold bg-gray-50 p-3 rounded">
+                    Selected: {formData.brand.join(", ")}
                   </div>
                 )}
               </div>
             )}
           </div>
-        )}
-      </div>
 
-      {/* Navigation */}
-      <div className="p-6 border-t border-gray-200 bg-gray-50">
-        <div className="flex justify-between">
-          <button
-            onClick={handlePrevious}
-            disabled={currentStep === 1}
-            className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            Previous
-          </button>
+          {/* Fixed Navigation Footer */}
+          <div className="border-t border-gray-200 bg-white p-4">
+            <div className="flex justify-between">
+              <button
+                onClick={handlePrevious}
+                disabled={currentStep === 1}
+                className="px-6 py-2 border border-gray-300 rounded-lg text-black hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                Previous
+              </button>
 
-          {currentStep === 7 ? (
-            <button
-              onClick={handleSearch}
-              disabled={!isStepValid()}
-              className="px-8 py-3 bg-red-500 hover:bg-red-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
-            >
-              Search Cars
-            </button>
-          ) : (
-            <button
-              onClick={handleNext}
-              disabled={!isStepValid()}
-              className="px-6 py-3 bg-red-500 hover:bg-red-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
-            >
-              Next
-            </button>
-          )}
+              {currentStep === 3 ? (
+                <button
+                  onClick={handleSearch}
+                  disabled={!isStepValid()}
+                  className="px-8 py-2 border border-black bg-black text-white disabled:bg-white disabled:!text-black disabled:cursor-not-allowed font-semibold rounded-lg transition-colors"
+                >
+                  Search Cars
+                </button>
+              ) : (
+                <button
+                  onClick={handleNext}
+                  disabled={!isStepValid()}
+                  className="px-6 py-2 border border-black text-black hover:bg-black hover:text-white font-semibold rounded-lg transition-colors"
+                >
+                  Next
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default AdvancedCarSearchModal;

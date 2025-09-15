@@ -64,11 +64,12 @@ const MobileMenu = () => {
     "flex items-center justify-between px-4 py-3 text-black text-[13px]";
 
   return (
-    <div className="block md:hidden relative">
+    // Changed from "block lg:hidden" to just "block" - let parent component control visibility
+    <div className="block relative font-bold">
       {/* Overlay Background - covers full screen when menu is open */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="fixed inset-0 bg-black/30 bg-opacity-50 z-40"
           onClick={toggleNav}
         ></div>
       )}
@@ -83,9 +84,9 @@ const MobileMenu = () => {
         </button>
       </div>
 
-      {/* Left Side Navigation Menu - half width */}
+      {/* Left Side Navigation Menu - responsive width for different screen sizes */}
       <div
-        className={`fixed top-0 left-0 w-[200px] bg-white z-50 transition-transform duration-300 ease-in-out overflow-y-auto ${
+        className={`fixed top-0 left-0 w-[200px] md:w-[250px] lg:w-[300px] bg-white z-50 transition-transform duration-300 ease-in-out overflow-y-auto ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

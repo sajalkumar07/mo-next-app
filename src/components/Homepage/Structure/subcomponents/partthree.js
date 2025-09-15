@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import "../../../main.css";
 import Optlogin from "./login/Optlogin";
 import Signup from "./login/Signup";
 import Logout from "./login/Logout.js";
 import Editprofile from "./login/editprofile.js";
 import Location from "./location.js";
 import MobileMenu from "./mobileline";
+import "../../../main.css";
 
 const PartThree = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -16,20 +16,20 @@ const PartThree = () => {
   };
 
   return (
-    <div className="partthree">
+    <div className="flex items-center">
       <div className="flex justify-between items-center space-x-4">
-        {" "}
+        {/* Location Component */}
         <div className="mr-2">
-          {" "}
           <Location />
         </div>
+
+        {/* User Profile Image */}
         {user && user.image && (
           <div
-            className="relative group w-[48px] h-[48px] mx-auto rounded-full overflow-hidden"
+            className="relative group w-12 h-12 rounded-full overflow-hidden cursor-pointer"
             onMouseEnter={handleHover}
             onMouseLeave={handleHover}
           >
-            {/* User Image */}
             <img
               className="w-full h-full object-cover"
               src={`${process.env.NEXT_PUBLIC_API}/userImages/${user.image}`}
@@ -37,29 +37,32 @@ const PartThree = () => {
               crossOrigin="anonymous"
             />
 
-            {/* Centered Edit Button */}
+            {/* Edit Profile Overlay */}
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <Editprofile />
             </div>
           </div>
         )}
-        <div className="header-text">
+
+        {/* Login/Welcome Section - Only visible on desktop (xl and above) */}
+        <div className="text-white hidden xl:block">
           {user && user.fname ? (
-            <>
-              <div className="onlydesptop">Welcome, {user.fname} </div>
-              <div className="onlydesptop">
-                {" "}
+            <div className="flex flex-col items-end">
+              <div className="text-sm">Welcome, {user.fname}</div>
+              <div className="mt-1">
                 <Logout />
               </div>
-            </>
+            </div>
           ) : (
-            <>
-              <Optlogin />
-            </>
+            <Optlogin />
           )}
         </div>
       </div>
-      <MobileMenu />
+
+      {/* Mobile Menu - Visible on mobile, tablet, and iPad (all screens smaller than xl) */}
+      <div className="xl:hidden ml-4">
+        <MobileMenu />
+      </div>
     </div>
   );
 };

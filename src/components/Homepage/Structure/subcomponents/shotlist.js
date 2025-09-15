@@ -1,9 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import {
+  Bookmark,
+  ChevronLeft,
+  ChevronRight,
+  Users,
+  Fuel,
+  Settings,
+  Star,
+} from "lucide-react";
 import "./card.css";
 import seater from "../../../../Images/icons/seat.png";
 import petrol from "../../../../Images/icons/gas.png";
-import manul from "../../../../Images/icons/machin.png";
+import manual from "../../../../Images/icons/machin.png";
 import ncap from "../../../../Images/icons/privi.png";
 
 const SavedCars = () => {
@@ -212,9 +221,7 @@ const SavedCars = () => {
             _id: data.data._id,
             isVariant: true,
             carname: data.data.product_id?.carname || "",
-            brand: {
-              name: data.data.brand_id?.name || data.data.brand_id || "",
-            },
+            brand: data.data.brand_id?.name || data.data.brand_id || "",
             heroimage: data.data.product_id?.heroimage || data.data.heroimage,
             heroimagename:
               data.data.product_id?.heroimagename ||
@@ -268,9 +275,7 @@ const SavedCars = () => {
               _id: data._id,
               isVariant: false,
               carname: data.carname || "",
-              brand: {
-                name: data.brand?.name || data.brand || "",
-              },
+              brand: data.brand?.name || data.brand || "",
               heroimage: data.heroimage,
               heroimagename: data.heroimagename || "",
               movrating: data.movrating || 0,
@@ -302,15 +307,15 @@ const SavedCars = () => {
   }, [rtoData]); // Re-run when RTO data is updated
 
   const formatCurrency = (value) => {
-    if (value >= 1e7) {
-      // Convert to Crores
-      return `${(value / 1e7).toFixed(2)}`;
-    } else if (value >= 1e5) {
-      // Convert to Lakhs
-      return `${(value / 1e5).toFixed(2)}`;
+    const numValue = parseFloat(value);
+    if (isNaN(numValue)) return "0";
+
+    if (numValue >= 1e7) {
+      return `${(numValue / 1e7).toFixed(2)}`;
+    } else if (numValue >= 1e5) {
+      return `${(numValue / 1e5).toFixed(2)}`;
     } else {
-      // Format normally with commas
-      return new Intl.NumberFormat("en-IN").format(value);
+      return new Intl.NumberFormat("en-IN").format(numValue);
     }
   };
 
@@ -334,6 +339,9 @@ const SavedCars = () => {
 
   const parseList = (htmlString) => {
     if (!htmlString) return "";
+    if (Array.isArray(htmlString)) return htmlString.join(" | ");
+    if (typeof htmlString === "number") return htmlString.toString();
+
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, "text/html");
     const items = doc.querySelectorAll("ul li, p");
@@ -353,7 +361,7 @@ const SavedCars = () => {
   // Smooth scroll to specific card
   const scrollToCard = (index) => {
     if (scrollContainerRef.current) {
-      const cardWidth = 360; // Card width + gap
+      const cardWidth = 344;
       const scrollPosition = index * cardWidth;
       scrollContainerRef.current.scrollTo({
         left: scrollPosition,
@@ -382,7 +390,7 @@ const SavedCars = () => {
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const scrollLeft = scrollContainerRef.current.scrollLeft;
-      const cardWidth = 360;
+      const cardWidth = 344;
       const newIndex = Math.round(scrollLeft / cardWidth);
       if (newIndex !== currentIndex && newIndex < savedCars.length) {
         setCurrentIndex(newIndex);
@@ -404,20 +412,20 @@ const SavedCars = () => {
         </div>
       ) : (
         /* Scrollable Cards Container with Navigation */
-        <div className="relative w-full">
+        <div className="relative z-10 max-w-[1400px] mx-auto px-4">
           {/* Left Arrow Button */}
           <button
-            className="absolute left-8 top-1/2 -translate-y-1/2 z-10 bg-[#818181] h-[27px] w-[27px] rounded-full text-white flex justify-center items-center shadow-lg transition-all duration-200 border-none"
+            className="hidden md:flex absolute -left-10 top-1/2 -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
             onClick={handlePrevious}
             disabled={currentIndex === 0}
           >
-            <ion-icon name="chevron-back-outline"></ion-icon>
+            <ChevronLeft size={20} />
           </button>
 
           {/* Horizontal Scrollable Cards Container */}
           <div
             ref={scrollContainerRef}
-            className="flex overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory gap-4 px-12 py-4"
+            className="flex overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory gap-6 px-8 py-4"
             style={{
               scrollBehavior: "smooth",
               WebkitOverflowScrolling: "touch",
@@ -427,211 +435,128 @@ const SavedCars = () => {
             onScroll={handleScroll}
           >
             {savedCars.map((car, index) => (
-              <section
+              <div
                 key={`${car._id}-${index}`}
-                className="min-w-[344px] h-[202px] bg-transparent flex transition-all duration-300 snap-center"
+                className="flex-shrink-0 w-[320px] snap-start"
               >
-                <div className="w-[224px] h-[202px] md:h-[218px] border-[1px] border-[#818181] rounded-[15px] bg-white ml-4">
-                  <div className="flex justify-end items-end mr-2 -mt-1">
-                    <div>
-                      <svg
+                <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md">
+                  <div className="bg-gray-200">
+                    {/* Card Header with Bookmark */}
+                    <div className="flex justify-between items-start p-4 pb-2">
+                      <button
                         onClick={(e) => toggleBookmark(car._id, e)}
-                        aria-label={isBookmarked(car._id) ? "Unsave" : "Save"}
-                        height="40"
-                        role="img"
-                        viewBox="0 0 24 40"
-                        width="24"
-                        color={isBookmarked(car._id) ? "var(--red)" : "#818181"}
-                        fill={isBookmarked(car._id) ? "var(--red)" : "none"}
-                        className="cursor-pointer"
+                        className="text-gray-400 hover:text-red-500 transition-colors"
                       >
-                        <polygon
-                          points="20 21 12 13.44 4 21 4 3 20 3 20 21"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="1"
-                        ></polygon>
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* Mobile price display */}
-                  <div className="inside_card_title  onlyphoneme ml-3 flex space-x-4 mr-3">
-                    <span className="mt-3">
-                      <span className="mt-3 fontejiri text-red-500">₹ </span>
-                      <span className="text-[11px] font-semibold font-[Montserrat]">
-                        {formatCurrency(
-                          car.onRoadPrice || car.lowestExShowroomPrice
+                        {isBookmarked(car._id) ? (
+                          <Bookmark className="h-6 w-6 text-red-500 fill-[#AB373A]" />
+                        ) : (
+                          <Bookmark className="h-6 w-6 text-gray-500" />
                         )}
-                        {car.onRoadPrice >= 1e7
-                          ? " Crore"
-                          : car.onRoadPrice >= 1e5
-                          ? " Lakhs"
-                          : ""}
-                      </span>
-                    </span>
-                    <div className="d-flex flex-column mt-3.5">
-                      <div className="thecolo font-weight-bold">
-                        {rtoData && rtoData.length > 0
-                          ? "Onwards On-Road"
-                          : "Ex-Showroom"}
-                      </div>
-                      <span className="text-[11px] font-medium"> {state}</span>
+                      </button>
+                      {car.movrating && car.movrating !== "0" && (
+                        <div className="bg-red-700 text-white text-xs font-medium px-2 py-1 rounded">
+                          <span className="gap-[0.7px] flex justify-center items-center">
+                            <span className="text-[13px] font-bold font-sans">
+                              {car.movrating}
+                            </span>
+                            <Star size={13} color="white" fill="white" />
+                          </span>
+                        </div>
+                      )}
                     </div>
-                  </div>
 
-                  {car.movrating && (
-                    <div className="bg-red-800 md:hidden border shadow-xl px-4 py-2 -mt-5 ml-3 w-[35px] h-[12px] flex justify-center items-center text-center text-white">
-                      <span className="text-[8px] font-[Montserrat]">
-                        {car.movrating}
-                      </span>
-                      <span className="text-xs text-white">
-                        <svg
-                          width="10"
-                          height="7"
-                          viewBox="0 0 10 7"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M2.46172 6.87014C2.23095 6.95042 1.96909 6.80973 2.01572 6.63013L2.51193 4.71242L0.405723 3.35178C0.209032 3.22447 0.311263 2.99175 0.574913 2.96661L3.50316 2.68443L4.80886 0.930113C4.92663 0.771994 5.24529 0.771994 5.36306 0.930113L6.66876 2.68443L9.59701 2.96661C9.86066 2.99175 9.96289 3.22447 9.7656 3.35178L7.65999 4.71242L8.1562 6.63013C8.20283 6.80973 7.94097 6.95042 7.71021 6.87014L5.08506 5.95548L2.46172 6.87014Z"
-                            fill="#FCFCFC"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  )}
-
-                  <Link
-                    to={
-                      car.isVariant
-                        ? `/variant/${car.carname.replace(/\s+/g, "-")}/${
-                            car._id
-                          }`
-                        : `/product/${car.carname.replace(/\s+/g, "-")}/${
-                            car._id
-                          }`
-                    }
-                  >
-                    <div className="inside_card">
-                      <div className="inside_card_title thedeskname flex flex-col">
-                        <span className="text-gray-400">
-                          {car.brand?.name || car.brand}
-                        </span>
-                        <span>{car.carname}</span>
-                      </div>
-                      <div className=" flex justify-center items-center">
-                        {" "}
+                    {/* Car Image */}
+                    <Link
+                      to={
+                        car.isVariant
+                          ? `/variant/${car.carname.replace(/\s+/g, "-")}/${
+                              car._id
+                            }`
+                          : `/product/${car.carname.replace(/\s+/g, "-")}/${
+                              car._id
+                            }`
+                      }
+                    >
+                      <div className="px-6 py-2 flex justify-center">
                         <img
-                          className="w-[150px] h-[90px] mt-8 md:mt-auto"
+                          className="h-32 object-contain"
                           src={`${process.env.NEXT_PUBLIC_API}/productImages/${car.heroimage}`}
                           crossOrigin="anonymous"
                           alt={car.heroimagename}
                         />
                       </div>
-                      <section className="info_card">
-                        <div
-                          className="info_card_variants"
-                          style={{ visibility: "hidden" }}
-                        >
-                          Variants{" "}
-                          <span style={{ color: "var(--red)" }}>
-                            {car.variants}
-                          </span>
+                    </Link>
+                  </div>
+
+                  {/* Car Info */}
+                  <div className="p-4 pt-2  h-[300px]">
+                    <div className="mb-3">
+                      <div className="text-gray-400 text-sm"></div>
+                      <div className="text-[#AB373A] text-[18px] font-bold">
+                        {car.brand} {car.carname}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      {/* Specifications */}
+                      <div className="flex-col flex text-sm text-gray-600 gap-1">
+                        <div className="flex items-center gap-1">
+                          <Users size={15} />
+                          <span>{parseList(car.seater)} Seater</span>
                         </div>
-                        <div
-                          className="thedeskname"
-                          style={{ color: "#B1081A", fontWeight: "600" }}
-                        >
-                          <span style={{ color: "var(--black)" }}>₹</span>{" "}
-                          <span>
-                            {formatCurrency(car.lowestExShowroomPrice)} -{" "}
-                            {formatCurrency(car.highestExShowroomPrice)}
-                            {car.highestExShowroomPrice >= 1e7
+                        <div className="flex items-center gap-1">
+                          <Fuel size={15} />
+                          <span>{parseList(car.fueltype)}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Settings size={15} />
+                          <span>{parseList(car.transmissiontype)}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Star size={15} />
+                          <span>Safety-{car.NCAP}</span>
+                        </div>
+                      </div>
+
+                      {/* Price */}
+                      <div className="mb-4">
+                        <div className="flex items-baseline flex-col">
+                          <span className="text-[18px] font-bold text-gray-900">
+                            ₹
+                            {formatCurrency(
+                              car.onRoadPrice || car.lowestExShowroomPrice
+                            )}
+                            {car.onRoadPrice >= 1e7
                               ? " Crore"
-                              : car.highestExShowroomPrice >= 1e5
+                              : car.onRoadPrice >= 1e5
                               ? " Lakhs"
                               : ""}
                           </span>
+                          <span className="text-gray-500 text-sm">
+                            {rtoData && rtoData.length > 0
+                              ? "On-Road"
+                              : "Ex-Showroom"}{" "}
+                            {state}
+                          </span>
                         </div>
-                        <div className="onlydesptop">
-                          {rtoData && rtoData.length > 0
-                            ? "On-Road"
-                            : "Ex-Showroom"}{" "}
-                          {state}
-                        </div>
-                      </section>
-                    </div>{" "}
-                    <div className="inside_card gap-2 onlyphoneme flex-column mt-4">
-                      <div className="inside_card_title">
-                        {car.brand?.name || car.brand}
-                      </div>
-                      <div className="inside_card_title">
-                        <span>{car.carname}</span>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 </div>
-
-                <section className="main_card_info">
-                  <div className="side_info">
-                    <img
-                      className="icon_image"
-                      src={seater}
-                      alt="Seater Icon"
-                    />
-                    <div className="side_info_inline">
-                      {parseList(car.seater) || car.seater}{" "}
-                      {car.seater ? "Seater" : ""}
-                    </div>
-                  </div>
-                  <div className="side_info">
-                    <img
-                      className="icon_image"
-                      src={petrol}
-                      alt="Petrol Icon"
-                    />
-                    <div className="side_info_inline">
-                      <span>{parseList(car.fueltype) || car.fueltype}</span>
-                    </div>
-                  </div>
-                  <div className="side_info">
-                    <img className="icon_image" src={manul} alt="Manual Icon" />
-                    <div className="side_info_inline">
-                      {parseList(car.transmissiontype) || car.transmissiontype}
-                    </div>
-                  </div>
-                  <div className="side_info">
-                    <img className="icon_image" src={ncap} alt="NCAP Icon" />
-                    <div className="side_info_inline">Safety - {car.NCAP}</div>
-                  </div>
-                </section>
-              </section>
+              </div>
             ))}
           </div>
 
           {/* Right Arrow Button */}
           <button
-            className="absolute right-8 top-1/2 -translate-y-1/2 z-10 bg-[#818181] h-[27px] w-[27px] rounded-full text-white flex justify-center items-center shadow-lg transition-all duration-200 border-none"
+            className="hidden md:flex absolute -right-10 top-1/2 -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
             onClick={handleNext}
             disabled={currentIndex === savedCars.length - 1}
           >
-            <ion-icon name="chevron-forward-outline"></ion-icon>
+            <ChevronRight size={20} />
           </button>
         </div>
       )}
-
-      {/* Add custom CSS for hiding scrollbar */}
-      <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </>
   );
 };

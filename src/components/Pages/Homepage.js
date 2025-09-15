@@ -25,18 +25,18 @@ export const Homepage = () => {
   }, []);
 
   return (
-    <>
+    <div className="">
       <QueryClientProvider client={queryClient}>
         {/* <Header /> */}
         <Adbanner1 />
 
         <Searchbar />
         <Cards />
-        <Adbanner2 />
+        {/* <Adbanner2 /> */}
         <Fuelprice />
 
         <FeatureCar />
-        {/* <Adbanner3 /> */}
+        <Adbanner3 />
         <Brands />
         <LatestVideo />
         <CarComparison />
@@ -48,7 +48,7 @@ export const Homepage = () => {
 
         {/* <Footer /> */}
       </QueryClientProvider>
-    </>
+    </div>
   );
 };
 export default Homepage;

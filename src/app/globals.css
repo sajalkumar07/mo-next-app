@@ -17,10 +17,10 @@
   src: url("./fonts/Armstrong\ Extrabold\ 800.otf") format("opentype");
 } */
 
-::selection {
+/* ::selection {
   color: red;
   background: yellow;
-}
+} */
 
 :root {
   --gray: #818181;

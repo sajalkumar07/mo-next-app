@@ -5,15 +5,68 @@ import petrol from "../Images/icons/gas.png";
 import manual from "../Images/icons/machin.png";
 import ncap from "../Images/icons/privi.png";
 import Skeleton from "react-loading-skeleton";
+import {
+  Bookmark,
+  ChevronLeft,
+  ChevronRight,
+  Users,
+  Fuel,
+  Settings,
+  Star,
+} from "lucide-react";
 
 const Cardsection = ({ newcardData, rtoData, onCardClick }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollContainerRef = useRef(null);
+  const [bookmarkedIds, setBookmarkedIds] = useState(() => {
+    const savedBookmarks = localStorage.getItem("bookmarks");
+    try {
+      return savedBookmarks ? JSON.parse(savedBookmarks) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [visibleCount, setVisibleCount] = useState(1);
+  const [showLeftButton, setShowLeftButton] = useState(false);
+  const [showRightButton, setShowRightButton] = useState(false);
+  const slotRef = useRef(344); // card width + gap
+
+  const measure = () => {
+    const el = scrollContainerRef.current;
+    if (!el || !newcardData.length) return;
+
+    const card = el.querySelector("[data-card]");
+    const track = el.firstElementChild;
+    const cardW = card ? card.getBoundingClientRect().width : 320;
+
+    let gap = 0;
+    if (track) {
+      const style = getComputedStyle(track);
+      gap = parseFloat(style.gap || style.columnGap || "0") || 0;
+    }
+
+    const slot = cardW + gap;
+    slotRef.current = slot;
+
+    const count = Math.max(1, Math.floor((el.clientWidth + gap) / slot));
+    setVisibleCount(count);
+
+    // Update button visibility
+    setShowLeftButton(currentIndex > 0);
+    setShowRightButton(currentIndex < newcardData.length - count);
+  };
+
+  useEffect(() => {
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [newcardData, currentIndex]);
 
   // Smooth scroll to specific card
   const scrollToCard = (index) => {
     if (scrollContainerRef.current) {
-      const cardWidth = isIPhone14ProMax() ? 380 : window.innerWidth;
+      const cardWidth = 344;
       const scrollPosition = index * cardWidth;
       scrollContainerRef.current.scrollTo({
         left: scrollPosition,
@@ -23,7 +76,6 @@ const Cardsection = ({ newcardData, rtoData, onCardClick }) => {
   };
 
   const handleCardInteraction = (e) => {
-    // Only trigger if the click wasn't on a bookmark icon
     if (!e.target.closest('svg[aria-label="Unsave"], svg[aria-label="Save"]')) {
       onCardClick();
     }
@@ -34,14 +86,19 @@ const Cardsection = ({ newcardData, rtoData, onCardClick }) => {
       const newIndex = currentIndex - 1;
       setCurrentIndex(newIndex);
       scrollToCard(newIndex);
+      setShowLeftButton(newIndex > 0);
+      setShowRightButton(true);
     }
   };
 
   const handleNext = () => {
-    if (currentIndex < newcardData.length - 1) {
+    const maxIndex = Math.max(0, newcardData.length - visibleCount);
+    if (currentIndex < maxIndex) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       scrollToCard(newIndex);
+      setShowLeftButton(true);
+      setShowRightButton(newIndex < maxIndex);
     }
   };
 
@@ -49,34 +106,26 @@ const Cardsection = ({ newcardData, rtoData, onCardClick }) => {
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const scrollLeft = scrollContainerRef.current.scrollLeft;
-      const cardWidth = isIPhone14ProMax() ? 380 : 360;
+      const cardWidth = 344;
       const newIndex = Math.round(scrollLeft / cardWidth);
       if (newIndex !== currentIndex && newIndex < newcardData.length) {
         setCurrentIndex(newIndex);
       }
     }
   };
+
   const formatCurrency = (value) => {
     const numValue = parseFloat(value);
     if (isNaN(numValue)) return "0";
 
     if (numValue >= 1e7) {
-      return `${(numValue / 1e7).toFixed(2)}`;
+      return `${(numValue / 1e7).toFixed(2)} Crore`;
     } else if (numValue >= 1e5) {
-      return `${(numValue / 1e5).toFixed(2)}`;
+      return `${(numValue / 1e5).toFixed(2)} Lakhs`;
     } else {
       return new Intl.NumberFormat("en-IN").format(numValue);
     }
   };
-
-  const [bookmarkedIds, setBookmarkedIds] = useState(() => {
-    const savedBookmarks = localStorage.getItem("bookmarks");
-    try {
-      return savedBookmarks ? JSON.parse(savedBookmarks) : [];
-    } catch {
-      return [];
-    }
-  });
 
   const isBookmarked = (id) => bookmarkedIds.includes(id);
 
@@ -119,27 +168,23 @@ const Cardsection = ({ newcardData, rtoData, onCardClick }) => {
       .join(" | ");
   };
 
-  const isIPhone14ProMax = () => {
-    return window.innerWidth === 430 && window.innerHeight === 932;
-  };
-
   return (
-    <>
-      {/* Scrollable Cards Container with Navigation */}
-      <div className="relative w-full">
-        {/* Left Arrow Button */}
+    <div className="relative z-10 max-w-[1400px] mx-auto px-4">
+      {/* Cards Container */}
+      {showLeftButton && (
         <button
-          className="absolute left-8 top-1/2 -translate-y-1/2 z-10 bg-[#818181] h-[27px] w-[27px] rounded-full text-white flex justify-center items-center shadow-lg transition-all duration-200 border-none"
+          className="hidden md:flex absolute -left-10 top-1/2 -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
           onClick={handlePrevious}
-          disabled={currentIndex === 0}
+          aria-label="Previous"
         >
-          <ion-icon name="chevron-back-outline"></ion-icon>
+          <ChevronLeft size={20} />
         </button>
+      )}
 
-        {/* Horizontal Scrollable Cards Container */}
+      <div className="relative">
         <div
           ref={scrollContainerRef}
-          className="flex overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory gap-4 px-12 py-4"
+          className="flex overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory gap-6 px-8 py-4"
           style={{
             scrollBehavior: "smooth",
             WebkitOverflowScrolling: "touch",
@@ -150,210 +195,101 @@ const Cardsection = ({ newcardData, rtoData, onCardClick }) => {
         >
           {newcardData.length > 0 ? (
             newcardData.map((card, index) => (
-              <section
-                onClick={handleCardInteraction}
+              <div
                 key={`${card._id}-${index}`}
-                className={`${
-                  isIPhone14ProMax()
-                    ? "min-w-[380px] h-[202px] "
-                    : "min-w-[344px] h-[202px]"
-                } bg-transparent flex transition-all duration-300 snap-center`}
+                className="flex-shrink-0 w-[320px] snap-start"
               >
-                <div
-                  className={`${
-                    isIPhone14ProMax()
-                      ? "w-[250px] h-[202px] "
-                      : "w-[224px] h-[202px]"
-                  } md:h-[218px] border-[1px] border-[#818181] rounded-[15px] bg-white ml-4`}
-                >
-                  <div className="flex justify-end items-end mr-3 -mt-1">
-                    <div>
-                      <svg
+                <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md">
+                  <div className="bg-gray-200">
+                    {/* Card Header with Bookmark */}
+                    <div className="flex justify-between items-start p-4 pb-2">
+                      <button
                         onClick={(e) => toggleBookmark(card._id, e)}
-                        aria-label={isBookmarked(card._id) ? "Unsave" : "Save"}
-                        height="40"
-                        role="img"
-                        viewBox="0 0 24 40"
-                        width="24"
-                        color={
-                          isBookmarked(card._id) ? "var(--red)" : "#818181"
-                        }
-                        fill={isBookmarked(card._id) ? "var(--red)" : "none"}
-                        className="cursor-pointer"
+                        className="text-gray-400 hover:text-red-500 transition-colors"
                       >
-                        <polygon
-                          points="20 21 12 13.44 4 21 4 3 20 3 20 21"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="1"
-                        ></polygon>
-                      </svg>
+                        {isBookmarked(card._id) ? (
+                          <Bookmark className="h-6 w-6 text-red-500 fill-[#AB373A]" />
+                        ) : (
+                          <Bookmark className="h-6 w-6 text-gray-500" />
+                        )}
+                      </button>
+                      {card.movrating && card.movrating !== "0" && (
+                        <div className="bg-red-700 text-white text-xs font-medium px-2 py-1 rounded">
+                          <span className="gap-[0.7px] flex justify-center items-center">
+                            <span className="text-[13px] font-bold font-sans">
+                              {card.movrating}
+                            </span>
+                            <Star size={13} color="white" fill="white" />
+                          </span>
+                        </div>
+                      )}
                     </div>
-                  </div>
 
-                  {/* Mobile price display */}
-                  <div className="inside_card_title  onlyphoneme ml-3 flex space-x-4 mr-3">
-                    <span className="mt-3">
-                      <span className="mt-3 fontejiri text-red-500">₹ </span>
-                      <span className="fontejiri">
-                        {formatCurrency(card.onRoadPrice)}
-                        {Math.round(card.onRoadPrice) >= 1e7
-                          ? " Crore"
-                          : Math.round(card.onRoadPrice) >= 1e5
-                          ? " Lakhs"
-                          : ""}
-                      </span>
-                    </span>
-                    <div className="d-flex flex-column mt-3.5">
-                      <div className="thecolo font-weight-bold">
-                        {rtoData && rtoData.length > 0
-                          ? "Onwards On-Road"
-                          : "Ex-Showroom"}
-                      </div>
-                      <span className="text-[11px] font-medium"> {state}</span>
-                    </div>
-                  </div>
-
-                  {card.rating && (
-                    <div className="bg-red-800 md:hidden border shadow-xl px-4 py-2 -mt-5 ml-3 w-[35px] h-[12px] flex justify-center items-center text-center text-white">
-                      <span className="text-[8px] font-[Montserrat]">
-                        {card.rating}
-                      </span>
-                      <span className="text-xs text-white">
-                        <svg
-                          width="10"
-                          height="7"
-                          viewBox="0 0 10 7"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M2.46172 6.87014C2.23095 6.95042 1.96909 6.80973 2.01572 6.63013L2.51193 4.71242L0.405723 3.35178C0.209032 3.22447 0.311263 2.99175 0.574913 2.96661L3.50316 2.68443L4.80886 0.930113C4.92663 0.771994 5.24529 0.771994 5.36306 0.930113L6.66876 2.68443L9.59701 2.96661C9.86066 2.99175 9.96289 3.22447 9.7656 3.35178L7.65999 4.71242L8.1562 6.63013C8.20283 6.80973 7.94097 6.95042 7.71021 6.87014L5.08506 5.95548L2.46172 6.87014Z"
-                            fill="#FCFCFC"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  )}
-
-                  <Link
-                    to={`/product/${card.carname.replace(/\s+/g, "-")}/${
-                      card._id
-                    }`}
-                  >
-                    <div className="inside_card">
-                      <div className="inside_card_title thedeskname flex flex-col">
-                        <span className="text-gray-400">{card.brand}</span>
-                        <span>{card.carname}</span>
-                      </div>
-                      <div className=" flex justify-center items-center">
-                        {" "}
+                    {/* Car Image */}
+                    <Link
+                      to={`/product/${card.carname.replace(/\s+/g, "-")}/${
+                        card._id
+                      }`}
+                      onClick={handleCardInteraction}
+                    >
+                      <div className="px-6 py-2 flex justify-center">
                         <img
-                          className={`${
-                            isIPhone14ProMax()
-                              ? "w-[190px] h-[110px] "
-                              : "w-[150px] h-[90px] "
-                          } w-[150px] h-[90px] car-image-tablet md:mt-auto`}
+                          className="h-32 object-contain"
                           src={`${process.env.NEXT_PUBLIC_API}/productImages/${card.heroimage}`}
                           crossOrigin="anonymous"
                           alt={card.heroimagename}
                         />
-                        <style jsx>{`
-                          @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-                            .car-image-tablet {
-                              width: 170px !important;
-                              height: 120px !important;
-                            }
-                          }
-                          @media only screen and (min-width: 820px) and (max-width: 1180px) {
-                            .car-image-tablet {
-                              width: 170px !important;
-                              height: 120px !important;
-                            }
-                          }
-                        `}</style>
                       </div>
-                      <section className="info_card">
-                        <div
-                          className="info_card_variants"
-                          style={{ visibility: "hidden" }}
-                        >
-                          Variants{" "}
-                          <span style={{ color: "var(--red)" }}>
-                            {card.variant}
-                          </span>
-                        </div>
+                    </Link>
+                  </div>
 
-                        {/* Price range display */}
-                        <div
-                          className="thedeskname"
-                          style={{ color: "#B1081A", fontWeight: "600" }}
-                        >
-                          <span style={{ color: "var(--black)" }}>₹</span>{" "}
-                          <span>
-                            {formatCurrency(card.onRoadPrice)}
-                            {Math.round(card.onRoadPrice) >= 1e7
-                              ? " Crore"
-                              : Math.round(card.onRoadPrice) >= 1e5
-                              ? " Lakhs"
-                              : ""}
-                          </span>
-                        </div>
-                        <div className="onlydesptop">
-                          {rtoData && rtoData.length > 0
-                            ? "On-Road"
-                            : "Ex-Showroom"}{" "}
-                          {state}
-                        </div>
-                      </section>
-                    </div>{" "}
-                    <div className="inside_card gap-2 onlyphoneme flex-column mt-4">
-                      <div className="inside_card_title">{card.brand} </div>
-                      <div className="inside_card_title">
-                        <span>{card.carname}</span>
+                  {/* Car Info */}
+                  <div className="p-4 pt-2">
+                    <div className="mb-3">
+                      <div className="text-[#AB373A] text-[18px] font-bold">
+                        {card.brand} {card.carname}
                       </div>
                     </div>
-                  </Link>
+
+                    <div className="flex flex-col gap-2">
+                      {/* Specifications */}
+                      <div className="flex-col flex text-sm text-gray-600 gap-1">
+                        <div className="flex items-center gap-1">
+                          <Users size={15} />
+                          <span>{parseList(card.seater)} Seater</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Fuel size={15} />
+                          <span>{parseList(card.fueltype)}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Settings size={15} />
+                          <span>{parseList(card.transmissiontype)}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Star size={15} />
+                          <span>Safety-{card.NCAP}</span>
+                        </div>
+                      </div>
+
+                      {/* Price */}
+                      <div className="mb-4">
+                        <div className="flex items-baseline flex-col">
+                          <span className="text-[18px] font-bold text-gray-900">
+                            ₹{formatCurrency(card.onRoadPrice)}
+                          </span>
+                          <span className="text-gray-500 text-sm">
+                            {rtoData && rtoData.length > 0
+                              ? "On-Road"
+                              : "Ex-Showroom"}{" "}
+                            {state}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-                <section className="main_card_info">
-                  <div className="side_info">
-                    <img
-                      className="icon_image"
-                      src={seater}
-                      alt="Seater Icon"
-                    />
-                    <div className="side_info_inline">
-                      {parseList(card.seater)} Seater
-                    </div>
-                  </div>
-                  <div className="side_info">
-                    <img
-                      className="icon_image"
-                      src={petrol}
-                      alt="Petrol Icon"
-                    />
-                    <div className="side_info_inline">
-                      <span>{parseList(card.fueltype)}</span>
-                    </div>
-                  </div>
-                  <div className="side_info">
-                    <img
-                      className="icon_image"
-                      src={manual}
-                      alt="Manual Icon"
-                    />
-                    <div className="side_info_inline">
-                      {parseList(card.transmissiontype)}
-                    </div>
-                  </div>
-                  <div className="side_info">
-                    <img className="icon_image" src={ncap} alt="NCAP Icon" />
-                    <div className="side_info_inline">Safety - {card.NCAP}</div>
-                  </div>
-                </section>
-              </section>
+              </div>
             ))
           ) : (
             <div className="flex justify-center items-center min-w-[344px] h-[202px]">
@@ -367,28 +303,18 @@ const Cardsection = ({ newcardData, rtoData, onCardClick }) => {
             </div>
           )}
         </div>
-
-        {/* Right Arrow Button */}
-        <button
-          className="absolute right-8 top-1/2 -translate-y-1/2 z-10 bg-[#818181] h-[27px] w-[27px] rounded-full text-white flex justify-center items-center shadow-lg transition-all duration-200 border-none"
-          onClick={handleNext}
-          disabled={currentIndex === newcardData.length - 1}
-        >
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </button>
       </div>
 
-      {/* Add custom CSS for hiding scrollbar */}
-      {/* <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style> */}
-    </>
+      {showRightButton && (
+        <button
+          className="hidden md:flex absolute -right-10 top-1/2 -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
+          onClick={handleNext}
+          aria-label="Next"
+        >
+          <ChevronRight size={20} />
+        </button>
+      )}
+    </div>
   );
 };
 
