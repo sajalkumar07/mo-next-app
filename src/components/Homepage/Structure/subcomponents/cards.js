@@ -486,11 +486,11 @@ const Cards = () => {
 
         {/* Mobile Price Range Selector */}
         <div className="flex md:hidden justify-start mb-4 overflow-x-auto scrollbar-hide">
-          <div className="flex space-x-2 px-4 min-w-max">
+          <div className="flex space-x-1 px-4 min-w-max gap-1">
             {["8L", "15L", "25L", "50L", "50L."].map((range) => (
               <button
                 key={range}
-                className={`flex-shrink-0 rounded-full text-[12px] sm:text-[14px] font-semibold transition-colors px-3 sm:px-4 py-2 h-[36px] sm:h-[38px] border-[0.5px] border-gray-400 whitespace-nowrap min-w-[85px] sm:min-w-[95px] ${
+                className={`rounded-full text-[12px] sm:text-[14px] p-2  font-semibold transition-colors h-[36px] sm:h-[38px] border-[0.5px] border-gray-400  ${
                   selectedPriceRange === range
                     ? "bg-[#AB373A] text-white"
                     : "bg-gray-200 text-gray-700"

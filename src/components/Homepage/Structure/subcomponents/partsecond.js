@@ -21,12 +21,12 @@ export const PartSecond = () => {
           CAR COMPARO
         </Link>
 
-        <button
-          onClick={handleBannerClick}
+        <Link
+          href="https://carconsultancy.in/"
           className="hover:text-red-500 transition-colors duration-200"
         >
           CONSULT US
-        </button>
+        </Link>
 
         <Link
           href="https://www.youtube.com/@motoroctane"

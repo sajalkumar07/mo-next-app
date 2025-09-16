@@ -7,6 +7,7 @@ import Logout from "./login/Logout";
 import ReviewModal from "./ownerReview";
 import { useParams } from "react-router-dom";
 import MyLocation from "../../../Homepage/Structure/subcomponents/locaationModel"; // Import the MyLocation component
+import Image from "next/image"; // Recommended for optimization
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -90,11 +91,16 @@ const MobileMenu = () => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="bg-[#000000]">
+        <div className="bg-[#000000] h-24">
           <div className="flex items-center justify-between p-2">
             <div className="w-24">
               <Link to="/" onClick={() => setIsOpen(false)}>
-                <img src={logo} alt="Motor octane" className="w-full" />
+                <Image
+                  src="/images/mainlogo.png" // public/images/mainlogo.png
+                  alt="Motor Octane"
+                  width={96} // Adjust width
+                  height={96} // Adjust height
+                />
               </Link>
             </div>
           </div>
@@ -193,14 +199,14 @@ const MobileMenu = () => {
             </Link>
           </nav>
         </div>
-        <div className="flex items-center justify-end p-2">
+        <div className="flex items-center justify-start px-4 py-2">
           {userExists ? (
             <div className="px-4 py-2 bg-[#87231c] rounded-md text-center text-[15px]">
               <Logout closeMobileMenu={closeNav} />
             </div>
           ) : (
-            <div className="px-4 py-2 bg-[#B10819] font-sans text-[15px] text-center">
-              <Optlogin closeMobileMenu={closeNav} />
+            <div className="bg-[#B10819] font-sans text-[15px] text-center rounded-xl">
+              <Optlogin closeMobileMenu={closeNav} isMobile={true} />
             </div>
           )}
         </div>

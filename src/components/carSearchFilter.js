@@ -269,12 +269,12 @@ const AdvancedCarSearchModal = ({ isOpen, onClose }) => {
         }`}
       >
         {/* Header */}
-        <div className="bg-[#f5f5f5] font-bold text-[24px] text-white p-6 flex justify-between items-center">
+        <div className="bg-black font-bold text-[24px] text-white p-6 flex justify-between items-center">
           <div>
-            <span className="text-[#818181]">ASSIT</span>{" "}
-            <span className="text-[#B60C19]">ME</span>
+            <span className="text-white">ASSIST</span>{" "}
+            <span className="text-white">ME</span>
           </div>
-          <button onClick={onClose} className="text-black">
+          <button onClick={onClose} className="text-white">
             <X size={24} />
           </button>
         </div>
@@ -357,7 +357,7 @@ const AdvancedCarSearchModal = ({ isOpen, onClose }) => {
                         }
                         className={`p-2 text-xs rounded border-2 transition-colors ${
                           formData.transmission.includes(transmission)
-                            ? "border-[#B60C19] bg-red-50 text-red-700"
+                            ? "border-[#B60C19]  text-red-700"
                             : "border-gray-200 hover:border-red-300"
                         }`}
                       >
@@ -384,7 +384,7 @@ const AdvancedCarSearchModal = ({ isOpen, onClose }) => {
                         }
                         className={`p-2 text-xs rounded border-2 transition-colors ${
                           formData.fuelType.includes(fuel)
-                            ? "border-[#B60C19] bg-red-50 text-red-700"
+                            ? "border-[#B60C19]  text-red-700"
                             : "border-gray-200 hover:border-red-300"
                         }`}
                       >
@@ -413,7 +413,7 @@ const AdvancedCarSearchModal = ({ isOpen, onClose }) => {
                         }
                         className={`p-2 text-xs rounded border-2 transition-colors ${
                           formData.seatingCapacity.includes(seats)
-                            ? "border-[#B60C19] bg-red-50 text-red-700"
+                            ? "border-[#B60C19]  text-red-700"
                             : "border-gray-200 hover:border-red-300"
                         }`}
                       >
@@ -440,7 +440,7 @@ const AdvancedCarSearchModal = ({ isOpen, onClose }) => {
                         }
                         className={`p-2 text-xs text-left rounded border-2 transition-colors ${
                           formData.bootSpace.includes(option.value)
-                            ? "border-[#B60C19] bg-red-50 text-red-700"
+                            ? "border-[#B60C19]  text-red-700"
                             : "border-gray-200 hover:border-red-300"
                         }`}
                       >
@@ -519,7 +519,7 @@ const AdvancedCarSearchModal = ({ isOpen, onClose }) => {
                           onClick={() => handleBrandToggle(brand.name)}
                           className={`p-3 rounded-lg border-2 transition-colors text-sm  flex flex-col items-center gap-2 ${
                             formData.brand.includes(brand.name)
-                              ? "border-[#B60C19] bg-red-50 text-red-700"
+                              ? "border-[#B60C19]  text-red-700"
                               : "border-gray-200 hover:border-red-300"
                           }`}
                         >

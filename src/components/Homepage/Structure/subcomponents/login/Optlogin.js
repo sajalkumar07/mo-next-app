@@ -15,7 +15,7 @@ import {
   verifyOtp,
 } from "../../../../../redux/actions/authActions";
 
-const Optlogin = ({ closeMobileMenu }) => {
+const Optlogin = ({ closeMobileMenu, isMobile = false }) => {
   const dispatch = useDispatch();
   const { mobile, inputValues, timer, showInput, noUserFound } = useSelector(
     (state) => state.auth
@@ -108,13 +108,14 @@ const Optlogin = ({ closeMobileMenu }) => {
     }
   }, [noUserFound]);
 
+  const buttonClass = isMobile
+    ? "px-4 py-2 bg-[#B10819] font-sans text-[15px] text-center rounded-md cursor-pointer"
+    : "border-red-400 border rounded-md px-3 py-2 hover:bg-white hover:text-black cursor-pointer duration-300";
+
   return (
     <>
       {/* <ToastContainer /> */}
-      <div
-        className="border-red-400 border rounded-md px-3 py-2 hover:bg-white hover:text-black cursor-pointer duration-300"
-        onClick={handleOpen}
-      >
+      <div className={buttonClass} onClick={handleOpen}>
         Login
       </div>
 

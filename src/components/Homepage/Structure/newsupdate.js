@@ -156,7 +156,7 @@ const News = forwardRef((props, ref) => {
   }
 
   return (
-    <div className="relative w-full mb-[50px] overflow-hidden" ref={ref}>
+    <div className="relative z-10 max-w-[1400px] mx-auto px-4 py-4" ref={ref}>
       <div
         className="absolute inset-0"
         style={{
@@ -170,7 +170,7 @@ const News = forwardRef((props, ref) => {
         }}
       />
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-4">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-4 py-4">
         <div className="flex justify-center items-center flex-col mb-8">
           <div className="flex justify-center items-center flex-col">
             <div className="text-center md:text-left">
@@ -217,7 +217,7 @@ const News = forwardRef((props, ref) => {
           >
             <div className="flex gap-6">
               {newss.map((news, index) => (
-                <div key={index} className="w-[319px] h-[300px] flex-shrink-0">
+                <div key={index} className="w-[308px] h-[300px] flex-shrink-0">
                   <a
                     href={`/news/${news.link}`}
                     className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md block h-full"

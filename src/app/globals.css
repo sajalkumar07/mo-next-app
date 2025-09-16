@@ -31,6 +31,14 @@
   --lightgray: #f1f1f1;
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 body {
   margin: 0;
   font-family: var(--font-montserrat), sans-serif;
