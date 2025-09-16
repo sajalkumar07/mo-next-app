@@ -124,7 +124,7 @@ const LogosSection = ({ data, isLoading }) => {
 
       {/* Header */}
       <div className="relative z-10 flex justify-center items-center mb-8">
-        <p className="text-[25px] font-bold ">
+        <p className="text-[25px] font-bold font-sans ">
           <span className="text-[#818181]">BROWSE BY</span>
           <span className="text-[#B60C19]"> BRANDS</span>
         </p>
