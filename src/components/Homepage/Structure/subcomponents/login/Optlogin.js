@@ -14,6 +14,7 @@ import {
   sendOtp,
   verifyOtp,
 } from "../../../../../redux/actions/authActions";
+import Image from "next/image";
 
 const Optlogin = ({ closeMobileMenu, isMobile = false }) => {
   const dispatch = useDispatch();
@@ -152,7 +153,12 @@ const Optlogin = ({ closeMobileMenu, isMobile = false }) => {
 
           <div className="flex flex-col items-center -mt-6">
             <div className="w-[88px]">
-              <img src={logo} alt="Motor octane" className="w-full h-[100px]" />
+              <Image
+                src="/images/mainlogo.png" // public/images/mainlogo.png
+                alt="Motor Octane"
+                width={96} // Adjust width
+                height={96} // Adjust height
+              />
             </div>
 
             <h2 className="text-[21px] mb-6 text-center text-black">

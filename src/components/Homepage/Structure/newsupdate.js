@@ -220,9 +220,9 @@ const News = forwardRef((props, ref) => {
                 <div key={index} className="w-[308px] h-[300px] flex-shrink-0">
                   <a
                     href={`/news/${news.link}`}
-                    className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md block h-full"
+                    className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md block h-full flex flex-col"
                   >
-                    <div className="bg-gray-100 h-[160px]">
+                    <div className="bg-gray-100 h-[160px] flex-shrink-0">
                       <img
                         src={news.featured_image}
                         alt={news.title}
@@ -230,20 +230,20 @@ const News = forwardRef((props, ref) => {
                         loading="lazy"
                       />
                     </div>
-                    <div className="p-3 pt-2">
-                      <div className="mb-3">
+                    <div className="p-3 pt-2 flex flex-col h-[140px]">
+                      <div className="flex-grow">
                         <div
-                          className="font-semibold text-[14px] leading-tight line-clamp-2 font-[Montserrat] text-gray-900"
+                          className="font-semibold text-[14px] leading-tight line-clamp-2 font-[Montserrat] text-gray-900 mb-2"
                           dangerouslySetInnerHTML={{
                             __html: (news.title || "").replace(/&#038;/g, "&"),
                           }}
                         />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <p className="text-[12px] text-gray-600 line-clamp-2 font-[Montserrat]">
+                        <p className="text-[12px] text-gray-600 line-clamp-3 font-[Montserrat]">
                           {news.excerpt || ""}
                         </p>
-                        <p className="text-[#B1081A] text-sm text-right mt-2 hover:text-black">
+                      </div>
+                      <div className="mt-auto pt-2">
+                        <p className="text-[#B1081A] text-sm text-right hover:text-black transition-colors">
                           Read More..
                         </p>
                       </div>
