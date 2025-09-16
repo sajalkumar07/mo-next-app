@@ -834,7 +834,7 @@ export default function SearchResultsPage() {
             </p>
             <button
               onClick={goBackToSearch}
-              className="bg-[#AB373A] hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+              className="bg-gray-100 hover:bg-[#AB373A] hover:text-white border text-black font-semibold py-2 px-6 rounded-lg transition-colors"
             >
               Modify Search
             </button>

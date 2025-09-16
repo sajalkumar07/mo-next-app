@@ -14,33 +14,33 @@ export const PartSecond = () => {
     // hidden until xl; visible as flex from xl+
     <div className="hidden xl:flex justify-center items-center font-sans">
       <nav className="flex items-center space-x-8 text-white font-medium">
-        <Link
+        <a
           href="/Car-Compero/"
           className="hover:text-red-500 transition-colors duration-200"
         >
           CAR COMPARO
-        </Link>
+        </a>
 
-        <Link
+        <a
           href="https://carconsultancy.in/"
           className="hover:text-red-500 transition-colors duration-200"
         >
           CONSULT US
-        </Link>
+        </a>
 
-        <Link
+        <a
           href="https://www.youtube.com/@motoroctane"
           className="hover:text-red-500 transition-colors duration-200"
         >
           YOUTUBE
-        </Link>
+        </a>
 
-        <Link
+        <a
           href="/About-us"
           className="hover:text-red-500 transition-colors duration-200"
         >
           ABOUT US
-        </Link>
+        </a>
 
         <div
           className="relative"
@@ -76,13 +76,13 @@ export const PartSecond = () => {
               role="menu"
               className="absolute top-full left-0 bg-white shadow-lg min-w-[12rem] z-50 text-black rounded-xl"
             >
-              <Link
+              <a
                 href="/EMI-Calculator"
                 role="menuitem"
                 className="block px-4 py-3 transition-colors duration-150 rounded-t-xl hover:bg-gray-100"
               >
                 Calculator
-              </Link>
+              </a>
 
               <button
                 role="menuitem"
@@ -98,21 +98,21 @@ export const PartSecond = () => {
                 Share Reviews
               </button>
 
-              <Link
+              <a
                 href="/Privacy-Policy"
                 role="menuitem"
                 className="block px-4 py-3 transition-colors duration-150 hover:bg-gray-100"
               >
                 Terms of Service
-              </Link>
+              </a>
 
-              <Link
+              <a
                 href="/Terms-and-Conditions"
                 role="menuitem"
                 className="block px-4 py-3 transition-colors duration-150 hover:bg-gray-100 rounded-b-xl"
               >
                 Privacy Policy
-              </Link>
+              </a>
             </div>
           )}
         </div>

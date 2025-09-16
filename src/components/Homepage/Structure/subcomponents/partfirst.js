@@ -6,14 +6,14 @@ import Image from "next/image"; // Recommended for optimization
 export const PartFirst = () => {
   return (
     <div className="w-24">
-      <Link href="/">
+      <a href="/">
         <Image
           src="/images/mainlogo.png" // public/images/mainlogo.png
           alt="Motor Octane"
           width={96} // Adjust width
           height={96} // Adjust height
         />
-      </Link>
+      </a>
     </div>
   );
 };
