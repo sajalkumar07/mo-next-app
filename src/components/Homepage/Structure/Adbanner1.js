@@ -7,7 +7,7 @@ const Adbanner1 = () => {
   };
 
   return (
-    <div className="w-full flex align-center justify-center h-[284px] md:mt-20 mt-4 flex-col">
+    <div className="w-full flex align-center justify-center h-[284px] md:mt-20 -mt-11 flex-col">
       <img
         onClick={handleBannerClick}
         src="https://motoroctane.com/wp-content/uploads/2024/09/consultancy-41.png"
