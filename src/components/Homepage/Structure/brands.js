@@ -34,9 +34,11 @@ const Brands = () => {
 const LogosSection = ({ data, isLoading }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAll, setShowAll] = useState(false);
-  const itemsPerRow = { mobile: 2, tablet: 4, desktop: 9 }; // Items per row for different screens
-  const maxRows = 2; // Maximum number of rows to show initially
-  const maxVisibleItems = itemsPerRow.desktop * maxRows; // Maximum items visible initially
+  const itemsPerRow = { mobile: 2, tablet: 3, desktop: 9 }; // Items per row for different screens
+  const maxRows = 4; // Maximum number of rows to show initially for mobile/tablet
+  const maxVisibleItemsMobile = itemsPerRow.mobile * maxRows; // 2 * 4 = 8 items
+  const maxVisibleItemsTablet = itemsPerRow.tablet * maxRows; // 3 * 4 = 12 items
+  const maxVisibleItemsDesktop = itemsPerRow.desktop * 2; // Desktop keeps 2 rows = 18 items
 
   const handleNext = () => {
     const maxIndex = Math.max(0, data.length - itemsPerRow.desktop);
@@ -48,6 +50,7 @@ const LogosSection = ({ data, isLoading }) => {
   };
 
   const [visibleCount, setVisibleCount] = useState(9); // Default to desktop items
+  const [maxVisibleItems, setMaxVisibleItems] = useState(18); // Default to desktop max
 
   // Calculate maxIndex and hasOverflow
   const maxIndex = Math.max(0, data.length - visibleCount);
@@ -59,12 +62,15 @@ const LogosSection = ({ data, isLoading }) => {
       if (window.innerWidth >= 1280) {
         // xl screen
         setVisibleCount(9);
+        setMaxVisibleItems(maxVisibleItemsDesktop);
       } else if (window.innerWidth >= 768) {
-        // md screen
-        setVisibleCount(4);
+        // md screen (tablet)
+        setVisibleCount(3);
+        setMaxVisibleItems(maxVisibleItemsTablet);
       } else {
         // mobile
         setVisibleCount(2);
+        setMaxVisibleItems(maxVisibleItemsMobile);
       }
     };
 
@@ -91,7 +97,7 @@ const LogosSection = ({ data, isLoading }) => {
           ))}
         </div>
         <div className="md:hidden grid grid-cols-2 gap-4 px-4">
-          {[...Array(6)].map((_, i) => (
+          {[...Array(8)].map((_, i) => (
             <div key={i} className="flex flex-col items-center">
               <div className="w-20 h-20 bg-gray-200 rounded-lg animate-pulse mb-2"></div>
               <div className="w-16 h-4 bg-gray-200 rounded animate-pulse"></div>

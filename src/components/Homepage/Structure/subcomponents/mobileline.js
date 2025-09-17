@@ -65,8 +65,7 @@ const MobileMenu = () => {
     "flex items-center justify-between px-4 py-3 text-black text-[13px]";
 
   return (
-    // Changed from "block lg:hidden" to just "block" - let parent component control visibility
-    <div className="block relative font-bold">
+    <div className="block relative font-bold font-sans">
       {/* Overlay Background - covers full screen when menu is open */}
       {isOpen && (
         <div
@@ -85,13 +84,23 @@ const MobileMenu = () => {
         </button>
       </div>
 
-      {/* Left Side Navigation Menu - responsive width for different screen sizes */}
+      {/* Full Width Navigation Menu */}
       <div
-        className={`fixed top-0 left-0 w-[200px] md:w-[250px] lg:w-[300px] bg-white z-50 transition-transform duration-300 ease-in-out overflow-y-auto ${
+        className={`fixed top-0 left-0 w-[300px] h-full bg-white z-50 transition-transform duration-300 ease-in-out flex flex-col ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="bg-[#000000] h-24">
+        {/* Header Section */}
+        <div className="flex justify-end">
+          <button
+            onClick={toggleNav}
+            className="text-gray-300 text-sm p-2"
+            aria-label="Close Menu"
+          >
+            ✕
+          </button>
+        </div>
+        <div className="flex justify-center items-center">
           <div className="flex items-center justify-between p-2">
             <div className="w-24">
               <Link to="/" onClick={() => setIsOpen(false)}>
@@ -103,112 +112,113 @@ const MobileMenu = () => {
                 />
               </Link>
             </div>
+            {/* Close button */}
           </div>
         </div>
-        <div className="mt-2">
-          <nav className="flex flex-col">
-            <Link
-              to="/news"
-              className={menuItemClass}
-              onClick={() => setIsOpen(false)}
-            >
-              <span>News</span>
-            </Link>
 
-            <Link
-              to="/Car-Compero"
-              className={menuItemClass}
-              onClick={() => setIsOpen(false)}
-            >
-              <span>Car Comparison</span>
-            </Link>
-
-            <Link
-              to="https://carconsultancy.in/"
-              className={menuItemClass}
-              onClick={() => setIsOpen(false)}
-            >
-              <span>Consult Us</span>
-            </Link>
-
-            <Link
-              to="https://www.youtube.com/@motoroctane"
-              className={menuItemClass}
-              onClick={() => setIsOpen(false)}
-            >
-              <span>Youtube Videos</span>
-            </Link>
-
-            {/* EMI Calculator item - Opens location modal */}
-            <div className="px-4 py-3">
-              <button
-                className="flex items-center justify-between w-full text-left font-medium text-[13px] text-black"
-                onClick={openLocationModal}
-              >
-                <span>EMI Calculators</span>
-              </button>
-            </div>
-
-            <span className={menuItemClass} onClick={() => setIsOpen(false)}>
-              <span>Service Network</span>
-            </span>
-
-            {/* Updated to open review modal */}
-            {/* <span
-              className={menuItemClass}
-              onClick={() => setIsModalOpen(true)}
-            >
-              <span>Share Reviews</span>
-            </span> */}
-
-            <Link to="/owner-review">
-              <span
+        {/* Scrollable Content Area */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="mt-2">
+            <nav className="flex flex-col">
+              <Link
+                to="/news"
                 className={menuItemClass}
-                // onClick={() => setIsModalOpen(true)}
+                onClick={() => setIsOpen(false)}
               >
-                <span>Share Reviews</span>
+                <span>News</span>
+              </Link>
+
+              <Link
+                to="/Car-Compero"
+                className={menuItemClass}
+                onClick={() => setIsOpen(false)}
+              >
+                <span>Car Comparison</span>
+              </Link>
+
+              <Link
+                to="https://carconsultancy.in/"
+                className={menuItemClass}
+                onClick={() => setIsOpen(false)}
+              >
+                <span>Consult Us</span>
+              </Link>
+
+              <Link
+                to="https://www.youtube.com/@motoroctane"
+                className={menuItemClass}
+                onClick={() => setIsOpen(false)}
+              >
+                <span>Youtube Videos</span>
+              </Link>
+
+              {/* EMI Calculator item - Opens location modal */}
+              <div className="px-4 py-3 ">
+                <button
+                  className="flex items-center justify-between w-full text-left font-medium text-[13px] text-black"
+                  onClick={openLocationModal}
+                >
+                  <span className="font-bold">EMI Calculators</span>
+                </button>
+              </div>
+
+              <span className={menuItemClass} onClick={() => setIsOpen(false)}>
+                <span>Service Network</span>
               </span>
-            </Link>
 
-            <Link
-              to="/About-us"
-              className={menuItemClass}
-              onClick={() => setIsOpen(false)}
-            >
-              <span>About Us</span>
-            </Link>
+              <Link to="/owner-review">
+                <span
+                  className={menuItemClass}
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span>Share Reviews</span>
+                </span>
+              </Link>
 
-            <span className={menuItemClass} onClick={() => setIsOpen(false)}>
-              <span>Share Feedback</span>
-            </span>
+              <Link
+                to="/About-us"
+                className={menuItemClass}
+                onClick={() => setIsOpen(false)}
+              >
+                <span>About Us</span>
+              </Link>
 
-            <Link
-              to="/Terms-and-Conditions"
-              className={menuItemClass}
-              onClick={() => setIsOpen(false)}
-            >
-              <span>Terms of Service</span>
-            </Link>
+              <span className={menuItemClass} onClick={() => setIsOpen(false)}>
+                <span>Share Feedback</span>
+              </span>
 
-            <Link
-              to="/Privacy-Policy"
-              className={menuItemClass}
-              onClick={() => setIsOpen(false)}
-            >
-              <span>Privacy Policy</span>
-            </Link>
-          </nav>
+              <Link
+                to="/Terms-and-Conditions"
+                className={menuItemClass}
+                onClick={() => setIsOpen(false)}
+              >
+                <span>Terms of Service</span>
+              </Link>
+
+              <Link
+                to="/Privacy-Policy"
+                className={menuItemClass}
+                onClick={() => setIsOpen(false)}
+              >
+                <span>Privacy Policy</span>
+              </Link>
+            </nav>
+          </div>
         </div>
-        <div className="flex items-center justify-start px-4 py-2">
-          {userExists ? (
-            <div className="px-4 py-2 bg-[#87231c] rounded-md text-center text-[15px]">
-              <Logout closeMobileMenu={closeNav} />
-            </div>
-          ) : (
-            <div className="bg-[#B10819] font-sans text-[15px] text-center rounded-xl">
-              <Optlogin closeMobileMenu={closeNav} isMobile={true} />
-            </div>
-          )}
+
+        {/* Sticky Login/Logout Button at Bottom */}
+        <div className="flex-shrink-0 p-4 bg-white border-t border-gray-200">
+          <div className="flex justify-center">
+            {userExists ? (
+              <div className="px-6 py-3 bg-[#87231c] rounded-md text-center text-[15px] w-full max-w-xs">
+                <Logout closeMobileMenu={closeNav} />
+              </div>
+            ) : (
+              <div className="bg-[#B10819] font-sans text-[15px] text-center rounded-xl w-full max-w-xs">
+                <Optlogin closeMobileMenu={closeNav} isMobile={true} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
