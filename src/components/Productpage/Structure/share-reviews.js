@@ -1890,7 +1890,7 @@ const Sharereviews = () => {
        */}
       <Link to="/owner-review">
         {" "}
-        <button className="bg-[#AB373A]  text-white font-bold w-[232px] h-[30px] text-[14px] rounded-lg transition font-[Montserrat] shadow-md shaodw-black/30">
+        <button className="px-5 py-2 rounded-md text-sm md:text-base font-medium transition-all duration-300 border border-black text-black hover:bg-black hover:text-white">
           SHARE YOUR REVIEW
         </button>
       </Link>

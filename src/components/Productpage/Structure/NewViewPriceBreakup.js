@@ -264,13 +264,15 @@ const ViewPriceBreakup = ({ product, brand, productname }) => {
 
   return (
     <div>
-      <div className="flex gap-2">
-        <div
-          className="bg-[#555555] text-[8px] font-[Montserrat] text-center rounded-[6px] text-white px-[4px] py-[4px] cursor-pointer"
+      <div className="flex gap-2"></div>
+
+      <div className="mt-auto">
+        <button
+          className="flex justify-center items-center text-xs border border-gray-300 text-gray-700 hover:bg-[#AB373A] hover:text-white font-medium rounded-full transition-colors w-[140px] h-[30px]"
           onClick={handleDirectVariantPopup}
         >
-          VIEW PRICE BREAKUP
-        </div>
+          View Price Breakup
+        </button>
       </div>
 
       {/* Direct Variant Popup */}
