@@ -480,7 +480,7 @@ const VariantsTable = () => {
                                   )}/${variant._id}`}
                                   className="inline-flex items-center text-[#B60C19]  font-medium text-sm transition-colors"
                                 >
-                                  VIEW VARIENT DETAILS
+                                  View Complete Details
                                   <ChevronRight className="ml-1 h-4 w-4" />
                                 </Link>
                               </div>
