@@ -1,52 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import Location from "../Structure/locationProd.js";
-import Review from "./share-reviews.js";
+import { useParams } from "react-router-dom";
 import ViewPriceBreakup from "./NewViewPriceBreakup.js";
 import Changecar from "./NewChangecar.js";
-import Share from "./shareModel.js";
 import Emi from "./Emi.js";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import axios from "axios";
-import { Overview } from "../../Pages/Productpage.js";
-import "./product.css";
-import cardData from "../../Homepage/Structure/subcomponents/cardData";
-import seater from "../../../Images/icons/seat.png";
-import petrol from "../../../Images/icons/gas.png";
-import manul from "../../../Images/icons/machin.png";
-import ncap from "../../../Images/icons/privi.png";
-import ColorVariants from "./colorvariants.js";
-import { Bookmark, Star, Info, Share2 } from "lucide-react";
-import Tyre from "../../../Images/tyremask.png";
 
-const ProductSection = ({
-  youtubeVideoRef,
-  summaryRef,
-  keyFeaturesRef,
-  compareRef,
-  prosConsRef,
-  variantsRef,
-  featuredCarRef,
-  colorRef,
-  mileageRef,
-  fuleCostRef,
-  newsRef,
-  reviewRef,
-  brochureRef,
-  variantsCountRef,
-}) => {
+import "./product.css";
+
+import {
+  Bookmark,
+  Users,
+  Fuel,
+  Settings,
+  Star,
+  Share2,
+  Info,
+} from "lucide-react";
+
+const ProductSection = ({}) => {
   const [singlecardData, setSingleCardData] = useState([]);
   const params = useParams();
   const [rtoData, setRtoData] = useState([]);
   const [allVariants, setAllVariants] = useState([]);
   const [variantCount, setVariantCount] = useState(0);
-  const [showShareModal, setShowShareModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [emi, setEmi] = useState(0);
   const [dealerCount, setDealerCount] = useState(null);
   const [serviceCenterCount, setServiceCenterCount] = useState(null);
   const [statsLoading, setStatsLoading] = useState(true);
+  const [open, setOpen] = useState(false);
 
   // Main on-road price calculation
   const calculateOnRoadPrice = (product, fuelType) => {
@@ -519,399 +502,226 @@ const ProductSection = ({
   };
 
   return (
-    <div className="relative w-full bg-white">
-      {" "}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `url(${Tyre})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          opacity: 0.08,
-          zIndex: 0,
-          pointerEvents: "none",
-        }}
-      />
-      <section
-        style={{ marginTop: "130px", position: "relative", zIndex: 10 }}
-        className="the-product-sec"
-      >
-        <div>
-          <div className="label onlydesktopblock">
-            <p className="FIND-YOUR-INFO mt-5 brand ">
-              <span className="text-wrapper">FIND YOUR PERFECT </span>
-              <span className="text-wrapper-2">{singlecardData.carname}</span>
-            </p>
-            <div className="textunder-infoma mt-1">
-              Motor Octane's verdict: {singlecardData.movrating}*&nbsp;
-              <div className="tooltip-container">
-                <Info />
+    <div className="">
+      <section className="relative z-10 max-w-[1400px] mx-auto md:px-14 xl:px-3 lg:px-3 2xl:px-3 px-3">
+        <div className="flex justify-center items-center text-center flex-col mt-40">
+          <h2 className="text-[25px] font-bold text-center font-sans">
+            <span className="text-[#818181]">FIND YOUR PERFECT </span>
+            <span className="text-[#B60C19] uppercase">
+              {singlecardData?.brand?.name} {singlecardData.carname}
+            </span>
+          </h2>
+          <div className="flex flex-col justify-center items-center mt-1">
+            <div className="flex items-center justify-center text-center relative">
+              <span className="text-gray-400 font-bold">
+                Motor Octane's verdict: {singlecardData.movrating}*&nbsp;
+              </span>
+              <div className="relative">
                 <span
-                  className="tooltip-text"
-                  dangerouslySetInnerHTML={{ __html: singlecardData.itext }}
-                ></span>
+                  className="text-gray-400 cursor-pointer"
+                  onClick={() => setOpen(!open)}
+                >
+                  <Info
+                    size={15}
+                    className="text-gray-500 hover:text-[#B60C19] cursor-pointer transition-colors duration-200"
+                  />{" "}
+                </span>
+                {open && (
+                  <div
+                    className="absolute left-1/2 top-full mt-2 max-w-xs w-max min-w-[200px] 
+                -translate-x-1/2 rounded-xl bg-white text-black text-sm p-3 z-50 text-left border shadow-2xl"
+                  >
+                    <div
+                      className="whitespace-normal break-words"
+                      dangerouslySetInnerHTML={{ __html: singlecardData.itext }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>
-
-          <Overview
-            youtubeVideoRef={youtubeVideoRef}
-            summaryRef={summaryRef}
-            keyFeaturesRef={keyFeaturesRef}
-            compareRef={compareRef}
-            prosConsRef={prosConsRef}
-            featuredCarRef={featuredCarRef}
-            variantsRef={variantsRef}
-            colorRef={colorRef}
-            mileageRef={mileageRef}
-            fuleCostRef={fuleCostRef}
-            newsRef={newsRef}
-            reviewRef={reviewRef}
-            brochureRef={brochureRef}
-          />
         </div>
 
-        <div className="themobilemodfert">
-          <div>
-            <section className="inline-section-product mt-4">
-              <section className="card-car-full-product">
-                <div className="card-car-full-product-info">
-                  <div className="ghkfjkhf">
-                    <div className="bookmarkRibbonhot onlyphoneme">
-                      <div>
-                        <Bookmark
-                          onClick={() => toggleBookmark(singlecardData._id)}
-                          aria-label={
-                            isBookmarked(singlecardData._id) ? "Unsave" : "Save"
-                          }
-                          role="img"
-                          height={40}
-                          width={24}
-                          stroke={
-                            isBookmarked(singlecardData._id)
-                              ? "var(--red)"
-                              : "#818181"
-                          }
-                          fill={
-                            isBookmarked(singlecardData._id)
-                              ? "var(--red)"
-                              : "none"
-                          }
-                          strokeWidth={1}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </div>
-                    </div>
-                    <div className="product-price onlyphoneme sharebuto ">
-                      {singlecardData.lowestExShowroomPrice &&
-                      singlecardData.highestExShowroomPrice ? (
-                        <>
-                          ₹{" "}
-                          {formatCurrency(
-                            calculateOnRoadPrice(
-                              singlecardData.lowestExShowroomPrice,
-                              getFirstFuelType()
-                            )
-                          )}
-                          -
-                          {formatCurrency(
-                            calculateMaxOnRoadPrice(
-                              singlecardData.highestExShowroomPrice
-                            )
-                          )}{" "}
-                        </>
+        <div className="mt-10 ">
+          <div className="flex justify-center items-center">
+            <div className="flex justify-center 2xl:flex-row xl:flex-row lg:flex-row md:flex-col flex-col items-center gap-10 w-full">
+              {/* Image Section - Full width on tablet */}
+              <div className="lg:w-1/2 w-full flex justify-center flex-col h-auto gap-4 py-4 ">
+                <div className="bg-gray-200 rounded-xl relative border w-full h-[307px] flex justify-center items-center">
+                  <div className="absolute top-3 right-3 left-3 flex justify-between">
+                    <button
+                      onClick={() => toggleBookmark(singlecardData._id)}
+                      className="text-gray-400 hover:text-red-500 transition-colors"
+                    >
+                      {isBookmarked(singlecardData._id) ? (
+                        <Bookmark className="h-6 w-6 text-red-500 fill-[#AB373A] cursor-pointer" />
                       ) : (
-                        <Skeleton />
+                        <Bookmark className="h-6 w-6 text-gray-500 cursor-pointer" />
                       )}
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <div className="mt-[15px] w-[37px] h-[18px] space-x-2 rounded-md shadow-md shadow-black/black  bg-[#B1081A] flex justify-center items-center relative">
-                        <span className="text-white text-center text-[10px]">
-                          {singlecardData.movrating}
-                        </span>
-                        <span>
-                          <Star
-                            fill="white"
-                            stroke="white"
-                            strokeWidth={1}
-                            style={{ width: "10px", height: "10px" }}
-                          />
-                        </span>
-                      </div>
-                      <div className="d-flex flex-column mt-3">
-                        <div className="thecolo font-weight-bold">On-Road</div>
-                        <div className="flex justify-start items-center">
-                          <div className="flex items-center">
-                            <Location />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="main-product-image-container">
-                      {singlecardData.heroimage ? (
-                        <img
-                          className="main-product-image"
-                          src={`${process.env.NEXT_PUBLIC_API}/productImages/${singlecardData.heroimage}`}
-                          crossOrigin="anonymous"
-                          alt={singlecardData.heroimagename}
-                        />
-                      ) : (
-                        <Skeleton
-                          height={199}
-                          width="317px"
-                          baseColor="#D8D8D8"
-                          highlightColor="#666"
-                          style={{ borderRadius: "8px" }}
-                        />
-                      )}
-                    </div>
+                    </button>
+                    <span onClick={handleShare}>
+                      <Share2 className="h-6 w-6 text-gray-500 cursor-pointer" />
+                    </span>
                   </div>
-                  <div className="sider-info-product-full">
-                    <div className="d-flex justify-content-between">
-                      <div>
-                        <div className="inside_card_title_product flex flex-col text-[14px]">
-                          {singlecardData?.brand?.name && (
-                            <div className="text-[14px] ">
-                              {singlecardData.brand.name}
-                            </div>
-                          )}
-                          <div className="flex items-baseline gap-1 text-[14px]">
-                            {" "}
-                            <span> {singlecardData?.carname || ""}</span>{" "}
-                          </div>
-
-                          <div className="inside_card_title_product theoldtxt text-[14px] text-gray-500">
-                            {singlecardData?.brand?.name ? (
-                              <span>{singlecardData.brand.name}&nbsp; </span>
-                            ) : (
-                              <span></span>
-                            )}
-                            {singlecardData?.carname || ""}
-                          </div>
-                        </div>
-
-                        <div className="product-launch d-flex align-items-center">
-                          LAUNCHED IN {singlecardData.launchedinput}
-                          <ion-icon
-                            name="information-circle-outline"
-                            className="infomation-gray"
-                          ></ion-icon>
-                        </div>
-                        <div className="product-price onlydesptop">
-                          {singlecardData.lowestExShowroomPrice &&
-                          singlecardData.highestExShowroomPrice ? (
-                            <>
-                              ₹{" "}
-                              {formatCurrency(
-                                calculateOnRoadPrice(
-                                  singlecardData.lowestExShowroomPrice,
-                                  getFirstFuelType()
-                                )
-                              )}{" "}
-                              - ₹{" "}
-                              {formatCurrency(
-                                calculateMaxOnRoadPrice(
-                                  singlecardData.highestExShowroomPrice
-                                )
-                              )}{" "}
-                              Lakhs
-                            </>
-                          ) : (
-                            <Skeleton />
-                          )}
-                        </div>
-                      </div>
-                      <div className="d-flex flex-column align-items-center">
-                        <div className="rating-inno d-flex flex-row">
-                          <span>{singlecardData.movrating}</span>
-                          <span> &#x2B50;</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="infos-product">
-                      <div className="on-road-price onlydesptop">
-                        On-Road {city}{" "}
-                        <div className="flex items-center">
-                          {/* <Location />{" "} */}
-                        </div>
-                        <div className="emi-result">
-                          {isLoading ? (
-                            <p>Calculating EMI...</p>
-                          ) : (
-                            <Link
-                              className="emidesp"
-                              to={`/EMI-Calculator/${singlecardData.brand?._id}/${singlecardData?._id}/`}
-                            >
-                              {" "}
-                            </Link>
-                          )}
-                        </div>
-                      </div>
-                      <section className="onlyphoneme align-items-center justify-content-between mt-2">
-                        <Changecar />
-                        <ViewPriceBreakup />
-                        <span onClick={handleShare}>
-                          {" "}
-                          <Share2 />
-                        </span>
-                      </section>
-                    </div>
+                  <div className="flex justify-center items-center">
+                    {singlecardData.heroimage ? (
+                      <img
+                        src={`${process.env.NEXT_PUBLIC_API}/productImages/${singlecardData.heroimage}`}
+                        crossOrigin="anonymous"
+                        alt={singlecardData.heroimagename}
+                        className="w-auto h-[250px] object-contain"
+                      />
+                    ) : (
+                      <Skeleton
+                        height={120}
+                        width="180px"
+                        baseColor="#D8D8D8"
+                        highlightColor="#666"
+                        style={{ borderRadius: "8px" }}
+                      />
+                    )}
                   </div>
-                </div>
-              </section>
-              <div className="section-product-jfull mt-4">
-                <div className="sideseaterinfo-product">
-                  <img className="icon_image" src={seater} alt="Seater Icon" />
-                  <span className="text-[11px]">
-                    {parseList(singlecardData.seater)} Seater
-                  </span>
-                </div>
-                <div className="sideseaterinfo-product">
-                  <img className="icon_image" src={petrol} alt="Petrol Icon" />
-                  <span className="text-[11px]">
-                    {parseList(singlecardData.fueltype)}
-                  </span>
-                </div>
-                <div className="sideseaterinfo-product">
-                  <img className="icon_image" src={manul} alt="Manual Icon" />
-                  <span className="text-[11px]">
-                    {parseList(singlecardData.transmissiontype)}
-                  </span>
-                </div>
-                <div className="sideseaterinfo-product">
-                  <img className="icon_image" src={ncap} alt="NCAP Icon" />{" "}
-                  <span className="text-[11px]">
-                    {" "}
-                    {singlecardData.NCAP} Safety Ratings
-                  </span>
                 </div>
               </div>
-            </section>
-            <div className="ddfelj align-items-center justify-content-center  mb-3 w-full">
-              <Emi
-                singlecardData={singlecardData}
-                city={city}
-                emi={emi}
-                isLoading={isLoading}
-                product={params.id}
-                brand={singlecardData.brand?._id}
-                productname={singlecardData.carname}
-              />
+
+              {/* Details Section - Full width on tablet */}
+              <div className="lg:w-1/2 md:w-full w-full flex justify-center flex-col h-auto gap-4 py-4">
+                <div className="flex justify-start items-center">
+                  <span className="text-[20px] font-bold font-sans bg-red-700 text-white text-xs px-2 py-1 rounded flex justify-center items-center gap-1">
+                    {singlecardData.movrating}
+                    <Star size={20} color="white" fill="white" />
+                  </span>
+                </div>
+
+                {/* Title */}
+                <div className="mb-2">
+                  <div className="text-[#AB373A] text-[24px] font-bold">
+                    {singlecardData?.brand?.name}
+                    {"  "}
+                    {singlecardData?.carname || ""}
+                  </div>
+
+                  <div className="flex items-center">
+                    <span className="text-gray-500 font-normal text-sm mr-4">
+                      Launched in {singlecardData.launchedinput}
+                    </span>
+                    <div className="">
+                      <Changecar />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Price */}
+                <div className="space-y-1">
+                  <div className="text-black text-[24px] font-bold">
+                    {singlecardData.lowestExShowroomPrice &&
+                    singlecardData.highestExShowroomPrice ? (
+                      <>
+                        ₹{" "}
+                        {formatCurrency(
+                          calculateOnRoadPrice(
+                            singlecardData.lowestExShowroomPrice,
+                            getFirstFuelType()
+                          )
+                        )}{" "}
+                        – ₹{" "}
+                        {formatCurrency(
+                          calculateMaxOnRoadPrice(
+                            singlecardData.highestExShowroomPrice
+                          )
+                        )}
+                      </>
+                    ) : (
+                      <Skeleton />
+                    )}
+                  </div>
+                  <div className="flex items-center">
+                    <span className="text-gray-500 font-normal text-sm ml-1 mr-4">
+                      (On-road {city})
+                    </span>
+                    <div className="">
+                      <ViewPriceBreakup />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Features row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-600 mt-2">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Users size={15} />
+                      <span>{parseList(singlecardData.seater)} Seater</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Fuel size={15} />
+                      <span>{parseList(singlecardData.fueltype)}</span>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Settings size={15} />
+                      <span>{parseList(singlecardData.transmissiontype)}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Star size={15} />
+                      Safety - <span>{singlecardData.NCAP} </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="mt-24">
-            {/*scorller nav*/}
-            <section className="md:block flex justify-center items-center p-8">
-              {/* dektop view */}
+        </div>
 
-              <div className="p-4 w-full flex justify-center items-center onlydesptop">
-                <ul className="search_tabs addmargin flex space-x-2">
-                  <li className="advance_bars_back active h-24 flex flex-col justify-center items-center min-w-[120px]">
-                    {singlecardData.launchedinput}
-                    <div className="">{singlecardData.salesranking}</div>
-                  </li>
-                  <span className="flex justify-center items-center">
-                    <hr className="h-[80px] w-[2px] border-none bg-[#828282]" />
-                  </span>
-                  <li className="advance_bars_back h-24 flex flex-col justify-center items-center min-w-[120px]">
-                    {statsLoading ? <Skeleton width={30} /> : dealerCount}
-                    <div className="">DEALERS</div>
-                  </li>
-                  <span className="flex justify-center items-center">
-                    <hr className="h-[80px] w-[2px] border-none bg-[#828282]" />
-                  </span>
-                  <li className="advance_bars_back h-24 flex flex-col justify-center items-center min-w-[120px]">
-                    {statsLoading ? (
-                      <Skeleton width={30} />
-                    ) : (
-                      serviceCenterCount
-                    )}
-                    <div className="">SERVICE CENTERS</div>
-                  </li>
-                  <span className="flex justify-center items-center">
-                    <hr className="h-[80px] w-[2px] border-none bg-[#828282]" />
-                  </span>
-                  <li className="advance_bars_back h-24 flex flex-col justify-center items-center min-w-[120px]">
-                    {variantCount}
-                    <div className="">VARIANTS</div>
-                  </li>
-                </ul>
-              </div>
-              {/* mobile view */}
-              <div
-                className="w-full advance_bars advance_bars_mob onlyphoneme-2 font-[Montserrat] font-medium"
-                style={{ display: "block" }}
-              >
-                <ul className="md:hidden flex justify-center p-12 space-x-3 items-center">
-                  <li
-                    className="flex flex-col items-center justify-center px-5 py-3 cursor-pointer transition-all duration-300 bg-red-700 text-white shadow-md rounded-sm relative scale-105"
-                    style={{
-                      width: "79px",
-                      height: "79px",
-                    }}
-                  >
-                    {singlecardData.launchedinput}
-                    <div className="">{singlecardData.salesranking}</div>
-                  </li>
+        <div className="flex justify-center items-center mt-10">
+          <Emi
+            singlecardData={singlecardData}
+            city={city}
+            emi={emi}
+            isLoading={isLoading}
+            product={params.id}
+            brand={singlecardData.brand?._id}
+            productname={singlecardData.carname}
+          />
+        </div>
+      </section>
 
-                  <span className=" flex justify-center items-center">
-                    <hr className="h-[70px] w-[2px] border-none bg-[#828282] " />
-                  </span>
+      <section className="bg-[#f5f5f5] py-8 px-4 mt-10">
+        <div className="relative z-10 max-w-[1400px] mx-auto px-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-white text-black border border-gray-200 rounded-2xl w-full h-[88px] flex justify-center text-center flex-col">
+              <span className="text-[#AB373A] text-[24px] font-bold">
+                {singlecardData.launchedinput}
+              </span>
+              <span className="text-gray-400 text-sm font-medium">
+                {singlecardData.salesranking}
+              </span>
+            </div>
 
-                  <li
-                    className="flex flex-col items-center justify-center px-5 py-3 cursor-pointer transition-all duration-300 bg-[#828282] hover:bg-red-700 text-white shadow-md rounded-sm relative"
-                    style={{
-                      width: "79px",
-                      height: "79px",
-                    }}
-                  >
-                    {dealerCount}
-                    <div className="">DEALERS</div>
-                  </li>
+            <div className="bg-white text-black border border-gray-200 rounded-2xl w-full h-[88px] flex justify-center text-center flex-col">
+              <span className="text-[#AB373A] text-[24px] font-bold">
+                {statsLoading ? <Skeleton width={30} /> : dealerCount}
+              </span>
+              <span className="text-gray-400 text-sm font-medium">DEALERS</span>
+            </div>
 
-                  <span className=" flex justify-center items-center">
-                    <hr className="h-[70px] w-[2px] border-none bg-[#828282] " />
-                  </span>
+            <div className="bg-white text-black border border-gray-200 rounded-2xl w-full h-[88px] flex justify-center text-center flex-col">
+              <span className="text-[#AB373A] text-[24px] font-bold">
+                {statsLoading ? <Skeleton width={30} /> : serviceCenterCount}
+              </span>
+              <span className="text-gray-400 text-sm font-medium">
+                SERVICE CENTERS
+              </span>
+            </div>
 
-                  <li
-                    className="flex flex-col items-center justify-center px-5 py-3 cursor-pointer transition-all duration-300 bg-[#828282] hover:bg-red-700 text-white shadow-md rounded-sm relative"
-                    style={{
-                      width: "79px",
-                      height: "79px",
-                    }}
-                  >
-                    {serviceCenterCount}
-                    <div className="">SERVICE CENTERS</div>
-                  </li>
-
-                  <span className=" flex justify-center items-center">
-                    <hr className="h-[70px] w-[2px] border-none bg-[#828282] " />
-                  </span>
-
-                  <li
-                    className="flex flex-col items-center justify-center px-5 py-3 cursor-pointer transition-all duration-300 bg-[#828282] hover:bg-red-700 text-white shadow-md rounded-sm relative"
-                    style={{
-                      width: "79px",
-                      height: "79px",
-                    }}
-                    onClick={() => {
-                      if (variantsRef && variantsRef.current) {
-                        const offset = variantsRef.current.offsetTop;
-                        window.scrollTo({
-                          top: offset - offset * 0.07,
-                          behavior: "smooth",
-                        });
-                      }
-                    }}
-                  >
-                    {variantCount}
-                    <div className="">VARIANTS</div>
-                  </li>
-                </ul>
-              </div>
-            </section>
+            <div className="bg-white text-black border border-gray-200 rounded-2xl w-full h-[88px] flex justify-center text-center flex-col">
+              <span className="text-[#AB373A] text-[24px] font-bold">
+                {variantCount}
+              </span>
+              <span className="text-gray-400 text-sm font-medium">
+                VARIANTS
+              </span>
+            </div>
           </div>
         </div>
       </section>

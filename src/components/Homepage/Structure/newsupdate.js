@@ -122,7 +122,7 @@ const News = forwardRef((props, ref) => {
             pointerEvents: "none",
           }}
         />
-        <div className="relative z-10 max-w-[1400px] mx-auto px-4">
+        <div className="relative z-10 max-w-[1400px] mx-auto px-3 ">
           <div className="flex justify-between items-center mb-8">
             <p className="text-[25px] font-bold font-sans">
               <span className="text-[#818181]">NEWS</span>
@@ -138,7 +138,7 @@ const News = forwardRef((props, ref) => {
           </div>
           <div className="flex gap-6 px-8">
             {Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="w-[323px] h-[300px] flex-shrink-0">
+              <div key={index} className="w-[324px] h-[300px] flex-shrink-0">
                 <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md h-full">
                   <Skeleton height={160} className="w-full" />
                   <div className="p-4 pt-2">
@@ -170,7 +170,7 @@ const News = forwardRef((props, ref) => {
         }}
       />
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-4 py-4">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-3 py-4">
         <div className="flex justify-center items-center flex-col mb-8">
           <div className="flex justify-center items-center flex-col">
             <div className="text-center md:text-left">
@@ -217,7 +217,10 @@ const News = forwardRef((props, ref) => {
           >
             <div className="flex gap-6">
               {newss.map((news, index) => (
-                <div key={index} className="w-[308px] h-[300px] flex-shrink-0">
+                <div
+                  key={index}
+                  className="w-[308px] md:w-[310px] h-[300px] flex-shrink-0"
+                >
                   <a
                     href={`/news/${news.link}`}
                     className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md block h-full flex flex-col"

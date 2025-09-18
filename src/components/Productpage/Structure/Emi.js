@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { X, Search, MapPin } from "lucide-react";
 import PropTypes from "prop-types";
 import Bank from "../../../Images/bank.png";
+import Image from "next/image";
+import { ChevronRight } from "lucide-react";
 
 const ViewPriceBreakup = ({
   product,
@@ -310,44 +312,36 @@ const ViewPriceBreakup = ({
   };
 
   return (
-    <>
-      <Link
-        className="justify-content-evenly align-items-center theemisectiona"
-        onClick={handleViewPriceBreakup}
-      >
-        <div>
-          <img src={Bank} className="h-18 w-32" alt="Bank" />
-        </div>
-        <div className="theemitxt">
+    <div className="font-bold font-sans">
+      <Link className="" onClick={handleViewPriceBreakup}>
+        <div className="px-4 py-2 rounded-md text-sm md:text-base font-medium transition-all duration-300 border border-black text-black flex justify-center items-center gap-2">
+          <div>
+            <Image
+              src="/images/bank.png"
+              alt="Motor Octane"
+              width={96} // Adjust width
+              height={96} // Adjust height
+            />
+          </div>
           {isLoading ? (
             <Skeleton width={230} height={30} />
           ) : (
-            <div>
+            <div className="">
               {city && city !== "Select City" ? (
-                `EMI ₹ ${Number(emi).toLocaleString("en-IN")}/- ONWARDS`
+                <div className="flex items-center gap-1">
+                  <span>
+                    EMI ₹ {Number(emi).toLocaleString("en-IN")}/- ONWARDS
+                  </span>
+                  <ChevronRight size={16} />
+                </div>
               ) : (
-                <div className="theknowemi">
+                <div className="flex items-center gap-1">
                   <MapPin size={16} />
                   Know your EMI
                 </div>
               )}
             </div>
           )}
-        </div>
-
-        <div>
-          <svg
-            width="13"
-            height="13"
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M10.5859 3.27307C10.211 3.64813 10.0003 4.15674 10.0003 4.68707C10.0003 5.2174 10.211 5.72602 10.5859 6.10107L20.4859 16.0011L10.5859 25.9011C10.2216 26.2783 10.02 26.7835 10.0246 27.3079C10.0291 27.8323 10.2395 28.3339 10.6103 28.7047C10.9811 29.0755 11.4827 29.2859 12.0071 29.2904C12.5315 29.295 13.0367 29.0934 13.4139 28.7291L24.7279 17.4151C25.1028 17.04 25.3135 16.5314 25.3135 16.0011C25.3135 15.4707 25.1028 14.9621 24.7279 14.5871L13.4139 3.27307C13.0388 2.89813 12.5302 2.6875 11.9999 2.6875C11.4696 2.6875 10.961 2.89813 10.5859 3.27307Z"
-              fill="#B1081A"
-            />
-          </svg>
         </div>
       </Link>
 
@@ -385,7 +379,7 @@ const ViewPriceBreakup = ({
                   </div>
 
                   <div className="flex gap-2 mb-3">
-                    <span className="selectedofthesec">
+                    <span className="">
                       {getBrandName()}
                       <span
                         onClick={() => {
@@ -393,19 +387,19 @@ const ViewPriceBreakup = ({
                           setSelectedBrand(null);
                           setSelectedVariant([]);
                         }}
-                        className="pe-auto cursor-pointer"
+                        className=" cursor-pointer"
                       >
                         ✖
                       </span>
                     </span>
-                    <span className="selectedofthesec">
+                    <span className="">
                       {selectedProduct.carname || productname}
                       <span
                         onClick={() => {
                           setSelectedProduct(null);
                           setSelectedVariant([]);
                         }}
-                        className="pe-auto cursor-pointer"
+                        className=" cursor-pointer"
                       >
                         ✖
                       </span>
@@ -455,7 +449,7 @@ const ViewPriceBreakup = ({
                                   : true
                               )
                               .map((variant, index) => (
-                                <div key={index} className="pe-auto mb-3">
+                                <div key={index} className=" mb-3">
                                   <Link
                                     to={`/EMI-Calculator/${singlecardData.brand?._id}/${singlecardData?._id}/${variant._id}`}
                                     onClick={() => setShowPopup(false)}
@@ -544,7 +538,7 @@ const ViewPriceBreakup = ({
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
