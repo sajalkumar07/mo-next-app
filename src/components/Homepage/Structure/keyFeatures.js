@@ -256,10 +256,13 @@ const KeyFeaturesSection = ({ singlecardData }) => {
             onClick={handleCloseDialog}
           >
             <div
-              className="bg-white rounded-lg max-w-5xl w-full overflow-hidden mt-20"
+              className="bg-white rounded-lg max-w-4xl w-full overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center p-4 ">
+              <div className="flex justify-between items-center p-4 border-b">
+                <h3 className="text-lg font-semibold">
+                  {singlecardData[`${currentImage.key}text`]}
+                </h3>
                 <button
                   onClick={handleCloseDialog}
                   className="text-gray-500 hover:text-gray-700"
@@ -271,24 +274,19 @@ const KeyFeaturesSection = ({ singlecardData }) => {
                 <button
                   onClick={() => handleNavigateImage("prev")}
                   disabled={currentImage.index === 0}
-                  className="absolute left-4 bg-white border  border-gray shadow-2xl text-black  -translate-y-1/2 z-20  h-10 w-10 rounded-full justify-center items-center   hover:bg-gray-100 transition text-center flex "
+                  className="absolute left-4 bg-gray-800 text-white p-2 rounded-full disabled:opacity-50"
                 >
-                  <ChevronLeft size={20} />
+                  ‹
                 </button>
 
-                <div className="flex justify-center items-center flex-col gap-4">
-                  <img
-                    src={`${process.env.NEXT_PUBLIC_API}/productImages/${
-                      singlecardData[currentImage.key]
-                    }`}
-                    alt="Feature"
-                    className="max-h-[70vh] max-w-full object-contain"
-                    crossOrigin="anonymous"
-                  />
-                  <h3 className="text-lg font-semibold">
-                    {singlecardData[`${currentImage.key}text`]}
-                  </h3>
-                </div>
+                <img
+                  src={`${process.env.NEXT_PUBLIC_API}/productImages/${
+                    singlecardData[currentImage.key]
+                  }`}
+                  alt="Feature"
+                  className="max-h-[70vh] max-w-full object-contain"
+                  crossOrigin="anonymous"
+                />
 
                 <button
                   onClick={() => handleNavigateImage("next")}
@@ -297,9 +295,9 @@ const KeyFeaturesSection = ({ singlecardData }) => {
                       `${currentImage.category}${currentImage.index + 2}`
                     ]
                   }
-                  className="absolute right-4 bg-white border border-gray shadow-2xl text-black  -translate-y-1/2 z-20  h-10 w-10 rounded-full justify-center items-center   hover:bg-gray-100 transition flex"
+                  className="absolute right-4 bg-gray-800 text-white p-2 rounded-full disabled:opacity-50"
                 >
-                  <ChevronRight size={20} />
+                  ›
                 </button>
               </div>
             </div>

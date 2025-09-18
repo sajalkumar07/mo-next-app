@@ -143,7 +143,7 @@ const LatestVideos = () => {
   return (
     <>
       <div className="mt-10 px-4">
-        <section className="relative z-10 max-w-[1400px] mx-auto ">
+        <section className="relative z-10 max-w-[1400px] mx-auto px-4 py-4">
           {/* Header Section */}
           <div className="flex justify-center items-center flex-col mb-8">
             <div className="flex justify-center items-center flex-col">
@@ -195,7 +195,7 @@ const LatestVideos = () => {
               onScroll={handleScroll}
             >
               <div
-                className="flex gap-2 md:gap-8"
+                className="flex gap-2 md:gap-4"
                 style={{ minWidth: "fit-content" }}
               >
                 {videos.map((video, index) => (

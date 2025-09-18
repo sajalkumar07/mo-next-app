@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const ColorVariants = ({ props, brandName, carName }) => {
   const [colors, setColors] = useState([]);
   const [selectedColor, setSelectedColor] = useState(null);
-  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const scrollContainerRef = useRef(null);
   const [singleCardData, setSingleCardData] = useState([]);
   const params = useParams();
 
   // Use the same dimensions as KeyFeaturesSection
-  const CARD_WIDTH = 254;
-  const GAP = 24;
+  const CARD_WIDTH = 254; // Changed from 323 to match KeyFeatures
+  const GAP = 24; // Changed from 24 to match KeyFeatures
 
   // Add state for visible count
   const [visibleCount, setVisibleCount] = useState(1);
@@ -94,30 +92,11 @@ const ColorVariants = ({ props, brandName, carName }) => {
     fetchData();
   }, [params.id]);
 
-  const openColor = (color, index) => {
+  const openColor = (color) => {
     setSelectedColor(color);
-    setSelectedColorIndex(index);
-    setDialogOpen(true);
   };
 
-  const closeColor = () => {
-    setDialogOpen(false);
-    setSelectedColor(null);
-  };
-
-  // Navigate to next/previous color in dialog
-  const handleNavigateColor = (direction) => {
-    if (!selectedColor) return;
-
-    let newIndex =
-      direction === "next" ? selectedColorIndex + 1 : selectedColorIndex - 1;
-
-    // Check if next color exists
-    if (colors[newIndex]) {
-      setSelectedColor(colors[newIndex]);
-      setSelectedColorIndex(newIndex);
-    }
-  };
+  const closeColor = () => setSelectedColor(null);
 
   // Smooth scroll to specific color card
   const scrollToCard = (index) => {
@@ -208,8 +187,8 @@ const ColorVariants = ({ props, brandName, carName }) => {
             {colors.map((color, index) => (
               <div
                 key={index}
-                className="w-[320px] flex-shrink-0 cursor-pointer group snap-start bg-white border rounded-xl"
-                onClick={() => openColor(color, index)}
+                className="w-[320px] flex-shrink-0 cursor-pointer group snap-start bg-white border rounded-xl" // Changed width to 254px
+                onClick={() => openColor(color)}
               >
                 {/* Color Image */}
                 <div className="relative w-full h-40 bg-gray-200 rounded-t-xl overflow-hidden">
@@ -247,59 +226,44 @@ const ColorVariants = ({ props, brandName, carName }) => {
           </button>
         )}
 
-        {/* Modal for Selected Color - Updated to match KeyFeaturesSection */}
-        {dialogOpen && selectedColor && (
+        {/* Modal for Selected Color */}
+        {selectedColor && (
           <div
-            className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4"
             onClick={closeColor}
           >
             <div
-              className="bg-white rounded-lg max-w-5xl w-full overflow-hidden mt-20"
+              className="relative bg-white rounded-lg max-w-4xl w-full max-h-[90vh] p-8"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center p-4">
-                <button
-                  onClick={closeColor}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <X size={24} />
-                </button>
+              <div className="">
+                <img
+                  className="w-full h-full rounded-lg object-cover"
+                  src={selectedColor.thumbnail[0]?.url}
+                  alt={selectedColor.title}
+                  crossOrigin="anonymous"
+                />
               </div>
-              <div className="relative p-4 flex justify-center items-center">
-                {/* Left Arrow for Modal */}
-                <button
-                  onClick={() => handleNavigateColor("prev")}
-                  disabled={selectedColorIndex === 0}
-                  className="absolute left-4 bg-white border border-gray shadow-2xl text-black -translate-y-1/2 z-20 h-10 w-10 rounded-full justify-center items-center hover:bg-gray-100 transition text-center flex"
-                >
-                  <ChevronLeft size={20} />
-                </button>
 
-                <div className="flex justify-center items-center flex-col gap-4">
-                  <img
-                    src={selectedColor.thumbnail[0]?.url}
-                    alt={selectedColor.title}
-                    className="max-h-[70vh] max-w-full object-contain"
-                    crossOrigin="anonymous"
-                  />
-                  <h3 className="text-lg font-semibold">
-                    {brandName || carName
-                      ? `${brandName ?? ""} ${carName ?? ""}`.trim()
-                      : singleCardData.brandname?.brandName ||
-                        singleCardData.carname?.carName}{" "}
-                    - {selectedColor.title}
-                  </h3>
-                </div>
-
-                {/* Right Arrow for Modal */}
-                <button
-                  onClick={() => handleNavigateColor("next")}
-                  disabled={selectedColorIndex === colors.length - 1}
-                  className="absolute right-4 bg-white border border-gray shadow-2xl text-black -translate-y-1/2 z-20 h-10 w-10 rounded-full justify-center items-center hover:bg-gray-100 transition flex"
-                >
-                  <ChevronRight size={20} />
-                </button>
+              <div className="mt-4">
+                <h3 className="text-xl font-bold text-gray-800">
+                  {selectedColor.title}
+                </h3>
+                <p className="text-gray-600 mt-2">
+                  {brandName || carName
+                    ? `${brandName ?? ""} ${carName ?? ""}`.trim()
+                    : singleCardData.brandname?.brandName ||
+                      singleCardData.carname?.carName}{" "}
+                  - {selectedColor.title}
+                </p>
               </div>
+
+              <button
+                className="absolute -top-2 -right-2 bg-[#B60C19] hover:bg-red-700 text-white rounded-full w-10 h-10 flex items-center justify-center text-sm font-bold transition-colors"
+                onClick={closeColor}
+              >
+                ×
+              </button>
             </div>
           </div>
         )}
