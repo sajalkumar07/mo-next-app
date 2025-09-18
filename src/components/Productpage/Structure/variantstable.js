@@ -1,174 +1,220 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-// Utility functions with Cards.js logic
-const formatPrice = (price) => {
-  if (!price) return "N/A";
-
-  const priceInLakhs = (price / 100000).toFixed(1);
-  if (price >= 10000000) {
-    return `${(price / 10000000).toFixed(1)} Crore`;
-  }
-  return `${priceInLakhs} Lakh`;
-};
-
-const formatPriceToLakhs = (price) => {
-  const priceInLakhs = (price / 100000).toFixed(1);
-  return `${priceInLakhs}`;
-};
-
-// Helper function to get RTO data based on fuel and price range (from ProductSection)
-const getDataFromRoadPriceListBasedOnFuelAndPriceRange = (
-  priceList,
-  productPrice,
-  fuelType
-) => {
-  const price = parseFloat(productPrice) || 0;
-  const fuel = (fuelType || "").toUpperCase();
-
-  return (
-    priceList.find(
-      (rto) =>
-        price >= parseFloat(rto.startPrice || 0) &&
-        (rto.endPrice === "ABOVE"
-          ? true
-          : price <= parseFloat(rto.endPrice || Infinity)) &&
-        (rto.fuelType || "").toUpperCase() === fuel.toUpperCase()
-    ) || {}
-  );
-};
-
-// Calculate RTO price based on mobile app logic (from ProductSection)
-const calculateRtoPrice = (productPrice, rtoPercentage, amount, fuelType) => {
-  const price = parseInt(productPrice);
-  let rto = Math.ceil((parseFloat(rtoPercentage) * price) / 100);
-
-  // Flat amount for EVs or when percentage is 0
-  // Note: hybrid is now treated as petrol, so this condition won't apply to hybrid
-  if (fuelType.toLowerCase() === "electric" || rtoPercentage === "0") {
-    rto += parseInt(amount || "0");
-  }
-
-  return rto;
-};
-
-// Calculate Road Safety Tax (2% of RTO) (from ProductSection)
-const calculateRoadSafetyTax = (rto) => Math.ceil((rto * 2) / 100);
-
-// Calculate Insurance price (from ProductSection)
-const calculateInsurancePrice = (productPrice, insurancePercentage) => {
-  return Math.ceil(
-    (parseInt(productPrice) * parseFloat(insurancePercentage)) / 100
-  );
-};
-
-// Normalize fuel type (from ProductSection)
-const normalizeFuelType = (fuelType) => {
-  if (!fuelType) return "";
-  const normalizedFuel = fuelType.toLowerCase();
-  // Treat hybrid as petrol for calculation purposes
-  if (normalizedFuel.includes("hybrid")) {
-    return "petrol";
-  }
-  return normalizedFuel;
-};
-
-// Main on-road price calculation using ProductSection logic
-const calculateOnRoadPrice = (product, fuelType, rtoData) => {
-  // 1. Extract price (handles both variant and direct car data)
-  let priceValue;
-  if (typeof product === "object") {
-    priceValue =
-      product.exShowroomPrice || // Variant price first
-      product.lowestExShowroomPrice || // Fallback to car price
-      0;
-  } else {
-    priceValue = product; // Direct number input
-  }
-
-  const priceStr = priceValue.toString();
-
-  // 2. Validate inputs
-  if (!/[0-9]/.test(priceStr)) return 0;
-  if (!Array.isArray(rtoData) || rtoData.length === 0)
-    return parseFloat(priceValue) || 0;
-
-  const normalizedFuelType = normalizeFuelType(fuelType);
-
-  // 3. Get RTO rates based on price and fuel type
-  const roadPriceData = getDataFromRoadPriceListBasedOnFuelAndPriceRange(
-    rtoData,
-    priceStr,
-    normalizedFuelType
-  );
-
-  const basePrice = parseInt(priceStr) || 0;
-
-  // 4. Calculate all components
-  const components = {
-    basePrice,
-    rto: calculateRtoPrice(
-      priceStr,
-      roadPriceData.rtoPercentage || "0",
-      roadPriceData.amount || "0",
-      normalizedFuelType
-    ),
-    roadSafetyTax: 0, // Will be calculated below
-    insurance: calculateInsurancePrice(
-      priceStr,
-      roadPriceData.insurancePercentage || "0"
-    ),
-    luxuryTax: basePrice > 999999 ? Math.ceil(basePrice / 100) : 0,
-    hypethecationCharges: parseInt(roadPriceData.hypethecationCharges || "0"),
-    fastag: parseInt(roadPriceData.fastag || "0"),
-    others: parseInt(roadPriceData.others || "0"),
-  };
-
-  // Road safety tax is 2% of RTO
-  components.roadSafetyTax = calculateRoadSafetyTax(components.rto);
-
-  // 5. Sum all components
-  return Object.values(components).reduce((sum, val) => sum + val, 0);
-};
-
-// Extract first fuel type from various formats (from ProductSection)
-const getFirstFuelType = (fuelData) => {
-  if (Array.isArray(fuelData)) {
-    return fuelData[0];
-  }
-  if (typeof fuelData === "string") {
-    const match = fuelData.match(/<li>(.*?)<\/li>/i);
-    if (match && match[1]) return match[1];
-    return fuelData;
-  }
-  return "";
-};
-
-// Format currency with Lakhs/Crore suffixes (from ProductSection)
-const formatCurrency = (value) => {
-  if (!value) return "0"; // Handle undefined/null cases
-
-  const numValue =
-    typeof value === "string" ? parseFloat(value.replace(/,/g, "")) : value;
-
-  if (numValue >= 1e7) {
-    // 1 crore or more
-    const croreValue = (numValue / 1e7).toFixed(2);
-    return `${croreValue} Crore`;
-  } else if (numValue >= 1e5) {
-    // 1 lakh or more
-    const lakhValue = (numValue / 1e5).toFixed(2);
-    return `${lakhValue} Lakh`;
-  } else {
-    return new Intl.NumberFormat("en-IN").format(numValue);
-  }
-};
-// Custom hook for RTO data and location (updated with ProductSection logic)
-const useRTOData = () => {
+const VariantsTable = () => {
+  const [allVariant, setAllVariant] = useState([]);
+  const [filterType, setFilterType] = useState("All");
+  const [availableFilters, setAvailableFilters] = useState(["All"]);
   const [rtoData, setRtoData] = useState([]);
   const [hasLocation, setHasLocation] = useState(false);
+  // Changed this to track single expanded accordion
+  const [expandedVariant, setExpandedVariant] = useState(false);
+  const [showAll, setShowAll] = useState(false);
+  const params = useParams();
+  const [singlecardData, setSingleCardData] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API}/api/cars/${params.id}`
+        );
+        const data = await response.json();
+        setSingleCardData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [params.id]);
+
+  // Utility functions
+  const formatCurrency = (value) => {
+    if (!value) return "0";
+
+    const numValue =
+      typeof value === "string" ? parseFloat(value.replace(/,/g, "")) : value;
+
+    if (numValue >= 1e7) {
+      const croreValue = (numValue / 1e7).toFixed(2);
+      return `${croreValue} Crore`;
+    } else if (numValue >= 1e5) {
+      const lakhValue = (numValue / 1e5).toFixed(2);
+      return `${lakhValue} Lakh`;
+    } else {
+      return new Intl.NumberFormat("en-IN").format(numValue);
+    }
+  };
+
+  const normalizeFuelType = (fuelType) => {
+    if (!fuelType) return "";
+    const normalizedFuel = fuelType.toLowerCase();
+    if (normalizedFuel.includes("hybrid")) {
+      return "petrol";
+    }
+    return normalizedFuel;
+  };
+
+  const getDataFromRoadPriceListBasedOnFuelAndPriceRange = (
+    priceList,
+    productPrice,
+    fuelType
+  ) => {
+    const price = parseFloat(productPrice) || 0;
+    const fuel = (fuelType || "").toUpperCase();
+
+    return (
+      priceList.find(
+        (rto) =>
+          price >= parseFloat(rto.startPrice || 0) &&
+          (rto.endPrice === "ABOVE"
+            ? true
+            : price <= parseFloat(rto.endPrice || Infinity)) &&
+          (rto.fuelType || "").toUpperCase() === fuel.toUpperCase()
+      ) || {}
+    );
+  };
+
+  const calculateRtoPrice = (productPrice, rtoPercentage, amount, fuelType) => {
+    const price = parseInt(productPrice);
+    let rto = Math.ceil((parseFloat(rtoPercentage) * price) / 100);
+
+    if (fuelType.toLowerCase() === "electric" || rtoPercentage === "0") {
+      rto += parseInt(amount || "0");
+    }
+
+    return rto;
+  };
+
+  const calculateRoadSafetyTax = (rto) => Math.ceil((rto * 2) / 100);
+
+  const calculateInsurancePrice = (productPrice, insurancePercentage) => {
+    return Math.ceil(
+      (parseInt(productPrice) * parseFloat(insurancePercentage)) / 100
+    );
+  };
+
+  const calculateOnRoadPrice = (product, fuelType, rtoData) => {
+    let priceValue;
+    if (typeof product === "object") {
+      priceValue =
+        product.exShowroomPrice || product.lowestExShowroomPrice || 0;
+    } else {
+      priceValue = product;
+    }
+
+    const priceStr = priceValue.toString();
+
+    if (!/[0-9]/.test(priceStr)) return 0;
+    if (!Array.isArray(rtoData) || rtoData.length === 0)
+      return parseFloat(priceValue) || 0;
+
+    const normalizedFuelType = normalizeFuelType(fuelType);
+
+    const roadPriceData = getDataFromRoadPriceListBasedOnFuelAndPriceRange(
+      rtoData,
+      priceStr,
+      normalizedFuelType
+    );
+
+    const basePrice = parseInt(priceStr) || 0;
+
+    const components = {
+      basePrice,
+      rto: calculateRtoPrice(
+        priceStr,
+        roadPriceData.rtoPercentage || "0",
+        roadPriceData.amount || "0",
+        normalizedFuelType
+      ),
+      roadSafetyTax: 0,
+      insurance: calculateInsurancePrice(
+        priceStr,
+        roadPriceData.insurancePercentage || "0"
+      ),
+      luxuryTax: basePrice > 999999 ? Math.ceil(basePrice / 100) : 0,
+      hypethecationCharges: parseInt(roadPriceData.hypethecationCharges || "0"),
+      fastag: parseInt(roadPriceData.fastag || "0"),
+      others: parseInt(roadPriceData.others || "0"),
+    };
+
+    components.roadSafetyTax = calculateRoadSafetyTax(components.rto);
+
+    return Object.values(components).reduce((sum, val) => sum + val, 0);
+  };
+
+  const calculatePriceRange = (data, ranking, filterType, rtoData) => {
+    const filteredVariants = data.filter(
+      (variant) =>
+        variant.VarientRanking === ranking &&
+        (filterType === "All" ||
+          variant.fuel === filterType ||
+          variant.transmission === filterType)
+    );
+
+    if (filteredVariants.length === 0) return { min: 0, max: 0, single: null };
+    if (filteredVariants.length === 1) {
+      const onRoadPrice = calculateOnRoadPrice(
+        filteredVariants[0].exShowroomPrice,
+        filteredVariants[0].fuel,
+        rtoData
+      );
+      return {
+        min: filteredVariants[0].exShowroomPrice,
+        max: null,
+        single: filteredVariants[0].exShowroomPrice,
+        onRoadMin: onRoadPrice,
+        onRoadMax: null,
+        onRoadSingle: onRoadPrice,
+      };
+    }
+
+    const prices = filteredVariants.map((variant) => variant.exShowroomPrice);
+    const onRoadPrices = filteredVariants.map((variant) =>
+      calculateOnRoadPrice(variant.exShowroomPrice, variant.fuel, rtoData)
+    );
+
+    return {
+      min: Math.min(...prices),
+      max: Math.max(...prices),
+      single: null,
+      onRoadMin: Math.min(...onRoadPrices),
+      onRoadMax: Math.max(...onRoadPrices),
+      onRoadSingle: null,
+    };
+  };
+
+  const extractAvailableFilters = (variants) => {
+    const fuels = variants.map((variant) => variant.fuel);
+    const uniqueFilters = ["All", ...new Set(fuels)];
+    setAvailableFilters(uniqueFilters);
+  };
+
+  // Fetch data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API}/api/variants/active/${params.id}`
+        );
+        const data = await response.json();
+        if (data.success && data.data) {
+          setAllVariant(data);
+          extractAvailableFilters(data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [params.id]);
+
+  // Check location
   useEffect(() => {
     const locationData = localStorage.getItem("location");
     try {
@@ -181,7 +227,7 @@ const useRTOData = () => {
     }
   }, []);
 
-  // Fetch RTO data using ProductSection method
+  // Fetch RTO data
   useEffect(() => {
     const fetchRTOData = async () => {
       const locationState = localStorage.getItem("location");
@@ -222,417 +268,249 @@ const useRTOData = () => {
     fetchRTOData();
   }, []);
 
-  return { rtoData, hasLocation };
-};
-
-// Price calculation utility (updated with ProductSection logic)
-const calculatePriceRange = (data, ranking, filterType, rtoData) => {
-  const filteredVariants = data.filter(
-    (variant) =>
-      variant.VarientRanking === ranking &&
-      (filterType === "All" ||
-        variant.fuel === filterType ||
-        variant.transmission === filterType)
-  );
-
-  if (filteredVariants.length === 0) return { min: 0, max: 0, single: null };
-  if (filteredVariants.length === 1) {
-    const onRoadPrice = calculateOnRoadPrice(
-      filteredVariants[0].exShowroomPrice,
-      filteredVariants[0].fuel,
-      rtoData
-    );
-    return {
-      min: filteredVariants[0].exShowroomPrice,
-      max: null,
-      single: filteredVariants[0].exShowroomPrice,
-      onRoadMin: onRoadPrice,
-      onRoadMax: null,
-      onRoadSingle: onRoadPrice,
-    };
-  }
-
-  const prices = filteredVariants.map((variant) => variant.exShowroomPrice);
-  const onRoadPrices = filteredVariants.map((variant) =>
-    calculateOnRoadPrice(variant.exShowroomPrice, variant.fuel, rtoData)
-  );
-
-  return {
-    min: Math.min(...prices),
-    max: Math.max(...prices),
-    single: null,
-    onRoadMin: Math.min(...onRoadPrices),
-    onRoadMax: Math.max(...onRoadPrices),
-    onRoadSingle: null,
+  // Fixed accordion handler - only one accordion open at a time
+  const handleAccordionChange = (variantId) => (event, isExpanded) => {
+    setExpandedVariant(isExpanded ? variantId : false);
   };
-};
-
-// Generic Variant Component (updated with ProductSection logic)
-const VariantCard = ({
-  variant,
-  rtoData,
-  hasLocation,
-  isExpanded,
-  onToggleExpansion,
-}) => {
-  const onRoadPrice = calculateOnRoadPrice(
-    variant.exShowroomPrice,
-    variant.fuel,
-    rtoData
-  );
-
-  return (
-    <>
-      {/* Desktop Version */}
-      <div className="table-info-section onlydesptop" key={variant._id}>
-        <div className="irst-table-main-section">
-          <Link
-            to={`/variant/${variant.varientName.replace(/\s+/g, "-")}/${
-              variant._id
-            }`}
-          >
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="d-flex align-items-center">
-                <div className="modelsnmae">{variant.varientName}</div>
-                <div className="infoaftermodel">
-                  <div>{variant.EngineName}</div>
-                  <div>{variant.transmission}</div>
-                </div>
-              </div>
-              <div className="infoaftermodel2">
-                <div>Price Starts</div>
-                <div className="infoaftermodellast">
-                  {hasLocation ? (
-                    <>
-                      <div>On-road: @ ₹{formatCurrency(onRoadPrice)} Lakhs</div>
-                    </>
-                  ) : (
-                    <>@ ₹{formatPriceToLakhs(variant.exShowroomPrice)}L</>
-                  )}
-                </div>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        <div
-          className={`irst-table-main-section dfjvdjfvdj ${
-            isExpanded ? "expanded" : ""
-          }`}
-          style={{
-            height: isExpanded ? "auto" : "100px",
-            overflow: "hidden",
-            transition: "height 0.3s ease",
-          }}
-        >
-          <div
-            className="key-feagture"
-            style={{
-              height: isExpanded ? "auto" : "85px",
-              overflow: "hidden",
-              transition: "height 0.3s ease",
-            }}
-          >
-            <span className="text-black font-bold">Key Features:</span>
-            <div
-              className="varients-key"
-              dangerouslySetInnerHTML={{ __html: variant.FeatureExplained }}
-            />
-          </div>
-          <span
-            className="showmoree"
-            onClick={() => onToggleExpansion(variant._id)}
-          >
-            {isExpanded ? "Show less" : "Show more"}
-          </span>
-        </div>
-      </div>
-
-      {/* Mobile Version */}
-      <div
-        className="flex flex-col bg-white border shadow-md shadow-black/30 mt-4 onlyphoneme w-[400px]"
-        key={`mobile-${variant._id}`}
-      >
-        <div className="md:bg-[var(--lightgray)] pt-[10px] pr-[20px] pb-[10px] pl-[20px] md:border-[1px] border-black h-auto">
-          <Link
-            to={`/variant/${variant.varientName.replace(/\s+/g, "-")}/${
-              variant._id
-            }`}
-          >
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="flex flex-col items-start space-y-2">
-                <div className="text-[14px] text-[#AB373A] font-[Montserrat] font-semibold">
-                  {variant.varientName}
-                </div>
-                <div className="text-[11px] text-black font-[Montserrat] font-medium">
-                  {variant.fuel} | {variant.transmission} | {variant.max_power}{" "}
-                  Bhp
-                </div>
-              </div>
-              <div className="infoaftermodel2">
-                <div className="infoaftermodellast">
-                  {hasLocation ? (
-                    <div className="flex flex-col">
-                      <span className="text-[#828282] text-right">On-road</span>
-                      <span className="text-right font-bold">
-                        ₹{formatCurrency(onRoadPrice)}
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col">
-                      <span className="text-black text-right">Ex-showroom</span>
-                      <span>₹{formatCurrency(variant.exShowroomPrice)}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        <main>
-          <div
-            className={`md:bg-[var(--lightgray)] pt-[10px] pr-[20px] pb-[10px] pl-[20px] md:border-[1px] border-black h-auto dfjvdjfvdj ${
-              isExpanded ? "expanded" : ""
-            }`}
-            style={{
-              height: isExpanded ? "auto" : "100px",
-              overflow: "hidden",
-              transition: "height 0.3s ease",
-            }}
-          >
-            <div
-              className="key-feagture fuelsdd"
-              style={{
-                height: isExpanded ? "auto" : "85px",
-                overflow: "hidden",
-                transition: "height 0.3s ease",
-              }}
-            >
-              <span className="text-black font-bold">Key Features:</span>
-              <div
-                className="varients-key"
-                dangerouslySetInnerHTML={{ __html: variant.FeatureExplained }}
-              />
-            </div>
-            <span
-              className="showmoree pricoos float-right"
-              onClick={() => onToggleExpansion(variant._id)}
-            >
-              {isExpanded ? "Read less" : "Read more"}
-            </span>
-          </div>
-        </main>
-      </div>
-    </>
-  );
-};
-
-// Generic Variants Table Component (updated with ProductSection logic)
-const VariantsTable = ({
-  allVariant,
-  filterType,
-  ranking,
-  modelName,
-  modelCode,
-  rtoData,
-  hasLocation,
-}) => {
-  const [expandedVariants, setExpandedVariants] = useState({});
-  const [showAll, setShowAll] = useState(false);
-  const params = useParams();
-
-  const toggleVariantExpansion = (variantId) => {
-    setExpandedVariants((prev) => ({
-      ...prev,
-      [variantId]: !prev[variantId],
-    }));
-  };
-
-  const priceRange =
-    allVariant.success && allVariant.data
-      ? calculatePriceRange(allVariant.data, ranking, filterType, rtoData)
-      : {
-          min: 0,
-          max: 0,
-          single: null,
-          onRoadMin: 0,
-          onRoadMax: 0,
-          onRoadSingle: null,
-        };
-
-  const filteredVariants =
-    allVariant.success && allVariant.data
-      ? allVariant.data.filter(
-          (variant) =>
-            variant.VarientRanking === ranking &&
-            (filterType === "All" ||
-              variant.fuel === filterType ||
-              variant.transmission === filterType)
-        )
-      : [];
-
-  const hasVariants = filteredVariants.length > 0;
-
-  if (!hasVariants) return null;
-
-  return (
-    <section className="mt-3 varient-table-sec">
-      <div className="inside-var-tablesection">
-        <div>
-          <div className="d-flex align-items-center varient-boxx">
-            <div className="model-first-shape">
-              <span className="text-inside-shape">{modelName}</span>
-            </div>
-            <div className="model-second-shape">
-              <span className="text-inside-shape2">{modelCode}</span>
-            </div>
-            <div className="model-three-shape">
-              <span className="text-inside-shape3">
-                {priceRange.single ? (
-                  <>
-                    <div>
-                      Ex-showroom: ₹ {formatCurrency(priceRange.single)}
-                    </div>
-                    {hasLocation && (
-                      <div>
-                        On-road: ₹ {formatCurrency(priceRange.onRoadSingle)}{" "}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <div>
-                      Ex-showroom: ₹ {formatCurrency(priceRange.min)} - ₹{" "}
-                      {formatCurrency(priceRange.max)}
-                    </div>
-                    {hasLocation && (
-                      <div>
-                        On-road: ₹ {formatCurrency(priceRange.onRoadMin)} - ₹{" "}
-                        {formatCurrency(priceRange.onRoadMax)}
-                      </div>
-                    )}
-                  </>
-                )}
-              </span>
-            </div>
-          </div>
-
-          {window.innerWidth <= 1080 && (
-            <div className="bg-[#ab373a] flex justify-between items-center px-2 h-[35px] text-[13px] font-bold text-white font-[Montserrat] mx-[10px] rounded-[2px]">
-              <span>{modelName}</span>
-              <div className="flex justify-center items-center">
-                <span>
-                  <Link to={`/detailvarient/${params.id}`}>
-                    <div>
-                      <span>See all ({filteredVariants.length}) Variant</span>
-                    </div>
-                  </Link>
-                </span>
-                <span>
-                  <ChevronRight />
-                </span>
-              </div>
-            </div>
-          )}
-
-          <section className="d-flex kfgkjfsgbfvv">
-            {filteredVariants
-              .slice(
-                0,
-                showAll || window.innerWidth > 1080
-                  ? filteredVariants.length
-                  : 1
-              )
-              .map((variant) => (
-                <VariantCard
-                  key={variant._id}
-                  variant={variant}
-                  rtoData={rtoData}
-                  hasLocation={hasLocation}
-                  isExpanded={expandedVariants[variant._id]}
-                  onToggleExpansion={toggleVariantExpansion}
-                />
-              ))}
-          </section>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// Main Component
-const AllVariant = () => {
-  const [allVariant, setAllVariant] = useState([]);
-  const [filterType, setFilterType] = useState("All");
-  const [availableFilters, setAvailableFilters] = useState(["All"]);
-  const params = useParams();
-  const { rtoData, hasLocation } = useRTOData();
-
-  const extractAvailableFilters = (variants) => {
-    const fuels = variants.map((variant) => variant.fuel);
-    const uniqueFilters = ["All", ...new Set(fuels)];
-    setAvailableFilters(uniqueFilters);
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API}/api/variants/active/${params.id}`
-        );
-        const data = await response.json();
-        if (data.success && data.data) {
-          setAllVariant(data);
-          extractAvailableFilters(data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [params.id]);
 
   const variantConfigs = [
-    { ranking: "BASE", modelName: "BASE VARIANT", modelCode: "XT" },
-    { ranking: "MID", modelName: "MID VARIANT", modelCode: "XM" },
-    { ranking: "TOP", modelName: "TOP VARIANT", modelCode: "XZ" },
+    { ranking: "BASE", modelName: "Base Variant", modelCode: "XT" },
+    { ranking: "MID", modelName: "Mid Variant", modelCode: "XM" },
+    { ranking: "TOP", modelName: "Top Variant", modelCode: "XZ" },
   ];
 
-  return (
-    <>
-      <div className="d-flex align-items-center justify-content-center allfilterss">
-        <ul className="search_tabs onlymobilekkft">
-          {availableFilters.map((filter) => (
-            <div
-              key={filter}
-              className={`full_tabs_new_varia ${
-                filterType === filter ? "active" : ""
-              }`}
-              onClick={() => setFilterType(filter)}
-              style={{ cursor: "pointer" }}
-            >
-              <li>{filter.toUpperCase()}</li>
-            </div>
-          ))}
-        </ul>
-      </div>
+  // Function to clean HTML content and return array of features
+  const cleanHTMLContent = (htmlString) => {
+    if (!htmlString) return [];
 
-      {variantConfigs.map((config) => (
-        <VariantsTable
-          key={config.ranking}
-          allVariant={allVariant}
-          filterType={filterType}
-          ranking={config.ranking}
-          modelName={config.modelName}
-          modelCode={config.modelCode}
-          rtoData={rtoData}
-          hasLocation={hasLocation}
-        />
-      ))}
-    </>
+    // Create a temporary div to parse HTML
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = htmlString;
+
+    // Get all list items first
+    const listItems = tempDiv.querySelectorAll("li");
+
+    if (listItems.length > 0) {
+      // Extract text from each list item
+      return Array.from(listItems)
+        .map((li) => li.textContent.trim())
+        .filter((item) => item.length > 0);
+    }
+
+    // If no list items, try to split by common separators
+    let cleanText = tempDiv.textContent || tempDiv.innerText || "";
+
+    return cleanText
+      .split(/[,\n]/) // Split by comma or newline
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0);
+  };
+
+  // Main render
+  return (
+    <div className="mt-20 font-sans px-4">
+      <h2 className="text-[25px] font-bold text-center mb-6 font-sans mt-3">
+        <span className="text-[#818181] uppercase">
+          {singlecardData.carname}
+        </span>{" "}
+        <span className="text-[#B60C19]">VARIANTS</span>
+      </h2>
+
+      <div className="relative z-10 max-w-[1400px] mx-auto px-4 ">
+        <div className="hidden md:flex justify-center mb-4">
+          <div className="flex gap-2">
+            {availableFilters.map((filter) => (
+              <button
+                key={filter}
+                className={`rounded-full text-[12px] sm:text-[14px] p-2  font-semibold transition-colors h-[36px] sm:h-[38px] border-[0.5px] border-gray-400  w-[100px] ${
+                  filterType === filter
+                    ? "bg-[#AB373A] text-white"
+                    : "bg-gray-200 text-gray-700"
+                }`}
+                onClick={() => setFilterType(filter)}
+              >
+                {filter.toUpperCase()}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {variantConfigs.map((config) => {
+          const { ranking, modelName, modelCode } = config;
+
+          const priceRange =
+            allVariant.success && allVariant.data
+              ? calculatePriceRange(
+                  allVariant.data,
+                  ranking,
+                  filterType,
+                  rtoData
+                )
+              : {
+                  min: 0,
+                  max: 0,
+                  single: null,
+                  onRoadMin: 0,
+                  onRoadMax: 0,
+                  onRoadSingle: null,
+                };
+
+          const filteredVariants =
+            allVariant.success && allVariant.data
+              ? allVariant.data.filter(
+                  (variant) =>
+                    variant.VarientRanking === ranking &&
+                    (filterType === "All" ||
+                      variant.fuel === filterType ||
+                      variant.transmission === filterType)
+                )
+              : [];
+
+          const hasVariants = filteredVariants.length > 0;
+
+          if (!hasVariants) return null;
+
+          return (
+            <section className="" key={ranking}>
+              {/* Header Section */}
+              <div className="font-bold text-[18px] font-sans py-2">
+                <div className="flex items-center justify-between flex-wrap gap-4 md:block hidden">
+                  <div className="flex items-center space-x-2">
+                    <div className="text-black">{modelName}</div>
+                    <div className="text-black">{modelCode}</div>
+                  </div>
+                </div>
+
+                {/* Mobile Header */}
+                <div className="  text-black rounded-lg p-3 md:hidden block">
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold">{modelName}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-0">
+                {filteredVariants
+                  .slice(
+                    0,
+                    showAll || window.innerWidth > 1024
+                      ? filteredVariants.length
+                      : 3
+                  )
+                  .map((variant) => {
+                    const onRoadPrice = calculateOnRoadPrice(
+                      variant.exShowroomPrice,
+                      variant.fuel,
+                      rtoData
+                    );
+
+                    return (
+                      <div className="w-full" key={variant._id}>
+                        <Accordion
+                          expanded={expandedVariant === variant._id}
+                          onChange={handleAccordionChange(variant._id)}
+                          disableGutters
+                          elevation={0}
+                          square
+                          sx={{ "&:before": { display: "none" } }}
+                          className="mb-3 border border-gray-200 rounded-2xl shadow-none"
+                        >
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMoreIcon className="text-gray-500" />
+                            }
+                            className=""
+                            sx={{ "&:before": { display: "none" } }}
+                          >
+                            <div className="flex justify-between items-center w-full pr-4">
+                              <div className="flex flex-col">
+                                <h3 className="text-lg font-semibold  text-[#B60C19] mb-1">
+                                  {variant.varientName}
+                                </h3>
+                                <p className="text-sm text-gray-500">
+                                  {variant.EngineName}, {variant.transmission},{" "}
+                                  {variant.fuel}
+                                </p>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-lg font-bold text-gray-900 font-sans">
+                                  {hasLocation
+                                    ? `₹${formatCurrency(onRoadPrice)}`
+                                    : `₹${formatCurrency(
+                                        variant.exShowroomPrice
+                                      )}`}
+                                </div>
+                                <div className="text-sm text-gray-500">
+                                  {hasLocation
+                                    ? "On-road price"
+                                    : "Ex-showroom price"}
+                                </div>
+                              </div>
+                            </div>
+                          </AccordionSummary>
+
+                          <AccordionDetails className="bg-white px-4 py-3 rounded-b-2xl">
+                            <div className="space-y-4">
+                              <div>
+                                <h4 className="font-semibold text-gray-800 mb-2">
+                                  Key Features:
+                                </h4>
+                                <div className="text-gray-600 text-sm leading-relaxed">
+                                  {cleanHTMLContent(
+                                    variant.FeatureExplained
+                                  ).map((feature, index) => (
+                                    <div
+                                      key={index}
+                                      className="flex items-start mb-1"
+                                    >
+                                      {/* <span className="text-[#B60C19] mr-2">
+                                        •
+                                      </span> */}
+                                      <span>{feature}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              <div className="pt-2 border-t border-gray-100">
+                                <Link
+                                  to={`/variant/${variant.varientName.replace(
+                                    /\s+/g,
+                                    "-"
+                                  )}/${variant._id}`}
+                                  className="inline-flex items-center text-[#B60C19]  font-medium text-sm transition-colors"
+                                >
+                                  VIEW VARIENT DETAILS
+                                  <ChevronRight className="ml-1 h-4 w-4" />
+                                </Link>
+                              </div>
+                            </div>
+                          </AccordionDetails>
+                        </Accordion>
+                      </div>
+                    );
+                  })}
+              </div>
+
+              {/* Show More Button for Mobile */}
+              {filteredVariants.length > 3 && window.innerWidth <= 1024 && (
+                <div className="text-center mt-4">
+                  <button
+                    onClick={() => setShowAll(!showAll)}
+                    className="bg-[#B60C19] text-white px-6 py-2 rounded-lg font-medium  transition-colors"
+                  >
+                    {showAll
+                      ? "Show Less"
+                      : `Show All ${filteredVariants.length} Variants`}
+                  </button>
+                </div>
+              )}
+            </section>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 
-export default AllVariant;
+export default VariantsTable;
