@@ -221,7 +221,6 @@ const Cards = () => {
             variantFuelTypes: [item.fueltype],
           };
         } catch (error) {
-          console.error(`Failed to fetch variants for ${item._id}:`, error);
           return {
             ...item,
             variants: [],
@@ -317,7 +316,6 @@ const Cards = () => {
       const result = await response.json();
       if (result.data && Array.isArray(result.data)) setRtoData(result.data);
     } catch (error) {
-      console.error("Error fetching RTO data:", error);
       setRtoData([]);
     }
   };

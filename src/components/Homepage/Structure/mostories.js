@@ -8,60 +8,6 @@ const StoriesSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollContainerRef = useRef(null);
 
-  // Dummy stories data
-  // const dummyStories = [
-  //   {
-  //     id: 1,
-  //     title: "Latest Car Models Revealed at Auto Expo",
-  //     image: "https://via.placeholder.com/254x144/333333/FFFFFF?text=Car+Story",
-  //     url: "#",
-  //     excerpt:
-  //       "Check out the newest models showcased at the international auto expo this year.",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Electric Vehicles: Future of Transportation",
-  //     image: "https://via.placeholder.com/254x144/555555/FFFFFF?text=EV+News",
-  //     url: "#",
-  //     excerpt:
-  //       "How electric vehicles are transforming the automotive industry worldwide.",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Top SUVs of the Year 2023",
-  //     image:
-  //       "https://via.placeholder.com/254x144/777777/FFFFFF?text=SUV+Review",
-  //     url: "#",
-  //     excerpt: "Our picks for the best SUVs available in the market this year.",
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Auto Show Highlights & Updates",
-  //     image: "https://via.placeholder.com/254x144/999999/FFFFFF?text=Auto+Show",
-  //     url: "#",
-  //     excerpt:
-  //       "All the exciting reveals and announcements from the major auto shows.",
-  //   },
-  //   {
-  //     id: 5,
-  //     title: "Performance Car Reviews: Speed Demons",
-  //     image:
-  //       "https://via.placeholder.com/254x144/BBBBBB/FFFFFF?text=Performance",
-  //     url: "#",
-  //     excerpt:
-  //       "In-depth reviews of the fastest production cars available today.",
-  //   },
-  //   {
-  //     id: 6,
-  //     title: "Classic Car Restoration Stories",
-  //     image:
-  //       "https://via.placeholder.com/254x144/DDDDDD/333333?text=Classic+Cars",
-  //     url: "#",
-  //     excerpt:
-  //       "Beautiful restoration projects of vintage and classic automobiles.",
-  //   },
-  // ];
-
   useEffect(() => {
     // Simulate API fetch with timeout
     const fetchData = async () => {
@@ -70,7 +16,7 @@ const StoriesSection = () => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // For now, use dummy data
-        setStories(dummyStories);
+        // setStories(dummyStories);
 
         /* 
         // Actual API call (commented out)
@@ -81,7 +27,7 @@ const StoriesSection = () => {
         */
       } catch (error) {
         console.error("Error fetching stories:", error);
-        setStories(dummyStories);
+        // setStories(dummyStories);
       }
     };
 

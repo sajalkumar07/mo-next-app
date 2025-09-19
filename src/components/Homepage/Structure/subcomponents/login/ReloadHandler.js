@@ -1,14 +1,13 @@
 // ReloadHandler.js
 
+"use client"; // ✅ required in Next.js app dir for client-side hooks
+
 import React, { useEffect } from "react";
 
 const ReloadHandler = () => {
-  const handlePutRequest = async () => {
+  const handlePutRequest = async (userId) => {
     try {
-      // Replace with your logic to get userId and formData
-      const user = JSON.parse(localStorage.getItem("user"));
       const formData = {}; // Replace with your actual form data
-      const userId = user.Userid;
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API}/api/enduser/${userId}`,
@@ -37,14 +36,31 @@ const ReloadHandler = () => {
 
       localStorage.setItem("user", JSON.stringify(updatedUser));
     } catch (error) {
-      console.error("Error:", error);
-      // Handle error scenario
+      console.error("Error updating user:", error);
     }
   };
 
   useEffect(() => {
-    handlePutRequest(); // Call handlePutRequest on component mount (site open or reload)
-  }, []); // Empty dependency array ensures it runs once on mount (site open or reload)
+    try {
+      const storedUser = localStorage.getItem("user");
+      if (!storedUser) {
+        console.warn("No user found in localStorage, skipping update");
+        return;
+      }
+
+      const user = JSON.parse(storedUser);
+      const userId = user?.Userid;
+
+      if (!userId) {
+        console.warn("UserId missing in stored user, skipping update");
+        return;
+      }
+
+      handlePutRequest(userId);
+    } catch (err) {
+      console.error("Failed to read user from localStorage:", err);
+    }
+  }, []);
 
   return null; // ReloadHandler doesn't render anything visible
 };

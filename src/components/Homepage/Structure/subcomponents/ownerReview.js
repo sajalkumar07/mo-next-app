@@ -159,7 +159,7 @@ const ReviewModal = ({ isOpen, onClose, carId, carBrand }) => {
         }
       }
     } catch (error) {
-      console.error("Error submitting review:", error);
+      // console.error("Error submitting review:", error);
       toast.error("An error occurred while submitting the review.", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
@@ -182,8 +182,8 @@ const ReviewModal = ({ isOpen, onClose, carId, carBrand }) => {
   };
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API}/brands`)
-      .then((response) => response.json())
+    fetch(`${process.env.NEXT_PUBLIC_API}/api/brands`)
+      // .then((response) => response.json())
       .then((data) => setBrands(data))
       .catch((error) => console.error("Error fetching brands:", error));
   }, []);
@@ -191,7 +191,7 @@ const ReviewModal = ({ isOpen, onClose, carId, carBrand }) => {
   const fetchModels = (brandId) => {
     const url = `${process.env.NEXT_PUBLIC_API}/api/cars/brand/${brandId}`;
     fetch(url)
-      .then((response) => response.json())
+      // .then((response) => response.json())
       .then((data) => {
         setModels(data);
       })

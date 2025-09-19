@@ -39,11 +39,11 @@ function MyLocation() {
             setSearchTerm(cityName);
           })
           .catch((err) => {
-            console.error("Error fetching location data:", err);
+            // console.error("Error fetching location data:", err);
           });
       },
       (error) => {
-        console.error("Geolocation error:", error);
+        // console.error("Geolocation error:", error);
       }
     );
   }, []);
