@@ -34,11 +34,11 @@ const Brands = () => {
 const LogosSection = ({ data, isLoading }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAll, setShowAll] = useState(false);
-  const itemsPerRow = { mobile: 2, tablet: 3, desktop: 9 }; // Items per row for different screens
-  const maxRows = 4; // Maximum number of rows to show initially for mobile/tablet
-  const maxVisibleItemsMobile = itemsPerRow.mobile * maxRows; // 2 * 4 = 8 items
-  const maxVisibleItemsTablet = itemsPerRow.tablet * maxRows; // 3 * 4 = 12 items
-  const maxVisibleItemsDesktop = itemsPerRow.desktop * 2; // Desktop keeps 2 rows = 18 items
+  const itemsPerRow = { mobile: 2, tablet: 3, desktop: 9 };
+  const maxRows = 4;
+  const maxVisibleItemsMobile = itemsPerRow.mobile * maxRows;
+  const maxVisibleItemsTablet = itemsPerRow.tablet * maxRows;
+  const maxVisibleItemsDesktop = itemsPerRow.desktop * 2;
 
   const handleNext = () => {
     const maxIndex = Math.max(0, data.length - itemsPerRow.desktop);
@@ -49,26 +49,21 @@ const LogosSection = ({ data, isLoading }) => {
     setCurrentIndex((prev) => Math.max(prev - itemsPerRow.desktop, 0));
   };
 
-  const [visibleCount, setVisibleCount] = useState(9); // Default to desktop items
-  const [maxVisibleItems, setMaxVisibleItems] = useState(18); // Default to desktop max
+  const [visibleCount, setVisibleCount] = useState(9);
+  const [maxVisibleItems, setMaxVisibleItems] = useState(18);
 
-  // Calculate maxIndex and hasOverflow
   const maxIndex = Math.max(0, data.length - visibleCount);
   const hasOverflow = data.length > visibleCount;
 
-  // Add resize effect to calculate visible brands
   useEffect(() => {
     const measure = () => {
       if (window.innerWidth >= 1280) {
-        // xl screen
         setVisibleCount(9);
         setMaxVisibleItems(maxVisibleItemsDesktop);
       } else if (window.innerWidth >= 768) {
-        // md screen (tablet)
         setVisibleCount(3);
         setMaxVisibleItems(maxVisibleItemsTablet);
       } else {
-        // mobile
         setVisibleCount(2);
         setMaxVisibleItems(maxVisibleItemsMobile);
       }
@@ -114,7 +109,6 @@ const LogosSection = ({ data, isLoading }) => {
 
   return (
     <div className="relative w-full mb-[50px] overflow-hidden">
-      {/* Background Image */}
       <div
         className="absolute inset-0"
         style={{
@@ -128,7 +122,6 @@ const LogosSection = ({ data, isLoading }) => {
         }}
       />
 
-      {/* Header */}
       <div className="relative z-10 flex justify-center items-center mb-8">
         <p className="text-[25px] font-bold font-sans ">
           <span className="text-[#818181]">BROWSE BY</span>
@@ -136,11 +129,9 @@ const LogosSection = ({ data, isLoading }) => {
         </p>
       </div>
 
-      {/* Desktop Layout */}
       <div className="relative z-10 max-w-[1400px] mx-auto px-4 xl:block hidden">
         <div className="max-w-8xl mx-auto px-4 ">
           <div className="flex items-center justify-center">
-            {/* Previous Button */}
             {hasOverflow && currentIndex > 0 && (
               <button
                 className="hidden md:flex absolute -left-10 top-1/2 -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
@@ -151,7 +142,6 @@ const LogosSection = ({ data, isLoading }) => {
               </button>
             )}
 
-            {/* Brands Grid */}
             <div className="grid grid-cols-9 gap-4 flex-1">
               {data
                 .slice(currentIndex, currentIndex + itemsPerRow.desktop)
@@ -176,7 +166,6 @@ const LogosSection = ({ data, isLoading }) => {
                 ))}
             </div>
 
-            {/* Next Button */}
             {hasOverflow && currentIndex < maxIndex && (
               <button
                 className="hidden md:flex absolute -right-10 top-1/2 -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
@@ -190,7 +179,6 @@ const LogosSection = ({ data, isLoading }) => {
         </div>
       </div>
 
-      {/* Mobile/Tablet Layout */}
       <div className="xl:hidden relative z-10">
         <div className="px-4">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -217,7 +205,6 @@ const LogosSection = ({ data, isLoading }) => {
               ))}
           </div>
 
-          {/* Show More/Less Button */}
           {data.length > maxVisibleItems && (
             <div className="flex justify-center mt-6">
               <button

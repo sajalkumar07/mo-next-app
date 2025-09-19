@@ -25,7 +25,6 @@ const Search = () => {
     setShowModal(false);
   };
 
-  // Handle clicks outside search to close dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {

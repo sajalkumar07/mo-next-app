@@ -11,14 +11,11 @@ const VideoSection = () => {
   const CARD_WIDTH = 323;
   const GAP = 24;
 
-  // Add state for visible count
   const [visibleCount, setVisibleCount] = useState(1);
 
-  // Calculate maxIndex and hasOverflow
   const maxIndex = Math.max(0, videos.length - visibleCount);
   const hasOverflow = videos.length > visibleCount;
 
-  // Add resize effect to calculate visible cards
   useEffect(() => {
     const measure = () => {
       const el = scrollContainerRef.current;
@@ -77,15 +74,13 @@ const VideoSection = () => {
   };
 
   const formatTimeAgo = (publishedTimeText) => {
-    // Simple time formatting - you might want to enhance this based on your API response
     return publishedTimeText || "Recently";
   };
 
-  // Smooth scroll to specific video card
   const scrollToCard = (index) => {
     if (scrollContainerRef.current) {
-      const cardWidth = 288; // 72 * 4 = 288px (w-72 in Tailwind)
-      const gap = 24; // gap-6 = 24px
+      const cardWidth = 288;
+      const gap = 24;
       const scrollPosition = index * (cardWidth + gap);
       scrollContainerRef.current.scrollTo({
         left: scrollPosition,
@@ -110,7 +105,6 @@ const VideoSection = () => {
     }
   };
 
-  // Handle scroll events to update current index
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const scrollLeft = scrollContainerRef.current.scrollLeft;
@@ -125,10 +119,8 @@ const VideoSection = () => {
   return (
     <div className=" bg-[#f5f5f5] ">
       <section className="relative z-10 max-w-[1400px] mx-auto px-4 py-4">
-        {/* Header Section */}
         <div className="flex justify-center items-center flex-col mb-8">
           <div className=" flex justify-center items-center flex-col">
-            {/* Title */}
             <div className="text-center md:text-left">
               <p className="text-[25px] font-bold font-sans">
                 <span className="text-[#818181]">YOUTUBE</span>{" "}
@@ -136,7 +128,6 @@ const VideoSection = () => {
               </p>
             </div>
 
-            {/* View More Button */}
             <div className="flex justify-center md:justify-end _target-blank">
               <Link
                 target="_blank"
@@ -150,9 +141,6 @@ const VideoSection = () => {
           </div>
         </div>
 
-        {/* Video Cards Container with Navigation */}
-
-        {/* Left Arrow Button */}
         {hasOverflow && currentIndex > 0 && (
           <button
             className="hidden md:flex absolute -left-10 top-[250px] -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
@@ -163,7 +151,6 @@ const VideoSection = () => {
           </button>
         )}
 
-        {/* Horizontal Scrollable Video Cards Container */}
         <div
           ref={scrollContainerRef}
           className="overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory px-8"
@@ -182,7 +169,6 @@ const VideoSection = () => {
                 className="w-[254px] cursor-pointer group snap-start bg-white border rounded-xl"
                 onClick={() => openVideo(video)}
               >
-                {/* Video Thumbnail */}
                 <div className="relative w-full h-36 md:h-40 bg-gray-200 rounded-t-xl overflow-hidden mb-3">
                   <img
                     src={video.thumbnail[0]?.url || video.thumbnail[0]?.high}
@@ -193,7 +179,6 @@ const VideoSection = () => {
                     }}
                   />
 
-                  {/* Play Button Overlay */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:bg-red-700 transition-colors">
                       <svg
@@ -206,7 +191,6 @@ const VideoSection = () => {
                     </div>
                   </div>
 
-                  {/* Video Duration (if available) */}
                   {video.lengthSeconds && (
                     <div className="absolute bottom-2 right-2 bg-black/40 text-white text-xs px-2 py-1 rounded-lg">
                       {Math.floor(video.lengthSeconds / 60)}:
@@ -215,14 +199,12 @@ const VideoSection = () => {
                   )}
                 </div>
 
-                {/* Video Info */}
                 <p className="text-[14px] font-medium p-2 ">{video.title}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Right Arrow Button */}
         {hasOverflow && currentIndex < maxIndex && (
           <button
             className="hidden md:flex absolute -right-10 top-[250px]  -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
@@ -233,7 +215,6 @@ const VideoSection = () => {
           </button>
         )}
 
-        {/* Modal for Selected Video */}
         {selectedVideo && (
           <div
             className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4"

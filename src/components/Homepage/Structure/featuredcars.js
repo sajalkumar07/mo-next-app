@@ -9,7 +9,6 @@ import Tyre from "../../../Images/tyremask.png";
 const Featuredcars = forwardRef((props, ref) => {
   const location = useLocation();
 
-  // Detect POPULAR/ALTERNATE tab
   const getTabText = () => {
     if (
       location.pathname.startsWith("/product") ||
@@ -37,7 +36,6 @@ const Featuredcars = forwardRef((props, ref) => {
     <div className="relative w-full mb-[50px] overflow-hidden">
       <div className="flex justify-center items-center w-full px-3 bg-[#f5f5f5]">
         <div className="relative w-full max-w-[1400px]" ref={ref}>
-          {/* Background for mobile */}
           <div
             className="absolute inset-0 block md:hidden"
             style={{
@@ -52,13 +50,11 @@ const Featuredcars = forwardRef((props, ref) => {
           />
 
           <section className="" id="featuredCars" ref={ref}>
-            {/* Heading */}
             <h2 className="text-[25px] font-bold text-center mb-6 font-sans mt-3">
               <span className="text-[#818181]">FEATURED</span>{" "}
               <span className="text-[#B60C19]">CARS</span>
             </h2>
 
-            {/* Desktop Tabs */}
             <div className="hidden md:flex justify-center gap-4 mb-6">
               <button
                 onClick={() => handleTabClick("POPULAR")}
@@ -95,7 +91,6 @@ const Featuredcars = forwardRef((props, ref) => {
               </button>
             </div>
 
-            {/* Mobile Tabs */}
             <div className="flex md:hidden justify-center w-full mb-6 gap-2">
               <button
                 onClick={() => handleTabClick("POPULAR")}
@@ -132,7 +127,6 @@ const Featuredcars = forwardRef((props, ref) => {
               </button>
             </div>
 
-            {/* Render tabs content */}
             {(activeTab === "POPULAR" || activeTab === "ALTERNATE") && (
               <Cards />
             )}

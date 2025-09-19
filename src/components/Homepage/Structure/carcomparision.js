@@ -21,7 +21,6 @@ const CarComparisonSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollContainerRef = useRef(null);
 
-  // Check if mobile on mount and resize
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -31,8 +30,6 @@ const CarComparisonSection = () => {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
-
-  // ===== EXACT SAME PRICING LOGIC FROM PRODUCT SECTION =====
 
   const getDataFromRoadPriceListBasedOnFuelAndPriceRange = (
     priceList,
@@ -82,7 +79,6 @@ const CarComparisonSection = () => {
     return normalizedFuel;
   };
 
-  // Main on-road price calculation - EXACT SAME AS PRODUCT SECTION
   const calculateOnRoadPrice = (product, fuelType) => {
     let priceValue;
     if (typeof product === "object") {
@@ -132,7 +128,6 @@ const CarComparisonSection = () => {
     return Object.values(components).reduce((sum, val) => sum + val, 0);
   };
 
-  // New function to calculate maximum on-road price for highest price - EXACT SAME AS PRODUCT SECTION
   const calculateMaxOnRoadPrice = (highestPrice, carMainData) => {
     if (!highestPrice || !Array.isArray(rtoData) || rtoData.length === 0) {
       return parseFloat(highestPrice) || 0;
@@ -147,7 +142,6 @@ const CarComparisonSection = () => {
 
     let maxOnRoadPrice = 0;
 
-    // Calculate on-road price for each fuel type and find the maximum
     carFuelTypes.forEach((fuelType) => {
       const onRoadPrice = calculateOnRoadPrice(highestPrice, fuelType);
       if (onRoadPrice > maxOnRoadPrice) {
@@ -158,17 +152,14 @@ const CarComparisonSection = () => {
     return maxOnRoadPrice;
   };
 
-  // Helper function to get all fuel types from car data - EXACT SAME AS PRODUCT SECTION
   const getCarFuelTypes = (carMainData) => {
     if (!carMainData || !carMainData.fueltype) return [];
 
-    // Parse the fuel types from the car data
     let fuelTypes = [];
 
     if (Array.isArray(carMainData.fueltype)) {
       fuelTypes = carMainData.fueltype;
     } else if (typeof carMainData.fueltype === "string") {
-      // Handle different string formats
       const parser = new DOMParser();
       const doc = parser.parseFromString(carMainData.fueltype, "text/html");
       const items = doc.querySelectorAll("ul li, p");
@@ -176,7 +167,6 @@ const CarComparisonSection = () => {
       if (items.length > 0) {
         fuelTypes = Array.from(items).map((item) => item.textContent.trim());
       } else {
-        // Handle simple string with separators
         fuelTypes = carMainData.fueltype
           .split(/[|,]/)
           .map((type) => type.trim())
@@ -184,7 +174,6 @@ const CarComparisonSection = () => {
       }
     }
 
-    // Clean and normalize fuel types
     return fuelTypes.filter((type) => type && type.length > 0);
   };
 
@@ -194,19 +183,16 @@ const CarComparisonSection = () => {
     return fuelTypes.length > 0 ? fuelTypes[0] : "";
   };
 
-  // Format currency with Lakhs/Crore suffixes - EXACT SAME AS PRODUCT SECTION
   const formatCurrency = (value) => {
-    if (!value) return "0"; // Handle undefined/null cases
+    if (!value) return "0";
 
     const numValue =
       typeof value === "string" ? parseFloat(value.replace(/,/g, "")) : value;
 
     if (numValue >= 1e7) {
-      // 1 crore or more
       const croreValue = (numValue / 1e7).toFixed(2);
       return `${croreValue} Crore`;
     } else if (numValue >= 1e5) {
-      // 1 lakh or more
       const lakhValue = (numValue / 1e5).toFixed(2);
       return `${lakhValue} `;
     } else {
@@ -214,7 +200,6 @@ const CarComparisonSection = () => {
     }
   };
 
-  // Parse HTML/array/string into consistent format - EXACT SAME AS PRODUCT SECTION
   const parseList = (input) => {
     if (Array.isArray(input)) {
       return input.join(" | ");
@@ -233,7 +218,6 @@ const CarComparisonSection = () => {
       : extractedText.join("");
   };
 
-  // Fetch RTO data - EXACT SAME AS PRODUCT SECTION
   const fetchRTOData = async () => {
     const locationState = localStorage.getItem("location");
     const parsedLocationState = JSON.parse(locationState);
@@ -260,7 +244,6 @@ const CarComparisonSection = () => {
     }
   };
 
-  // Fetch car data from /api/cars endpoint
   const fetchCarData = async (carId) => {
     try {
       const response = await fetch(
@@ -273,7 +256,6 @@ const CarComparisonSection = () => {
     }
   };
 
-  // Fetch data for car comparison pairs
   useEffect(() => {
     const fetchComparisonData = async () => {
       setLoading(true);
@@ -292,7 +274,6 @@ const CarComparisonSection = () => {
             const car1 = await car1Response.json();
             const car2 = await car2Response.json();
 
-            // Fetch additional car data for both cars
             const car1Id = car1.data?.product_id?._id;
             const car2Id = car2.data?.product_id?._id;
 
@@ -301,7 +282,6 @@ const CarComparisonSection = () => {
               car2Id ? fetchCarData(car2Id) : Promise.resolve(null),
             ]);
 
-            // Store the car data
             if (car1Data) {
               setCarData((prev) => ({
                 ...prev,
@@ -334,20 +314,17 @@ const CarComparisonSection = () => {
     fetchRTOData();
   }, []);
 
-  // Get proper image source with fallback
   const getImageSource = (car) => {
     if (!car?.product_id?.heroimage) return null;
     return `${process.env.NEXT_PUBLIC_API}/productImages/${car.product_id.heroimage}`;
   };
 
-  // Get price display for a car - UPDATED TO USE EXACT SAME LOGIC AS PRODUCT SECTION
   const getPriceDisplay = (car) => {
     if (!car || loading) return <Skeleton width={100} />;
 
     const carMainData = carData[car._id];
     if (!carMainData) return "Price not available";
 
-    // Use the exact same logic as ProductSection
     const lowestOnRoadPrice = calculateOnRoadPrice(
       carMainData.lowestExShowroomPrice || car.exShowroomPrice || 0,
       getFirstFuelType(carMainData)
@@ -358,7 +335,6 @@ const CarComparisonSection = () => {
       carMainData
     );
 
-    // If both prices are the same, show only one
     if (lowestOnRoadPrice === highestOnRoadPrice) {
       return `₹ ${formatCurrency(lowestOnRoadPrice)}`;
     }
@@ -423,7 +399,6 @@ const CarComparisonSection = () => {
 
   return (
     <div className="">
-      {/* Low opacity background image only */}
       <div
         className="absolute inset-0"
         style={{
@@ -437,9 +412,7 @@ const CarComparisonSection = () => {
         }}
       />
 
-      {/* Content container - fully opaque */}
       <div className="relative z-10 max-w-[1400px] mx-auto px-4 py-4">
-        {/* Section Title */}
         <div className="text-center mb-4">
           <h2 className="text-[25px] font-bold font-sans">
             <span className="text-[#818181]">POPULAR</span>{" "}
@@ -447,7 +420,6 @@ const CarComparisonSection = () => {
           </h2>
         </div>
 
-        {/* Navigation buttons */}
         {/* <button
           className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
           onClick={handlePrevious}

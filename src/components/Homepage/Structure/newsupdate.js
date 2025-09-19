@@ -192,7 +192,6 @@ const News = forwardRef((props, ref) => {
         </div>
 
         <div className="relative">
-          {/* LEFT ARROW — hidden at initial position or if no overflow */}
           {hasOverflow && currentIndex > 0 && (
             <button
               className="hidden md:flex absolute -left-20 top-[150px] -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
@@ -203,7 +202,6 @@ const News = forwardRef((props, ref) => {
             </button>
           )}
 
-          {/* SCROLLER */}
           <div
             ref={scrollContainerRef}
             className="overflow-x-auto scrollbar-hide scroll-smooth"
@@ -254,7 +252,6 @@ const News = forwardRef((props, ref) => {
             </div>
           </div>
 
-          {/* RIGHT ARROW — hidden when scrolled to end or if no overflow */}
           {hasOverflow && currentIndex < maxIndex && (
             <button
               className="hidden md:flex absolute -right-20 top-[150px] -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"

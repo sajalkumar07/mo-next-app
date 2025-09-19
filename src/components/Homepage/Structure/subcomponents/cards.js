@@ -25,11 +25,9 @@ const Cards = () => {
   const scrollContainerRef = useRef(null);
   const observerRef = useRef(null);
 
-  // NEW: layout/visibility math
   const [visibleCount, setVisibleCount] = useState(1);
-  const slotRef = useRef(340); // card width + gap (computed below)
+  const slotRef = useRef(340);
 
-  // Price range definitions
   const priceLimits = {
     "8L": { min: 0, max: 800000 },
     "15L": { min: 800000, max: 2000000 },
@@ -185,7 +183,6 @@ const Cards = () => {
     return "";
   };
 
-  // Data fetching
   const fetchProducts = async ({ pageParam = 1 }) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API}/api/allproducts/mo?page=${pageParam}`
@@ -501,7 +498,6 @@ const Cards = () => {
           </div>
         </div>
 
-        {/* LEFT ARROW — only if overflow & not at start */}
         {hasOverflow && currentIndex > 0 && (
           <button
             className="hidden md:flex absolute -left-10 top-1/2 -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
@@ -512,7 +508,6 @@ const Cards = () => {
           </button>
         )}
 
-        {/* Cards scroller */}
         <div className="relative">
           <div
             ref={scrollContainerRef}
@@ -652,7 +647,6 @@ const Cards = () => {
           </div>
         </div>
 
-        {/* RIGHT ARROW — only if overflow & not at end */}
         {hasOverflow && currentIndex < maxIndex && (
           <button
             className="hidden md:flex absolute -right-10 top-1/2 -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
@@ -664,7 +658,6 @@ const Cards = () => {
         )}
       </div>
 
-      {/* Infinite loader sentinel */}
       <div ref={observerRef} />
     </div>
   );

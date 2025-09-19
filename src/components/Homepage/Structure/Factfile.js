@@ -1136,4 +1136,4 @@ const FactFileProd = ({
   );
 };
 
-export default forwardRef(FactFileProd);
+export default FactFileProd;

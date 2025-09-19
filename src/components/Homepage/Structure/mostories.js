@@ -9,25 +9,19 @@ const StoriesSection = () => {
   const scrollContainerRef = useRef(null);
 
   useEffect(() => {
-    // Simulate API fetch with timeout
     const fetchData = async () => {
       try {
-        // Simulate API delay
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        // For now, use dummy data
-        // setStories(dummyStories);
-
-        /* 
-        // Actual API call (commented out)
-        const response = await fetch("http://145.223.22.192:3060/api/web-stories");
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        const response = await fetch(
+          "http://145.223.22.192:3060/api/web-stories"
+        );
+        if (!response.ok)
+          throw new Error(`HTTP error! Status: ${response.status}`);
         const data = await response.json();
         setStories(data.length > 0 ? data : dummyStories);
-        */
       } catch (error) {
         console.error("Error fetching stories:", error);
-        // setStories(dummyStories);
       }
     };
 
@@ -40,11 +34,10 @@ const StoriesSection = () => {
 
   const closeStory = () => setSelectedStory(null);
 
-  // Smooth scroll to specific story card
   const scrollToCard = (index) => {
     if (scrollContainerRef.current) {
-      const cardWidth = 254; // Story card width
-      const gap = 16; // gap between cards
+      const cardWidth = 254;
+      const gap = 16;
       const scrollPosition = index * (cardWidth + gap);
       scrollContainerRef.current.scrollTo({
         left: scrollPosition,
@@ -69,7 +62,6 @@ const StoriesSection = () => {
     }
   };
 
-  // Handle scroll events to update current index
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const scrollLeft = scrollContainerRef.current.scrollLeft;
@@ -84,10 +76,8 @@ const StoriesSection = () => {
   return (
     <div className="relative w-full mb-[50px] overflow-hidden">
       <section className="relative z-10 max-w-[1400px] mx-auto px-4">
-        {/* Header Section */}
         <div className="flex justify-center items-center flex-col mb-4">
           <div className="flex justify-center items-center flex-col">
-            {/* Title */}
             <div className="text-center md:text-left">
               <p className="text-[25px] font-bold font-sans">
                 <span className="text-[#818181]">MO</span>{" "}
@@ -97,9 +87,6 @@ const StoriesSection = () => {
           </div>
         </div>
 
-        {/* Stories Cards Container with Navigation */}
-
-        {/* Left Arrow Button */}
         {stories.length > 0 && (
           <button
             className="hidden md:flex absolute left-0 top-[225px] -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
@@ -110,7 +97,6 @@ const StoriesSection = () => {
           </button>
         )}
 
-        {/* Horizontal Scrollable Story Cards Container */}
         <div
           ref={scrollContainerRef}
           className="overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory px-8"
@@ -129,7 +115,6 @@ const StoriesSection = () => {
                 className="w-[257px] h-[450px] cursor-pointer group snap-start bg-white border rounded-xl overflow-hidden"
                 onClick={() => openStory(story)}
               >
-                {/* Story Image */}
                 <div className="relative w-full h-36 bg-gray-200 overflow-hidden">
                   <img
                     src={story.image}
@@ -137,7 +122,6 @@ const StoriesSection = () => {
                     className="w-full h-full object-cover"
                   />
 
-                  {/* Overlay with Read Story button */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity">
                     <div className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium">
                       Read Story
@@ -145,7 +129,6 @@ const StoriesSection = () => {
                   </div>
                 </div>
 
-                {/* Story Info */}
                 <div className="p-3">
                   <p className="text-[14px] font-medium line-clamp-2">
                     {story.title}
@@ -159,7 +142,6 @@ const StoriesSection = () => {
           </div>
         </div>
 
-        {/* Right Arrow Button */}
         {stories.length > 0 && (
           <button
             className="hidden md:flex absolute right-0 top-[225px] -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
@@ -170,7 +152,6 @@ const StoriesSection = () => {
           </button>
         )}
 
-        {/* Modal for Selected Story */}
         {selectedStory && (
           <div
             className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"

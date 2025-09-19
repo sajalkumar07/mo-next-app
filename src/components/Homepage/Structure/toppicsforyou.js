@@ -13,7 +13,6 @@ const TopPicksVideoSection = () => {
 
   const [visibleCount, setVisibleCount] = useState(1);
 
-  // Calculate maxIndex and hasOverflow
   const maxIndex = Math.max(0, videos.length - visibleCount);
   const hasOverflow = videos.length > visibleCount;
 
@@ -37,7 +36,6 @@ const TopPicksVideoSection = () => {
   useEffect(() => {
     const fetchComparisonVideos = async () => {
       try {
-        // Search for comparison videos from MotorOctane channel
         const url = `${RAPIDAPI_URL}/search?query=comparison+motoroctane&type=video`;
 
         const response = await fetch(url, {
@@ -49,7 +47,6 @@ const TopPicksVideoSection = () => {
         const data = await response.json();
 
         if (data.data && Array.isArray(data.data) && data.data.length > 0) {
-          // Filter for MotorOctane channel videos that contain comparison keywords
           const comparisonKeywords = [
             "comparison",
             "compare",
@@ -60,15 +57,12 @@ const TopPicksVideoSection = () => {
 
           const filteredVideos = data.data
             .filter((video) => {
-              // Check if it's from MotorOctane channel
               const isMotorOctane = video.channelTitle === "MotorOctane";
 
-              // Check if video duration is at least 1 minute
               const hasValidDuration =
                 video.lengthText &&
                 parseInt(video.lengthText.split(":")[0] || "0") >= 1;
 
-              // Check if title contains comparison keywords
               const titleLower = (video.title || "").toLowerCase();
               const hasComparisonKeyword = comparisonKeywords.some((keyword) =>
                 titleLower.includes(keyword.toLowerCase())
@@ -76,7 +70,7 @@ const TopPicksVideoSection = () => {
 
               return isMotorOctane && hasValidDuration && hasComparisonKeyword;
             })
-            .slice(0, 10); // Limit to 10 videos like the main section
+            .slice(0, 10);
 
           setVideos(filteredVideos);
         } else {
@@ -108,15 +102,13 @@ const TopPicksVideoSection = () => {
   };
 
   const formatTimeAgo = (publishedTimeText) => {
-    // Simple time formatting - you might want to enhance this based on your API response
     return publishedTimeText || "Recently";
   };
 
-  // Smooth scroll to specific video card
   const scrollToCard = (index) => {
     if (scrollContainerRef.current) {
-      const cardWidth = 288; // 275px + 13px gap approximation
-      const gap = 24; // gap between cards
+      const cardWidth = 288;
+      const gap = 24;
       const scrollPosition = index * (cardWidth + gap);
       scrollContainerRef.current.scrollTo({
         left: scrollPosition,
@@ -141,11 +133,10 @@ const TopPicksVideoSection = () => {
     }
   };
 
-  // Handle scroll events to update current index
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const scrollLeft = scrollContainerRef.current.scrollLeft;
-      const cardWidth = 288 + 24; // card width + gap
+      const cardWidth = 288 + 24;
       const newIndex = Math.round(scrollLeft / cardWidth);
       if (newIndex !== currentIndex && newIndex < videos.length) {
         setCurrentIndex(newIndex);
@@ -156,10 +147,8 @@ const TopPicksVideoSection = () => {
   return (
     <div className="bg-[#f5f5f5]">
       <section className="relative z-10 max-w-[1400px] mx-auto px-4 py-4">
-        {/* Header Section */}
         <div className="flex justify-center items-center flex-col mb-4">
           <div className="flex justify-center items-center flex-col">
-            {/* Title */}
             <div className="text-center md:text-left">
               <p className="text-[25px] font-bold font-sans">
                 <span className="text-[#818181]">TOP PICKS FOR</span>{" "}
@@ -169,9 +158,6 @@ const TopPicksVideoSection = () => {
           </div>
         </div>
 
-        {/* Video Cards Container with Navigation */}
-
-        {/* Left Arrow Button */}
         {hasOverflow && currentIndex > 0 && (
           <button
             className="hidden md:flex absolute -left-10 top-[250px] -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
@@ -182,7 +168,6 @@ const TopPicksVideoSection = () => {
           </button>
         )}
 
-        {/* Horizontal Scrollable Video Cards Container */}
         <div
           ref={scrollContainerRef}
           className="overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory px-8"
@@ -201,7 +186,6 @@ const TopPicksVideoSection = () => {
                 className="w-[323px] h-[300px] cursor-pointer group snap-start bg-white border rounded-xl"
                 onClick={() => openVideo(video)}
               >
-                {/* Video Thumbnail */}
                 <div className="relative w-full  bg-gray-200 rounded-t-xl overflow-hidden ">
                   <img
                     src={
@@ -214,7 +198,6 @@ const TopPicksVideoSection = () => {
                     }}
                   />
 
-                  {/* Play Button Overlay */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:bg-red-700 transition-colors">
                       <svg
@@ -227,7 +210,6 @@ const TopPicksVideoSection = () => {
                     </div>
                   </div>
 
-                  {/* Video Duration (if available) */}
                   {video.lengthText && (
                     <div className="absolute bottom-2 right-2 bg-black/60  text-white text-xs px-2 py-1 rounded-lg">
                       {video.lengthText}
@@ -235,14 +217,12 @@ const TopPicksVideoSection = () => {
                   )}
                 </div>
 
-                {/* Video Info */}
                 <p className="text-[14px] font-medium p-2">{video.title}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Right Arrow Button */}
         {hasOverflow && currentIndex < maxIndex && (
           <button
             className="hidden md:flex absolute -right-10 top-[250px] -translate-y-1/2 z-20 bg-white h-10 w-10 rounded-full shadow-md justify-center items-center border border-gray-200 hover:bg-gray-100 transition"
@@ -253,7 +233,6 @@ const TopPicksVideoSection = () => {
           </button>
         )}
 
-        {/* Modal for Selected Video */}
         {selectedVideo && (
           <div
             className="fixed inset-0 bg-black/30  flex items-center justify-center z-50 p-4"
