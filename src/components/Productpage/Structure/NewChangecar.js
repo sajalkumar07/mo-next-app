@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Scrach from "../../../Images/scrach.png";
 import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -8,12 +9,18 @@ const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   let activeRequestController = null;
 
-  const openModal = () => setShowModal(true);
-  const closeModal = () => setShowModal(false);
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   const debounce = (func, delay) => {
     let timeout;
@@ -24,7 +31,9 @@ const Search = () => {
   };
 
   const handleSearch = async (term) => {
-    if (activeRequestController) activeRequestController.abort();
+    if (activeRequestController) {
+      activeRequestController.abort();
+    }
 
     if (term.trim() === "" || term.length <= 2) {
       setSearchResults([]);
@@ -39,7 +48,9 @@ const Search = () => {
         `${process.env.NEXT_PUBLIC_API}/api/extra/search-product-webLandin`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ search: term }),
           signal: activeRequestController.signal,
         }
@@ -72,25 +83,91 @@ const Search = () => {
     }
   }, [searchTerm]);
 
+  const parseList = (htmlString) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, "text/html");
+    const items = doc.querySelectorAll("ul li, p");
+    return Array.from(items)
+      .map((item) => item.textContent.trim())
+      .join(" | ");
+  };
+
+  const handleBannerClick = () => {
+    window.location.href = "https://carconsultancy.in/";
+  };
+
   return (
     <div className="search-container">
-      {/* CHANGE CAR button (for all devices now) */}
-
-      <div className="mt-auto">
-        <button
-          className="flex justify-center items-center text-xs border border-gray-300 text-gray-700 hover:bg-[#AB373A] hover:text-white font-medium w-[140px] h-[30px] rounded-full transition-colors"
-          onClick={openModal}
-        >
-          Change Car
-        </button>
+      {/* Desktop search input */}
+      <div className="input_box align-items-center justify-content-center onlydesptop">
+        <input
+          className="input_box_input"
+          type="text"
+          placeholder="Select Car"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+        />
+        {isFocused && (
+          <div className="input_box_search">
+            {loading ? (
+              <Skeleton count={3} height={50} />
+            ) : searchResults.length > 0 ? (
+              searchResults.map((result) => (
+                <Link
+                  key={result._id}
+                  to={`/product/${result.carname}/${result._id}`}
+                  className="result-item"
+                >
+                  <div className="align-items-start justify-content-top d-flex">
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_API}/brandImages/${result.brand.image}`}
+                      alt="Hero Image"
+                      crossOrigin="anonymous"
+                      className="barnd-img"
+                    />
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_API}/productImages/${result.heroimage}`}
+                      alt="Hero Image"
+                      crossOrigin="anonymous"
+                      className="search-img"
+                    />
+                  </div>
+                  <div className="texttd">
+                    <h4>{result.carname}</h4>
+                    <p className="info_card">
+                      {parseList(result.seater)} seater
+                    </p>
+                    <p className="info_card">Service: {result.Service}</p>
+                    <p className="info_card">
+                      Fuel: {parseList(result.fueltype)}
+                    </p>
+                    <p className="info_card">Safety: {result.NCAP}</p>
+                  </div>
+                  <hr />
+                </Link>
+              ))
+            ) : (
+              searchTerm.trim() !== "" &&
+              searchTerm.length > 2 && <p>No Car Found</p>
+            )}
+          </div>
+        )}
       </div>
-      <div className="">
-        {/* Modal */}
+
+      {/* Mobile search input */}
+      <div className="p-2 flex justify-center items-center onlyphoneme ">
+        <div className="changecar-product active" onClick={openModal}>
+          CHANGE CAR
+        </div>
+
+        {/* Mobile Search Modal */}
         {showModal && (
-          <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 ">
             <div className="w-[346px] h-[400px] rounded-[10px] bg-white overflow-hidden flex flex-col">
-              {/* Header */}
-              <div className="flex items-center justify-between w-full p-[20px] pb-4 border-b border-gray-100">
+              {/* Header - Fixed */}
+              <div className="flex items-center justify-between w-full p-[20px] pb-4 border-b border-gray-100 flex-shrink-0">
                 <h4 className="text-[16px] font-semibold text-[#818181]">
                   SELECT YOUR <span className="text-[#B10819]">CAR</span>
                 </h4>
@@ -98,12 +175,14 @@ const Search = () => {
                   onClick={closeModal}
                   className="text-black hover:text-[#B10819] transition-colors"
                 >
-                  <X className="text-2xl" />
+                  <span className="text-2xl">
+                    <X />
+                  </span>
                 </button>
               </div>
 
-              {/* Search input */}
-              <div className="px-[20px] py-4 border-b border-gray-100">
+              {/* Search Input - Fixed */}
+              <div className="px-[20px] py-4 border-b border-gray-100 font-[Montserrat] font-medium flex-shrink-0">
                 <div className="relative">
                   <input
                     type="text"
@@ -121,30 +200,44 @@ const Search = () => {
                 </div>
               </div>
 
-              {/* Search results */}
-              <div className="px-[20px] py-4 flex-1 overflow-y-auto scrollbar-hide">
-                {loading ? (
-                  <Skeleton count={6} height={50} />
-                ) : searchResults.length > 0 ? (
-                  searchResults.map((result) => (
-                    <Link
-                      key={result._id}
-                      to={`/product/${result.carname}/${result._id}`}
-                      className="py-3 px-4 hover:bg-gray-100 border-b border-gray-200 text-black block"
-                      onClick={closeModal}
-                    >
-                      <div className="flex space-x-2 text-[12px] font-semibold font-[Montserrat]">
-                        <span>{result.brand?.name}</span>
-                        <span>{result.carname}</span>
-                      </div>
-                    </Link>
-                  ))
-                ) : (
-                  searchTerm.trim() !== "" &&
-                  searchTerm.length > 2 && (
-                    <p className="py-3 px-4 text-gray-500">No Car Found</p>
-                  )
-                )}
+              {/* Results Container - Scrollable */}
+              <div className="px-[20px] py-4 flex-1 overflow-hidden flex flex-col">
+                <div className="text-[13px] font-medium text-[#B1081A] mb-3 font-[Montserrat] flex-shrink-0">
+                  Popular Cars
+                </div>
+
+                <div className="flex-1 overflow-y-auto scrollbar-hide">
+                  {loading ? (
+                    <Skeleton count={6} height={50} />
+                  ) : searchResults.length > 0 ? (
+                    searchResults.map((result) => (
+                      <Link
+                        key={result._id}
+                        to={`/product/${result.carname}/${result._id}`}
+                        className="py-3 px-4 cursor-pointer hover:bg-gray-100 border-b border-gray-200 text-black block"
+                        onClick={closeModal}
+                      >
+                        <div className="flex items-start">
+                          <div className="flex-grow">
+                            <div className="flex space-x-2">
+                              <span className="text-[12px] font-semibold font-[Montserrat]">
+                                {result.brand?.name}
+                              </span>
+                              <span className="text-[12px] font-semibold font-[Montserrat]">
+                                {result.carname}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))
+                  ) : (
+                    searchTerm.trim() !== "" &&
+                    searchTerm.length > 2 && (
+                      <p className="py-3 px-4 text-gray-500">No Car Found</p>
+                    )
+                  )}
+                </div>
               </div>
             </div>
           </div>

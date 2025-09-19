@@ -1,3 +1,157 @@
+// import React from "react";
+// import Image from "next/image";
+// import {
+//   Facebook,
+//   Twitter,
+//   Instagram,
+//   Youtube,
+//   Linkedin,
+//   MapPin,
+// } from "lucide-react";
+
+// const Footer = () => {
+//   return (
+//     <div className="bg-black w-full flex justify-center items-center md:p-4 p-auto">
+//       <div className="w-[1400px]">
+//         <div className="">
+//           <div className="flex flex-col md:flex-row justify-between items-center gap-8 mt-2">
+//             <div className="flex justify-center items-center -mb-4">
+//               <Image
+//                 src="/images/mainlogo.png"
+//                 alt="Motor Octane"
+//                 width={100}
+//                 height={100}
+//               />
+//             </div>
+
+//             {/* Center section - Links + copyright */}
+//             <div className="flex flex-col items-center text-center md:block hidden">
+//               <div className="flex flex-wrap justify-center items-center gap-6 text-white text-sm mb-4">
+//                 <span className="text-gray-300 cursor-pointer hover:text-white transition-colors">
+//                   ABOUT US
+//                 </span>
+//                 <span className="text-gray-300 cursor-pointer hover:text-white transition-colors">
+//                   ADVERTISE
+//                 </span>
+//                 <span className="text-gray-300 cursor-pointer hover:text-white transition-colors">
+//                   CONTACT US
+//                 </span>
+//                 <span className="text-gray-300 cursor-pointer hover:text-white transition-colors">
+//                   SITEMAP
+//                 </span>
+//                 <span className="text-gray-300 cursor-pointer hover:text-white transition-colors">
+//                   TERMS & CONDITIONS
+//                 </span>
+//               </div>
+
+//               <p className="text-gray-400 text-xs">
+//                 2006-2025. www.motoroctane.com Visitor Agreement & Privacy
+//                 Policy
+//               </p>
+//               <p className="text-gray-400 text-xs"></p>
+//             </div>
+
+//             {/* Right section - Social + powered by */}
+//             <div className="flex justify-end flex-col">
+//               {/* Social icons */}
+//               <div className="flex gap-4">
+//                 <a
+//                   href="https://www.facebook.com"
+//                   className="text-white hover:text-blue-500 transition-colors"
+//                 >
+//                   <Facebook className="w-6 h-6" />
+//                 </a>
+//                 <a
+//                   href="https://twitter.com"
+//                   className="text-white hover:text-blue-400 transition-colors"
+//                 >
+//                   <Twitter className="w-6 h-6" />
+//                 </a>
+//                 <a
+//                   href="https://www.instagram.com"
+//                   className="text-white hover:text-pink-500 transition-colors"
+//                 >
+//                   <Instagram className="w-6 h-6" />
+//                 </a>
+//                 <a
+//                   href="https://www.youtube.com"
+//                   className="text-white hover:text-red-500 transition-colors"
+//                 >
+//                   <Youtube className="w-6 h-6" />
+//                 </a>
+//                 <a
+//                   href="https://www.linkedin.com"
+//                   className="text-white hover:text-blue-600 transition-colors"
+//                 >
+//                   <Linkedin className="w-6 h-6" />
+//                 </a>
+//                 <a
+//                   href="#"
+//                   className="text-white hover:text-green-500 transition-colors"
+//                 >
+//                   <MapPin className="w-6 h-6" />
+//                 </a>
+//               </div>
+
+//               <div className="md:block hidden">
+//                 <div className="flex justify-end items-center gap-1 mt-2 ">
+//                   <span className="text-white text-center">Powered by</span>
+//                   <Image
+//                     src="/images/brandklin.png"
+//                     alt="Brandklin"
+//                     width={100}
+//                     height={100}
+//                   />
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Center section - Links + copyright */}
+//             <div className="flex flex-col items-center text-center md:hidden block">
+//               <div className="flex flex-wrap justify-center items-center gap-6 text-white text-sm mb-4">
+//                 <span className="text-gray-300 cursor-pointer hover:text-white transition-colors">
+//                   ABOUT US
+//                 </span>
+//                 <span className="text-gray-300 cursor-pointer hover:text-white transition-colors">
+//                   ADVERTISE
+//                 </span>
+//                 <span className="text-gray-300 cursor-pointer hover:text-white transition-colors">
+//                   CONTACT US
+//                 </span>
+//                 <span className="text-gray-300 cursor-pointer hover:text-white transition-colors">
+//                   SITEMAP
+//                 </span>
+//                 <span className="text-gray-300 cursor-pointer hover:text-white transition-colors">
+//                   TERMS & CONDITIONS
+//                 </span>
+//               </div>
+
+//               <p className="text-gray-400 text-xs">
+//                 2006-2025. www.motoroctane.com
+//               </p>
+//               <p className="text-gray-400 text-xs">
+//                 Visitor Agreement & Privacy Policy
+//               </p>
+//             </div>
+
+//             <div className="py-2 flex justify-center md:justify-end items-center text-white text-xs gap-1 -mt-4 md:hidden block">
+//               <span>Powered by</span>
+//               <Image
+//                 src="/images/brandklin.png"
+//                 alt="Brandklin"
+//                 width={100}
+//                 height={100}
+//               />
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Footer;
+
 import React from "react";
 import Image from "next/image";
 import {

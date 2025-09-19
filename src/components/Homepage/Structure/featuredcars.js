@@ -34,7 +34,7 @@ const Featuredcars = forwardRef((props, ref) => {
   };
 
   return (
-    <div className="relative w-full  overflow-hidden">
+    <div className="relative w-full mb-[50px] overflow-hidden">
       <div className="flex justify-center items-center w-full px-3 bg-[#f5f5f5]">
         <div className="relative w-full max-w-[1400px]" ref={ref}>
           {/* Background for mobile */}

@@ -23,8 +23,8 @@ const Variants = forwardRef((props, ref) => {
   }, [params.id]);
 
   return (
-    <section className="mb-3">
-      <div className="l">
+    <section className="mb-3" ref={ref}>
+      <div className="label">
         <p className="text-[19px] text-left ml-4">
           <span className="text-wrapper">{singlecardData.carname}</span>
           <span className="span">&nbsp;</span>
@@ -32,7 +32,7 @@ const Variants = forwardRef((props, ref) => {
         </p>
       </div>
 
-      {/* <VariantsTab carId={params.id} /> */}
+      <VariantsTab carId={params.id} />
     </section>
   );
 });
