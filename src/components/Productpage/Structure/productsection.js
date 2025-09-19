@@ -31,6 +31,23 @@ const ProductSection = ({}) => {
   const [statsLoading, setStatsLoading] = useState(true);
   const [open, setOpen] = useState(false);
 
+  const cleanHTMLContent = (htmlString) => {
+    if (!htmlString) return [];
+
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = htmlString;
+
+    const listItems = tempDiv.querySelectorAll("li");
+
+    if (listItems.length > 0) {
+      return Array.from(listItems)
+        .map((li) => li.innerHTML.trim())
+        .filter((item) => item.length > 0);
+    }
+
+    return [tempDiv.innerHTML.trim()];
+  };
+
   // Main on-road price calculation
   const calculateOnRoadPrice = (product, fuelType) => {
     let priceValue;
@@ -514,7 +531,7 @@ const ProductSection = ({}) => {
           <div className="flex flex-col justify-center items-center mt-1">
             <div className="flex items-center justify-center text-center relative">
               <span className="text-gray-400 font-bold">
-                Motor Octane's verdict: {singlecardData.movrating}*&nbsp;
+                Motor Octane's verdict:{" "}
               </span>
               <div className="relative">
                 <span
@@ -529,12 +546,18 @@ const ProductSection = ({}) => {
                 {open && (
                   <div
                     className="absolute left-1/2 top-full mt-2 max-w-xs w-max min-w-[200px] 
-                -translate-x-1/2 rounded-xl bg-white text-black text-sm p-3 z-50 text-left border shadow-2xl"
+                -translate-x-1/2 rounded-xl bg-white text-black text-sm p-3 z-50 text-left border shadow-2xl flex flex-col"
                   >
-                    <div
-                      className="whitespace-normal break-words"
-                      dangerouslySetInnerHTML={{ __html: singlecardData.itext }}
-                    />
+                    {cleanHTMLContent(singlecardData.itext).map(
+                      (item, index) => (
+                        <div key={index} className="">
+                          <div
+                            className="text-sm text-gray-700 text-center"
+                            dangerouslySetInnerHTML={{ __html: item }}
+                          />
+                        </div>
+                      )
+                    )}
                   </div>
                 )}
               </div>
